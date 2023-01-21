@@ -1,0 +1,15 @@
+{
+    "name": "GetURL",
+    "version": "1.0",
+    "description":"",
+
+    "action":{
+      "default_popup": "popup.html"
+    },
+    "background" :{
+      "service_worker":"script.js"
+    },
+
+    "permissions": ["activeTab", "tabs", "clipboardWrite","storage"],
+    "manifest_version": 3
+  }
