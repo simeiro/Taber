@@ -3,32 +3,62 @@ body {
     width: 500px;
     height: 300px;
 }
+
 .header {
     width: 100%;
     height: 30px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
 }
+/* shita追加分始まり */
+.searchWindow{
+    margin-left: 10px;
+}
+
+.searchTitle{
+    padding:0px;
+}
+
+#inputSearch{
+    font-size:default;
+    text-align: start;
+    width: calc(90% - 50px);
+    height: 16px;
+    resize: none;
+}
+
+.result_select{
+    margin-top: 2px;
+    width: 90%;
+}
+
+
+/* shita追加分終わり */
 #title {
     text-align: center;
 }
+
 .h2_tabNum {text-align: center;}
 .h3_title_url {
     padding: 10px;
 }
+
 .textarea {
     width: 100%;
     height: 250px;
     text-align: center;
     padding-bottom: 6px;
 }
+
 #txt {
     width: 90%;
     height: 100%;
 }
+
 .copy {
     text-align: right;
     padding: 10px;
 }
+
 .h3_maxTabNum {
     padding: 10px;
 }

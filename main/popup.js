@@ -35,4 +35,18 @@ window.addEventListener("load",() => {
       chrome.storage.local.set({maxTabNum : maxTabNum});
     });
   });
+
+//検索窓
+  document.getElementById("inputSearch").addEventListener("change", (event) =>{
+    console.log(event.target.value);
+    chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
+      var input = event.target.value;
+      tabs.forEach((tab) => {
+        if(tab.indexOf(input) > -1){
+          // 部分一致のときの処理
+        }
+      });
+    })
+  })
 });
+

@@ -30,5 +30,3 @@ chrome.tabs.onRemoved.addListener(() => {
         chrome.action.setBadgeText({text : String(tabs.length)});
     });
 });
-
-    
