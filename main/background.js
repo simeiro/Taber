@@ -1,21 +1,26 @@
-chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-    //開けるタブの最大値の初期値を拡張機能更新時のタブ数にする
-    chrome.storage.local.get("maxTabNum", (items) => {
-        if(typeof items.maxNum == "undefined") {
-            chrome.storage.local.set({maxTabNum : tabs.length});
-        }
-        displayNum(tabs.length, items.maxTabNum);
-        makeIcon(tabs.length, items.maxTabNum);
+//拡張機能インストール時実行 --fuma
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        //開けるタブの最大値の初期値を現在のタブ数にする
+        chrome.storage.local.set({ maxTabNum: tabs.length });
+        //checboxの初期値をfalseにする
+        chrome.storage.local.set({ check: false });
+        displayNum(tabs.length, tabs.length);
+        makeIcon(tabs.length, tabs.length);
     });
 });
 
-//タブ更新時に実行
+//タブ更新時実行 --fuma
 chrome.tabs.onUpdated.addListener((tabId) => {
-    chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-        //ストレージに格納されているmaxTabNumよりタブ数が多ければ新しいタブを閉じる
-        chrome.storage.local.get("maxTabNum", (items) => {
-            if(tabs.length > items.maxTabNum){
+    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+            //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
+            if (tabs.length > items.maxTabNum && items.check == true) {
                 chrome.tabs.remove(tabId);
+            }
+            //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
+            if (items.check == false) {
+                chrome.storage.local.set({ maxTabNum: tabs.length });
             }
             displayNum(tabs.length, items.maxTabNum);
             makeIcon(tabs.length, items.maxTabNum);
@@ -23,16 +28,19 @@ chrome.tabs.onUpdated.addListener((tabId) => {
     });
 });
 
-//タブ削除時に実行
+//タブ削除時実行 --fuma
 chrome.tabs.onRemoved.addListener(() => {
-    chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-        chrome.storage.local.get("maxTabNum", (items) => {
+    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
+        chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+            if (items.check == false) {
+                chrome.storage.local.set({ maxTabNum: tabs.length });
+            }
             displayNum(tabs.length, items.maxTabNum);
             makeIcon(tabs.length, items.maxTabNum);
         });
     });
 });
-
 
 //アイコンを作成する関数
 function makeIcon(tabsLength, maxTabNum){
