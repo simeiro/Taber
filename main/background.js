@@ -5,8 +5,8 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ maxTabNum: tabs.length });
         //checboxの初期値をfalseにする
         chrome.storage.local.set({ check: false });
-        displayNum(tabs.length, tabs.length);
-        makeIcon(tabs.length, tabs.length);
+        displayNum(tabs.length, tabs.length ,false);
+        makeIcon(tabs.length, tabs.length ,false);
     });
 });
 
@@ -22,8 +22,8 @@ chrome.tabs.onUpdated.addListener((tabId) => {
             if (items.check == false) {
                 chrome.storage.local.set({ maxTabNum: tabs.length });
             }
-            displayNum(tabs.length, items.maxTabNum);
-            makeIcon(tabs.length, items.maxTabNum);
+            displayNum(tabs.length, items.maxTabNum ,items.check);
+            makeIcon(tabs.length, items.maxTabNum ,items.check);
         });
     });
 });
@@ -36,18 +36,22 @@ chrome.tabs.onRemoved.addListener(() => {
             if (items.check == false) {
                 chrome.storage.local.set({ maxTabNum: tabs.length });
             }
-            displayNum(tabs.length, items.maxTabNum);
-            makeIcon(tabs.length, items.maxTabNum);
+            displayNum(tabs.length, items.maxTabNum ,items.check);
+            makeIcon(tabs.length, items.maxTabNum ,items.check);
         });
     });
 });
 
 //アイコンを作成する関数
-function makeIcon(tabsLength, maxTabNum){
+function makeIcon(tabsLength, maxTabNum ,check){
     const canvas = new OffscreenCanvas(16, 16);
     const context = canvas.getContext('2d');
     context.clearRect(0, 0, 16, 16);
-    context.fillStyle = `rgb(255, ${255 - 255 * (tabsLength/maxTabNum)}, ${255- 255 * (tabsLength/maxTabNum)})`; //白→赤のグラデーション
+    if(check == true){
+        context.fillStyle = `rgb(255, ${255 - 255 * (tabsLength/maxTabNum)}, ${255- 255 * (tabsLength/maxTabNum)})`; //白→赤のグラデーション
+    }else{
+        context.fillStyle = "rgb(0, 255, 0)"; //∞なら緑
+    }
     context.fillRect(0, 0, 16, 16);
     const imageData = context.getImageData(0, 0, 16, 16);
     chrome.action.setIcon({imageData: imageData}, () => {
@@ -55,10 +59,12 @@ function makeIcon(tabsLength, maxTabNum){
 }
 
 //アイコン下に現在のタブ数を表示する
-function displayNum(tabsLength, maxTabNum){
-    if(tabsLength == maxTabNum){
+function displayNum(tabsLength, maxTabNum ,check){
+    if(tabsLength == maxTabNum && check == true){ 
         chrome.action.setBadgeText({text: String("MAX")});
-    }else{
-        chrome.action.setBadgeText({text :  String(tabsLength + '/' + maxTabNum)});
+    }else if(check == true){
+        chrome.action.setBadgeText({text :  String(tabsLength + "/" + maxTabNum)});
+    }else{ //check == false
+        chrome.action.setBadgeText({text :  String(tabsLength + "/∞")});
     }
 }
