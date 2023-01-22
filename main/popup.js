@@ -1,18 +1,19 @@
-chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-  //タブ数をpopupに表示する
-  document.querySelector("#numOfTabs").innerHTML = tabs.length;
-  //全タブのタイトル，URLをpopupに表示する
-  let txt = "";
-  tabs.forEach((tab) => {
-    txt += `[${tab.title}] (${tab.url})\n\n`;
-  });
-  document.querySelector("#txt").value = txt;
-  //開けるタブの最大値を表示
-  chrome.storage.local.get("maxTabNum", (items) => {
-    document.querySelector("#maxTabNum").value = items.maxTabNum;
-  });
-  //設定できる値の最小値を現在のタブ数にする
-  document.querySelector("#maxTabNum").min = tabs.length;
+//main
+chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+    //タブ数を表示する
+    document.querySelector("#numOfTabs").innerHTML = tabs.length;
+    //全タブのタイトル，URLを表示する
+    let txt = "";
+    tabs.forEach((tab) => {
+        txt += `[${tab.title}] (${tab.url})\n\n`;
+    });
+    document.querySelector("#txt").value = txt;
+    //開けるタブの最大値を表示
+    chrome.storage.local.get("maxTabNum", (items) => {
+        document.querySelector("#maxTabNum").value = items.maxTabNum;
+    });
+    //設定できる値の最小値を現在のタブ数にする
+    document.querySelector("#maxTabNum").min = tabs.length;
 });
 
 //Event
