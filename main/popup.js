@@ -65,7 +65,15 @@ window.addEventListener("load", () => {
             }
             //ストレージのmaxTabNumに変数maxTabNumの値を格納
             chrome.storage.local.set({ maxTabNum: maxTabNum });
+            //backgroundのアイコンを変える関数を呼び出す
+            chrome.runtime.sendMessage("");
         });
+    });
+    //checkboxが押された時ストレージのcheckにcheckboxの状態を格納 --fuma
+    document.querySelector("#check").addEventListener("change", () => {
+        chrome.storage.local.set({ check: document.querySelector("#check").checked });
+        //backgroundのアイコンを変える関数を呼び出す
+        chrome.runtime.sendMessage("");
     });
     //groupボタンが押された時実行 --fuma
     document.querySelector("#group").addEventListener("click", (event) => {
