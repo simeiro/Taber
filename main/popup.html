@@ -16,13 +16,8 @@
                     <input id = "inputSearch" input type="text"></input>
                 </nobr></h3>
                 <h3><nobr>結果
-                <select class = "result_select" id = "resultSelect">
-                    <option value="v1">値1</option>
-                    <option value="v2">値2</option>
-                    <option value="v3">値3</option>
-                    <option value="v4">値4</option>
-                </select>
-                </h3></nobr>
+                <select class = "result_select" id = "resultSelect"></select>
+                </nobr></h3>
             </div>
             <h3 class="h3_title_url">取得したタイトルとURL</h3>
             <div class="textarea">
@@ -32,6 +27,9 @@
                 <button id="copyButton">copy</button>
             </div>
             <h3 class="h3_maxTabNum">最大タブ数<input type="number" id="maxTabNum"><button id="maxTabNumButton">変更</button></h3>
+            <div class = "tabdelete" >
+                <h3 id = "sameTabDelete">重複タブ:0個<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button></h3>
+            </div>
         </div>
     </body>
 </html>
