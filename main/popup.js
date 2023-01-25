@@ -1,15 +1,12 @@
 //main
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-
     //タブ数の情報 --fuma
     document.querySelector("#numOfTabs").innerHTML = tabs.length;
-
     let txt = "";
     tabs.forEach((tab) => {
         txt += `[${tab.title}] (${tab.url})\n\n`;
     });
     document.querySelector("#txt").value = txt;
-
     //開けるタブの最大値とcheckboxの状態を表示 --fuma
     chrome.storage.local.get(["maxTabNum", "check"], (items) => {
         document.querySelector("#maxTabNum").value = items.maxTabNum;
@@ -45,13 +42,10 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     });
     //groupStatusの初期値をnullにする --fuma
     chrome.storage.local.set({ groupStatus: "null" });
-
 });
 
 //events
 window.addEventListener("load", () => {
-
-
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
 
@@ -60,7 +54,7 @@ window.addEventListener("load", () => {
         document.querySelector("#txt").select();
         document.execCommand("copy");
     });
-    
+
     //inputタグの数字が変わったら実行 --fuma
     document.querySelector("#maxTabNum").addEventListener("change", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
@@ -82,8 +76,8 @@ window.addEventListener("load", () => {
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
         //backgroundのアイコンを変える関数を呼び出す
         chrome.runtime.sendMessage("");
-
     });
+
     //groupボタンが押された時実行 --fuma
     document.querySelector("#tabList").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
@@ -176,13 +170,13 @@ window.addEventListener("load", () => {
                         chrome.tabs.ungroup(tabIdList);
                         chrome.tabs.group({ tabIds: tabIdList });
                         chrome.storage.local.set({ group: "Grouped" });
-                        event.target.innerHTML="タブのグループ化解除";
+                        event.target.innerHTML = "タブのグループ化解除";
                     }
                     //グループ化解除
                     else {
                         chrome.tabs.ungroup(tabIdList);
                         chrome.storage.local.set({ group: "notGrouped" });
-                        event.target.innerHTML="タブをグループ化";
+                        event.target.innerHTML = "タブをグループ化";
                     }
                 }
             });
@@ -190,25 +184,26 @@ window.addEventListener("load", () => {
     });
 
     //検索窓 --shita
-    searchinput.addEventListener("change", (event) =>{
-    searchResult.disabled = false;
-    searchResult.replaceChildren();
-    chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-        var input = event.target.value;
-        tabs.forEach((tab) => {
-            if(tab.title.toLowerCase().indexOf(input) > -1){
-                let option = document.createElement("option");
-                option.value = tab.id;
-                option.text = tab.title;
-                searchResult.appendChild(option);
-            };
-        });
-        let countTabs = document.createElement("option");
-        countTabs.setAttribute("selected", true);
-        countTabs.text = "ヒット件数: "+searchResult.childElementCount;
-        searchResult.prepend(countTabs);
+    searchinput.addEventListener("change", (event) => {
+        searchResult.disabled = false;
+        searchResult.replaceChildren();
+        chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+            var input = event.target.value;
+            tabs.forEach((tab) => {
+                if (tab.title.toLowerCase().indexOf(input) > -1) {
+                    let option = document.createElement("option");
+                    option.value = tab.id;
+                    option.text = tab.title;
+                    searchResult.appendChild(option);
+                };
+            });
+            let countTabs = document.createElement("option");
+            countTabs.setAttribute("selected", true);
+            countTabs.text = "ヒット件数: " + searchResult.childElementCount;
+            searchResult.prepend(countTabs);
         });
     });
+
     //検索結果欄  --shita
     //--検索結果欄初期表示  あとで検索結果のこしておく処理作りたい
     const defaultOption = document.createElement("option");
@@ -216,25 +211,24 @@ window.addEventListener("load", () => {
     searchResult.replaceChildren(defaultOption);
     searchResult.disabled = true;
     //--
-    searchResult.addEventListener("change", (event) =>{
-        chrome.tabs.update(Number(event.target.value),{active : true});
+    searchResult.addEventListener("change", (event) => {
+        chrome.tabs.update(Number(event.target.value), { active: true });
     });
 
     //同一タブ削除ボタン --shita
-    chrome.tabs.query({windowId : chrome.windows.WINDOW_ID_CURRENT}, (tabs) => {
-        const onlyTabs = tabs.filter((tab,index,array) =>{
+    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        const onlyTabs = tabs.filter((tab, index, array) => {
             return (array.findIndex(nextTab => tab.url === nextTab.url) !== index)
         });
-        if(onlyTabs.length != 0){
+        if (onlyTabs.length != 0) {
             const h_sametab = document.getElementById("sameTabDelete");
-            h_sametab.innerHTML="重複タブ:"+ Number(onlyTabs.length) +"個"+'<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button>';
+            h_sametab.innerHTML = "重複タブ:" + Number(onlyTabs.length) + "個" + '<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button>';
             const deleteTab = document.getElementById("deleteTabsButton");
             deleteTab.disabled = false;
-            deleteTab.addEventListener("click", (event) =>{
+            deleteTab.addEventListener("click", (event) => {
                 chrome.tabs.remove(onlyTabs.map((tab) => Number(tab.id)));
                 h_sametab.textContent = "重複タブを削除しました。";
             });
         };
-
     });
 });

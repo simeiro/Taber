@@ -4,11 +4,9 @@
 
 body {
     width: 500px;
-
     height: 100px;
     /*リョウガだよ*/
     background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
-
     background-size: 300px 150px;
 }
 
@@ -42,17 +40,16 @@ body {
 }
 
 
-.tabdelete{
-    padding-left:10px;
-    padding-top:3px;
+.tabdelete {
+    padding-left: 10px;
+    padding-top: 3px;
 }
 
-.deletetabs_button{
-    margin-left:10px;
+.deletetabs_button {
+    margin-left: 10px;
 }
 
 /* shita追加分終わり */
-
 
 #title {
     text-align: center;
@@ -135,9 +132,11 @@ body {
     margin-left: 15px;
     cursor: pointer;
 }
-#tabGroup{
+
+#tabGroup {
     margin: 10px;
 }
+
 /*リョウガだよ*/
 #copyButton {
     background: rgb(50, 150, 200);
@@ -150,9 +149,10 @@ body {
     color: #040000;
     transition: 0.3s ease-in-out;
     font-weight: 500;
-    z-index:0;
+    z-index: 0;
     border-left: solid 5px #0000004f;
 }
+
 #copyButton:before {
     content: "";
     position: absolute;
@@ -162,8 +162,9 @@ body {
     display: block;
     background: #6bb6ff;
     transition: .3s;
-    left:0;
+    left: 0;
 }
+
 #copyButton:hover {
     color: rgb(0, 0, 0);
 }
@@ -172,4 +173,5 @@ body {
     width: 100%;
     z-index: -1;
 }
+
 /*りょうが終了*/
