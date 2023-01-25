@@ -7,7 +7,6 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ check: false });
         displayNum(tabs.length, tabs.length ,false);
         makeIcon(tabs.length, tabs.length ,false);
-        console.log("oninstalled:::"+tabs.length)
     });
 });
 
@@ -25,7 +24,6 @@ chrome.tabs.onUpdated.addListener((tabId) => {
             }
             displayNum(tabs.length, items.maxTabNum ,items.check);
             makeIcon(tabs.length, items.maxTabNum ,items.check);
-            console.log("onupdated:::"+items.maxTabNum);
         });
     });
 });
@@ -40,7 +38,6 @@ chrome.tabs.onRemoved.addListener(() => {
             }
             displayNum(tabs.length, items.maxTabNum ,items.check);
             makeIcon(tabs.length, items.maxTabNum ,items.check);
-            console.log("onremove:::"+items.maxTabNum);
         });
     });
 });
