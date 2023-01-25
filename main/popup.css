@@ -16,7 +16,6 @@ body {
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
 }
 
-
 /* shita追加分始まり */
 .searchWindow {
     margin-left: 10px;
@@ -38,7 +37,6 @@ body {
     margin-top: 2px;
     width: 90%;
 }
-
 
 .tabdelete {
     padding-left: 10px;

@@ -19,7 +19,6 @@ chrome.tabs.onUpdated.addListener((tabId) => {
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる --fuma
             if (tabs.length > items.maxTabNum && items.check == true) {
-
                 chrome.tabs.remove(tabId);
             }
             //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納 --fuma
@@ -85,4 +84,3 @@ function displayNum(tabsLength, maxTabNum, check) {
         chrome.action.setBadgeText({ text: String(tabsLength + "/∞") });
     }
 }
-

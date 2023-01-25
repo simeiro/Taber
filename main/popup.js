@@ -42,6 +42,16 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     });
     //groupStatusの初期値をnullにする --fuma
     chrome.storage.local.set({ groupStatus: "null" });
+    //タブグループ化ボタンの初期値設定
+    chrome.storage.local.get(["group"], (items) => {
+        if (items.group == "notGrouped") {
+            document.querySelector("#tabGroup").innerHTML = "タブをグループ化";
+        }
+        //グループ化解除
+        else {
+            document.querySelector("#tabGroup").innerHTML = "タブをグループ化解除";
+        }
+    });
 });
 
 //events
