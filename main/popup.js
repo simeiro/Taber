@@ -74,6 +74,7 @@ window.addEventListener("load", () => {
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
         //backgroundのアイコンを変える関数を呼び出す
         chrome.runtime.sendMessage("");
+
     });
     //groupボタンが押された時実行 --fuma
     document.querySelector("#group").addEventListener("click", (event) => {
