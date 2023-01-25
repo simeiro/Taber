@@ -65,7 +65,12 @@ window.addEventListener("load", () => {
             }
             //ストレージのmaxTabNumに変数maxTabNumの値を格納
             chrome.storage.local.set({ maxTabNum: maxTabNum });
+            console.log("制限:::"+maxTabNum);
         });
+    });
+    //checkboxが押された時ストレージのcheckにcheckboxの状態を格納 --fuma
+    document.querySelector("#check").addEventListener("change", () => {
+        chrome.storage.local.set({ check: document.querySelector("#check").checked });
     });
     //groupボタンが押された時実行 --fuma
     document.querySelector("#group").addEventListener("click", (event) => {
