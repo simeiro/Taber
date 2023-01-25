@@ -48,7 +48,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
 
 });
 
-//event
+//events
 window.addEventListener("load", () => {
 
 
@@ -56,14 +56,13 @@ window.addEventListener("load", () => {
     const searchinput = document.getElementById("inputSearch");
 
     //copyボタンが押されたらtextareaの内容をクリップボードにコピー --fuma
-
     document.querySelector("#copyButton").addEventListener("click", () => {
         document.querySelector("#txt").select();
         document.execCommand("copy");
     });
-
-    //変更ボタンが押された時実行 --fuma
-    document.querySelector("#maxTabNumButton").addEventListener("click", () => {
+    
+    //inputタグの数字が変わったら実行 --fuma
+    document.querySelector("#maxTabNum").addEventListener("change", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             let maxTabNum = document.querySelector("#maxTabNum").value;
             //キーボードから想定外の値を入力した場合，現在のタブ数を変数maxTabNumに代入し表示
@@ -77,6 +76,7 @@ window.addEventListener("load", () => {
             chrome.runtime.sendMessage("");
         });
     });
+
     //checkboxが押された時ストレージのcheckにcheckboxの状態を格納 --fuma
     document.querySelector("#check").addEventListener("change", () => {
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
@@ -85,7 +85,7 @@ window.addEventListener("load", () => {
 
     });
     //groupボタンが押された時実行 --fuma
-    document.querySelector("#group").addEventListener("click", (event) => {
+    document.querySelector("#tabList").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
             //リストを閉じている場合はリストを開く
             if (items.groupStatus == "null") {
@@ -114,6 +114,7 @@ window.addEventListener("load", () => {
             }
         });
     });
+
     //groupリストのドメインが押された時実行 --fuma
     document.querySelector("#domains").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
@@ -159,6 +160,35 @@ window.addEventListener("load", () => {
             });
         });
     });
+
+    //グループ化ボタンが押された時実行 --fuma
+    document.querySelector("#tabGroup").addEventListener("click", (event) => {
+        chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+            chrome.storage.local.get(["tabGroups", "group"], (items) => {
+                for (let i = 0; i < items.tabGroups.length; i++) {
+                    //配列にタブのidを格納
+                    let tabIdList = [];
+                    for (let j = 3; j < items.tabGroups[i].length; j += 3) {
+                        tabIdList.push(items.tabGroups[i][j]);
+                    }
+                    //タブをグループ化
+                    if (items.group == "notGrouped") {
+                        chrome.tabs.ungroup(tabIdList);
+                        chrome.tabs.group({ tabIds: tabIdList });
+                        chrome.storage.local.set({ group: "Grouped" });
+                        event.target.innerHTML="タブのグループ化解除";
+                    }
+                    //グループ化解除
+                    else {
+                        chrome.tabs.ungroup(tabIdList);
+                        chrome.storage.local.set({ group: "notGrouped" });
+                        event.target.innerHTML="タブをグループ化";
+                    }
+                }
+            });
+        });
+    });
+
     //検索窓 --shita
     searchinput.addEventListener("change", (event) =>{
     searchResult.disabled = false;

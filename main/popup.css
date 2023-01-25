@@ -4,14 +4,12 @@
 
 body {
     width: 500px;
+
     height: 100px;
     /*リョウガだよ*/
     background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
 
     background-size: 300px 150px;
-    
-    
-
 }
 
 .header {
@@ -70,7 +68,7 @@ body {
 
 .textarea {
     width: 100%;
-    height: 250px;
+    height: 150px;
     text-align: center;
     padding-bottom: 6px;
 }
@@ -108,7 +106,7 @@ body {
     cursor: pointer;
 }
 
-.group {
+.tabList {
     width: fit-content;
     max-width: 90%;
     margin: 10px;
@@ -136,6 +134,9 @@ body {
     background-color: rgb(210, 210, 210);
     margin-left: 15px;
     cursor: pointer;
+}
+#tabGroup{
+    margin: 10px;
 }
 /*リョウガだよ*/
 #copyButton {
