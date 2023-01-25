@@ -5,6 +5,13 @@
 body {
     width: 500px;
     height: 100px;
+    /*リョウガだよ*/
+    background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
+
+    background-size: 300px 150px;
+    
+    
+
 }
 
 .header {
@@ -130,3 +137,38 @@ body {
     margin-left: 15px;
     cursor: pointer;
 }
+/*リョウガだよ*/
+#copyButton {
+    background: rgb(50, 150, 200);
+    position: relative;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 240px;
+    padding: 10px 25px;
+    color: #040000;
+    transition: 0.3s ease-in-out;
+    font-weight: 500;
+    z-index:0;
+    border-left: solid 5px #0000004f;
+}
+#copyButton:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 0;
+    display: block;
+    background: #6bb6ff;
+    transition: .3s;
+    left:0;
+}
+#copyButton:hover {
+    color: rgb(0, 0, 0);
+}
+
+#copyButton:hover:before {
+    width: 100%;
+    z-index: -1;
+}
+/*りょうが終了*/
