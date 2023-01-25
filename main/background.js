@@ -3,10 +3,13 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //開けるタブの最大値の初期値を現在のタブ数にする --fuma
         chrome.storage.local.set({ maxTabNum: tabs.length });
-        //checboxの初期値をfalseにする--ここメインで消えてた
+        //checboxの初期値をfalseにする
         chrome.storage.local.set({ check: false });
+        //アイコンの表示
         displayNum(tabs.length, tabs.length, false);
         makeIcon(tabs.length, tabs.length, false);
+        //グループ化ボタンの初期値を設定
+        chrome.storage.local.set({ group: "notGrouped" });
     });
 });
 
@@ -22,6 +25,7 @@ chrome.tabs.onUpdated.addListener((tabId) => {
             if (items.check == false) {
                 chrome.storage.local.set({ maxTabNum: tabs.length });
             }
+            //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
         });
@@ -36,6 +40,7 @@ chrome.tabs.onRemoved.addListener(() => {
             if (items.check == false) {
                 chrome.storage.local.set({ maxTabNum: tabs.length });
             }
+            //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
         });
@@ -46,6 +51,7 @@ chrome.tabs.onRemoved.addListener(() => {
 chrome.runtime.onMessage.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+            //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
         });
