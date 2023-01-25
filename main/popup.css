@@ -99,6 +99,25 @@ body {
     cursor: pointer;
 }
 
+.group {
+    width: fit-content;
+    max-width: 90%;
+    margin: 10px;
+}
+
+#domains>ul {
+    background-color: rgb(240, 240, 240);
+    padding: 5px;
+    border: solid gray;
+}
+
+#domains>ul:hover {
+    background-color: rgb(230, 230, 230);
+    padding: 5px;
+    border: solid gray;
+    cursor: pointer;
+}
+
 #domains>ul>li {
     background-color: rgb(230, 230, 230);
     margin-left: 15px;
