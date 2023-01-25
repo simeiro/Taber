@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html>
+
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="popup.css">
@@ -19,17 +20,27 @@
                 <select class = "result_select" id = "resultSelect"></select>
                 </nobr></h3>
             </div>
-            <h3 class="h3_title_url">取得したタイトルとURL</h3>
-            <div class="textarea">
-                <textarea id="txt"></textarea>
-            </div>
-            <div class="copy">
-                <button id="copyButton">copy</button>
-            </div>
-            <h3 class="h3_maxTabNum">最大タブ数<input type="number" id="maxTabNum"><button id="maxTabNumButton">変更</button></h3>
-            <div class = "tabdelete" >
-                <h3 id = "sameTabDelete">重複タブ:0個<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button></h3>
-            </div>
         </div>
-    </body>
+        <h3 class="h3_title_url">取得したタイトルとURL</h3>
+        <div class="textarea">
+            <textarea id="txt"></textarea>
+        </div>
+        <div class="copy">
+            <button id="copyButton">copy</button>
+        </div>
+        <h3 class="h3_maxTabNum">最大タブ数
+            <input type="number" id="maxTabNum">
+            <button id="maxTabNumButton">変更</button>
+            <input type="checkbox" id="check">
+        </h3>
+        <div class="group">タブリスト
+            <button id="group">開く</button>
+            <div id="domains"></div>
+        </div>
+            <div class = "tabdelete" >
+            <h3 id = "sameTabDelete">重複タブ:0個<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button></h3>
+        </div>
+    </div>
+</body>
+
 </html>

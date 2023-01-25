@@ -4,7 +4,7 @@
 
 body {
     width: 500px;
-    height: 300px;
+    height: 100px;
 }
 
 .header {
@@ -14,26 +14,27 @@ body {
 }
 
 /* shita追加分始まり */
-.searchWindow{
+.searchWindow {
     margin-left: 10px;
 }
 
-.searchTitle{
-    padding:0px;
+.searchTitle {
+    padding: 0px;
 }
 
-#inputSearch{
-    font-size:default;
+#inputSearch {
+    font-size: default;
     text-align: start;
     width: calc(90% - 50px);
     height: 16px;
     resize: none;
 }
 
-.result_select{
+.result_select {
     margin-top: 2px;
     width: 90%;
 }
+
 
 .tabdelete{
     padding-left:10px;
@@ -43,6 +44,7 @@ body {
 .deletetabs_button{
     margin-left:10px;
 }
+
 /* shita追加分終わり */
 
 #title {
@@ -76,4 +78,34 @@ body {
 
 .h3_maxTabNum {
     padding: 0px 0px 0px 10px;
+}
+
+.group {
+    width: fit-content;
+    max-width: 90%;
+    margin: 10px;
+}
+
+#domains>ul {
+    background-color: rgb(240, 240, 240);
+    padding: 5px;
+    border: solid gray;
+}
+
+#domains>ul:hover {
+    background-color: rgb(230, 230, 230);
+    padding: 5px;
+    border: solid gray;
+    cursor: pointer;
+}
+
+#domains>ul>li {
+    background-color: rgb(230, 230, 230);
+    margin-left: 15px;
+}
+
+#domains>ul>li:hover {
+    background-color: rgb(210, 210, 210);
+    margin-left: 15px;
+    cursor: pointer;
 }
