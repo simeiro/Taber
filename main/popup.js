@@ -1,12 +1,15 @@
 //main
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+
     //タブ数の情報 --fuma
     document.querySelector("#numOfTabs").innerHTML = tabs.length;
+
     let txt = "";
     tabs.forEach((tab) => {
         txt += `[${tab.title}] (${tab.url})\n\n`;
     });
     document.querySelector("#txt").value = txt;
+
     //開けるタブの最大値とcheckboxの状態を表示 --fuma
     chrome.storage.local.get(["maxTabNum", "check"], (items) => {
         document.querySelector("#maxTabNum").value = items.maxTabNum;
@@ -42,18 +45,23 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     });
     //groupStatusの初期値をnullにする --fuma
     chrome.storage.local.set({ groupStatus: "null" });
+
 });
 
 //event
 window.addEventListener("load", () => {
+
+
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
 
     //copyボタンが押されたらtextareaの内容をクリップボードにコピー --fuma
+
     document.querySelector("#copyButton").addEventListener("click", () => {
         document.querySelector("#txt").select();
         document.execCommand("copy");
     });
+
     //変更ボタンが押された時実行 --fuma
     document.querySelector("#maxTabNumButton").addEventListener("click", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
@@ -197,5 +205,6 @@ window.addEventListener("load", () => {
                 h_sametab.textContent = "重複タブを削除しました。";
             });
         };
+
     });
 });
