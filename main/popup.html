@@ -1,28 +1,30 @@
 <!DOCTYPE HTML>
 <html>
 
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css">
+    <script src="popup.js"></script>
+</head>
 
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="popup.css">
-        <script src="popup.js"></script>
-    </head>
-    <body>
-        <header class="header">
-            <h1 id="title">TabCounter</h1>
-        </header>
-        <div class="main">
-            <h2 class="h2_tabNum">現在のウインドウのタブ数：<span id="numOfTabs"></span></h2>
-            <div class = "searchWindow">
-                <h3 class = "searchTitle"><nobr>タブ検索欄
-                    <input id = "inputSearch" input type="text"></input>
-                </nobr></h3>
-                <h3><nobr>結果
-                <select class = "result_select" id = "resultSelect"></select>
-                </nobr></h3>
-            </div>
+<body>
+    <header class="header">
+        <h1 id="title">TabCounter</h1>
+    </header>
+    <div class="main">
+        <h2 class="h2_tabNum">現在のウインドウのタブ数：<span id="numOfTabs"></span></h2>
+        <div class="searchWindow">
+            <h3 class="searchTitle">
+                <nobr>タブ検索欄
+                    <input id="inputSearch" input type="text"></input>
+                </nobr>
+            </h3>
+            <h3>
+                <nobr>結果
+                    <select class="result_select" id="resultSelect"></select>
+                </nobr>
+            </h3>
         </div>
-
         <h3 class="h3_title_url">取得したタイトルとURL</h3>
         <div class="textarea">
             <textarea id="txt"></textarea>
@@ -44,9 +46,10 @@
             <button id="tabGroup">タブをグループ化</button>
         </div>
 
-            <div class = "tabdelete" >
-            <h3 id = "sameTabDelete">重複タブ:0個<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button></h3>
-            </div>
+        <div class="tabdelete">
+            <h3 id="sameTabDelete">重複タブ:0個<button class="deletetabs_button" id="deleteTabsButton" disabled>削除</button>
+            </h3>
+        </div>
     </div>
 </body>
 

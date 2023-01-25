@@ -1,7 +1,6 @@
 //拡張機能インストール時実行
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-
         //開けるタブの最大値の初期値を現在のタブ数にする --fuma
         chrome.storage.local.set({ maxTabNum: tabs.length });
         //checboxの初期値をfalseにする
@@ -17,7 +16,6 @@ chrome.runtime.onInstalled.addListener(() => {
 //タブ更新時実行
 chrome.tabs.onUpdated.addListener((tabId) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる --fuma
             if (tabs.length > items.maxTabNum && items.check == true) {
@@ -37,7 +35,6 @@ chrome.tabs.onUpdated.addListener((tabId) => {
 
 //タブ削除時実行
 chrome.tabs.onRemoved.addListener(() => {
-
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納 --fuma
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
