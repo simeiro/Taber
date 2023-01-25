@@ -180,7 +180,6 @@ window.addEventListener("load", () => {
         });
         if(onlyTabs.length != 0){
             const h_sametab = document.getElementById("sameTabDelete");
-            console.log(h_sametab);
             h_sametab.innerHTML="重複タブ:"+ Number(onlyTabs.length) +"個"+'<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button>';
             const deleteTab = document.getElementById("deleteTabsButton");
             deleteTab.disabled = false;
