@@ -43,10 +43,10 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     //タブグループ化ボタンの初期値設定 --fuma
     chrome.storage.local.get(["group"], (items) => {
         if (items.group == "notGrouped") {
-            document.querySelector("#tabGroup").innerHTML = "タブをグループ化";
+            document.querySelector("#tabGroup").innerHTML = "グループ化　";
         }
         else {
-            document.querySelector("#tabGroup").innerHTML = "タブをグループ化解除";
+            document.querySelector("#tabGroup").innerHTML = "グループ解除";
         }
     });
 });
@@ -178,13 +178,13 @@ window.addEventListener("load", () => {
                     chrome.tabs.ungroup(tabIdList);
                     chrome.tabs.group({ tabIds: tabIdList });
                     chrome.storage.local.set({ group: "Grouped" });
-                    event.target.innerHTML = "タブのグループ化解除";
+                    event.target.innerHTML = "グループ解除";
                 }
                 else {
                     //グループ化解除
                     chrome.tabs.ungroup(tabIdList);
                     chrome.storage.local.set({ group: "notGrouped" });
-                    event.target.innerHTML = "タブをグループ化";
+                    event.target.innerHTML = "グループ化　";
                 }
             }
         });
