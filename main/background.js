@@ -1,7 +1,7 @@
 //拡張機能インストール時実行
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //開けるタブの最大値の初期値を現在のタブ数にする --fuma
+        //開けるタブの最大値の初期値を現在のタブ数にする
         chrome.storage.local.set({ maxTabNum: tabs.length });
         //checboxの初期値をfalseにする
         chrome.storage.local.set({ check: false });
@@ -17,11 +17,11 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.tabs.onUpdated.addListener((tabId) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
-            //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる --fuma
+            //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
             if (tabs.length > items.maxTabNum && items.check == true) {
                 chrome.tabs.remove(tabId);
             }
-            //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納 --fuma
+            //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
             if (items.check == false) {
                 chrome.storage.local.set({ maxTabNum: tabs.length });
             }
@@ -35,7 +35,7 @@ chrome.tabs.onUpdated.addListener((tabId) => {
 //タブ削除時実行
 chrome.tabs.onRemoved.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納 --fuma
+        //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
             if (items.check == false) {
                 chrome.storage.local.set({ maxTabNum: tabs.length });
@@ -73,8 +73,7 @@ function makeIcon(tabsLength, maxTabNum, check) {
     chrome.action.setIcon({ imageData: imageData }, () => {
     });
 }
-
-//アイコン下に現在のタブ数を表示する
+//アイコン下に現在のタブ数を表示する関数
 function displayNum(tabsLength, maxTabNum, check) {
     if (tabsLength == maxTabNum && check == true) {
         chrome.action.setBadgeText({ text: String("MAX") });
