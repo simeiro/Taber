@@ -16,21 +16,22 @@ header {
     text-align: right;
 }
 
-.title{
+.title {
     display: inline;
     width: fit-content;
 }
-.tabNum{
+
+.tabNum {
     display: inline;
     width: fit-content;
     margin-right: 10px;
 }
 
-footer{
+footer {
     width: 100%;
     padding: 0;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
-    display:flex;
+    display: flex;
 }
 
 /* shita追加分始まり */
@@ -131,13 +132,6 @@ footer{
 
 #tabGroup {
     margin: 10px;
-}
-
-#tabList{
-    padding: 0;
-}
-#domains{
-    padding: 0;
 }
 
 /*リョウガだよ*/
