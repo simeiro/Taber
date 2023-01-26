@@ -82,9 +82,12 @@ footer {
     height: 100%;
 }
 
-.info {
+.copyButton {
     text-align: right;
-    padding: 10px;
+}
+
+.info {
+    padding-left: 10px;
 }
 
 .tabList {
