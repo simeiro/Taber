@@ -3,35 +3,43 @@
 }
 
 body {
-    width: 500px;
-    /*リョウガだよ*/
-    background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
-    background-size: 300px 150px;
+    width: 400px;
+    background: linear-gradient(#05FBFF, #1D62F0) fixed;
 }
 
 header {
     width: 100%;
     height: 30px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
-    text-align: right;
+    text-align: center;
 }
 
-.title {
+header>* {
     display: inline;
     width: fit-content;
 }
 
-.tabNum {
-    display: inline;
-    width: fit-content;
-    margin-right: 10px;
+.main {
+    /*リョウガだよ*/
+    background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
+    background-size: 300px 150px;
+}
+
+.main>* {
+    margin: 5px;
 }
 
 footer {
     width: 100%;
-    padding: 0;
+    height: 30px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
-    display: flex;
+    text-align: center;
+}
+
+footer>* {
+    display: inline-flex;
+    margin-top: 2px;
+    margin-left: 30px;
 }
 
 /* shita追加分始まり */
@@ -56,9 +64,9 @@ footer {
     width: 90%;
 }
 
-.tabdelete {
+/*.tabdelete {
     padding: 10px;
-}
+}*/
 
 .deletetabs_button {
     margin-left: 10px;
@@ -66,15 +74,10 @@ footer {
 
 /* shita追加分終わり */
 
-.h3_title_url {
-    padding: 5px;
-}
-
 .textarea {
     width: 100%;
     height: 150px;
     text-align: center;
-    padding-bottom: 6px;
 }
 
 #txt {
@@ -84,12 +87,14 @@ footer {
 
 .copyButton {
     text-align: right;
+    padding: 5px;
 }
 
-.info {
+.maxTab {
     padding-left: 10px;
 }
 
+/*タブリスト --fuma*/
 .tabList {
     width: fit-content;
     max-width: 90%;
@@ -133,9 +138,7 @@ footer {
     cursor: pointer;
 }
 
-#tabGroup {
-    margin: 10px;
-}
+/*タブリスト終了 --fuma*/
 
 /*リョウガだよ*/
 #copyButton {
