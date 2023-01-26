@@ -4,16 +4,33 @@
 
 body {
     width: 500px;
-    height: 100px;
     /*リョウガだよ*/
     background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
     background-size: 300px 150px;
 }
 
-.header {
+header {
     width: 100%;
     height: 30px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
+    text-align: right;
+}
+
+.title{
+    display: inline;
+    width: fit-content;
+}
+.tabNum{
+    display: inline;
+    width: fit-content;
+    margin-right: 10px;
+}
+
+footer{
+    width: 100%;
+    padding: 0;
+    background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
+    display:flex;
 }
 
 /* shita追加分始まり */
@@ -39,8 +56,7 @@ body {
 }
 
 .tabdelete {
-    padding-left: 10px;
-    padding-top: 3px;
+    padding: 10px;
 }
 
 .deletetabs_button {
@@ -49,16 +65,8 @@ body {
 
 /* shita追加分終わり */
 
-#title {
-    text-align: center;
-}
-
-.h2_tabNum {
-    text-align: center;
-}
-
 .h3_title_url {
-    padding: 10px;
+    padding: 5px;
 }
 
 .textarea {
@@ -73,16 +81,12 @@ body {
     height: 100%;
 }
 
-.copy {
+.info {
     text-align: right;
     padding: 10px;
 }
 
-.h3_maxTabNum {
-    padding: 0px 0px 0px 10px;
-}
-
-.group {
+.tabList {
     width: fit-content;
     max-width: 90%;
     margin: 10px;
@@ -99,12 +103,6 @@ body {
     padding: 5px;
     border: solid gray;
     cursor: pointer;
-}
-
-.tabList {
-    width: fit-content;
-    max-width: 90%;
-    margin: 10px;
 }
 
 #domains>ul {
@@ -135,18 +133,22 @@ body {
     margin: 10px;
 }
 
+#tabList{
+    padding: 0;
+}
+#domains{
+    padding: 0;
+}
+
 /*リョウガだよ*/
 #copyButton {
     background: rgb(50, 150, 200);
     position: relative;
     justify-content: space-around;
     align-items: center;
-    margin: 0 auto;
-    max-width: 240px;
-    padding: 10px 25px;
+    padding: 5px;
     color: #040000;
     transition: 0.3s ease-in-out;
-    font-weight: 500;
     z-index: 0;
     border-left: solid 5px #0000004f;
 }
