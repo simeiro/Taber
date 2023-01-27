@@ -8,10 +8,10 @@ body {
 }
 
 header {
+    text-align: center;
     width: 100%;
     height: 30px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
-    text-align: center;
 }
 
 header>* {
@@ -21,19 +21,19 @@ header>* {
 
 .main {
     /*リョウガだよ*/
-    background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
     background-size: 300px 150px;
+    background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
 }
 
-.main>* {
-    margin: 5px;
-}
+/*.main>* {
+    border: solid;
+}*/
 
 footer {
+    text-align: center;
     width: 100%;
     height: 30px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
-    text-align: center;
 }
 
 footer>* {
@@ -74,6 +74,11 @@ footer>* {
 
 /* shita追加分終わり */
 
+.h3_title_url {
+    padding-left: 5px;
+    padding-top: 5px;
+}
+
 .textarea {
     width: 100%;
     height: 150px;
@@ -87,54 +92,80 @@ footer>* {
 
 .copyButton {
     text-align: right;
-    padding: 5px;
+    padding-top: 10px;
+    padding-right: 5px;
 }
 
 .maxTab {
-    padding-left: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.maxTab>* {
+    display: inline;
+    width: fit-content;
+    margin-right: 20px;
+}
+
+#maxTabNum {
+    width: 50px;
 }
 
 /*タブリスト --fuma*/
 .tabList {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    margin: 0;
     width: fit-content;
     max-width: 90%;
-    margin: 10px;
+}
+
+.tabList>* {
+    width: fit-content;
+}
+
+#domains {
+    position: absolute;
+    right: 0;
+    margin: 0;
 }
 
 #domains>ul {
-    background-color: rgb(240, 240, 240);
     padding: 5px;
+    background-color: rgb(240, 240, 240);
     border: solid gray;
 }
 
 #domains>ul:hover {
-    background-color: rgb(230, 230, 230);
     padding: 5px;
+    background-color: rgb(230, 230, 230);
     border: solid gray;
     cursor: pointer;
 }
 
 #domains>ul {
-    background-color: rgb(240, 240, 240);
     padding: 5px;
+    background-color: rgb(240, 240, 240);
     border: solid gray;
 }
 
 #domains>ul:hover {
-    background-color: rgb(230, 230, 230);
     padding: 5px;
+    background-color: rgb(230, 230, 230);
     border: solid gray;
     cursor: pointer;
 }
 
 #domains>ul>li {
-    background-color: rgb(230, 230, 230);
     margin-left: 15px;
+    background-color: rgb(230, 230, 230);
 }
 
 #domains>ul>li:hover {
-    background-color: rgb(210, 210, 210);
     margin-left: 15px;
+    background-color: rgb(210, 210, 210);
     cursor: pointer;
 }
 

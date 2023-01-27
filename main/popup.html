@@ -10,9 +10,13 @@
 <body>
     <header>
         <h1 class="title">TabCounter</h1>
-        <div class="tabNum">現在のタブ数：<span id="numOfTabs"></span></div>
+        <div class="tabList">タブリスト
+            <button id="tabList">開く</button>
+            <div id="domains"></div>
+        </div>
     </header>
     <div class="main">
+        <div class="tabNum">現在のタブ数：<span id="numOfTabs"></span></div>
         <div class="searchWindow">
             <h3 class="searchTitle">
                 <nobr>タブ検索欄
@@ -33,12 +37,12 @@
             <button id="copyButton">copy</button>
         </div>
         <div class="maxTab">
-            最大タブ数<input type="number" id="maxTabNum">
-            タブ数制限<input type="checkbox" id="check">
-        </div>
-        <div class="tabList">タブリスト
-            <button id="tabList">開く</button>
-            <div id="domains"></div>
+            <div class="maxTabNum">
+                最大タブ数<input type="number" id="maxTabNum">
+            </div>
+            <div class="check">
+                タブ数制限<input type="checkbox" id="check">
+            </div>
         </div>
     </div>
     <footer>
