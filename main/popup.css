@@ -41,7 +41,7 @@ header>* {
 
 #textarea>* {
     width: 200px;
-    height: 100px;
+    height: 260px;
     margin: 3px;
 }
 
@@ -169,8 +169,8 @@ footer>* {
 
 .check {
     width: fit-content;
-    display: flex;
-    margin: 5px;
+    display: inline-flex;
+    margin: 5px auto;
 }
 
 #maxNum {
@@ -283,6 +283,6 @@ footer>* {
 /*りょうが終了*/
 
 .maxTabNum{
-    display: flex;
-    margin: 5px;
+    display: inline-flex;
+    margin: 5px auto;
 }
