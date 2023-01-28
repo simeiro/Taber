@@ -1,3 +1,4 @@
+
 * {
     margin: 0px;
 }
@@ -280,9 +281,139 @@ footer>* {
     z-index: -1;
 }
 
-/*りょうが終了*/
+
+/* 検索窓-simeiro */
+.searchTitle nobr{
+    float:left;
+}
+.open-btn{   
+    float:right;
+    background:#fff url("/image/icon_search.svg") no-repeat 5px center;/*虫眼鏡アイコンを背景に表示*/
+    background-size: 10px 10px;
+    width: 20px;
+    height:20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/*========= 検索窓の設定 ===============*/
+
+/*==検索窓背景のエリア*/
+
+#search-wrap{
+    position:fixed;/*固定配置にして*/
+    top: 0;
+    left: 0;
+    z-index: -1;/*最背面に設定*/
+    opacity: 0;/*透過を0に*/
+    transition: all 0.4s;/*transitionを使ってスムースに現れる*/
+    width:100%;
+    height: 100vh;
+}
+
+/*ボタンクリック後、JSで#search-wrapに panelactive クラスが付与された後の見た目*/
+#search-wrap.panelactive{
+    opacity: 1;/*不透明に変更*/
+    z-index: 3;/*全面に出現*/
+    background:#333;
+        /*中の要素を天地中央揃えにする設定*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*==検索窓のエリア*/
+
+#search-wrap .search-area{
+    display: none;/*検索窓のエリアは、はじめ非表示*/
+}
+
+/*ボタンクリック後、JSで#search-wrapに panelactive クラスが付与された後*/
+#search-wrap.panelactive .search-area{
+    display: block;/*検索窓エリアを表示*/
+    width:80%;
+    position: relative;
+}
+
+/*==検索フォームの設定*/
+
+#search-wrap form{
+    position: relative;
+    height: 66px;
+}
+
+/*==テキスト入力とボタンinput共通設定*/
+#search-wrap input{
+    appearance: none;/*SafariやChromeのデフォルト*/
+    outline: none;
+    cursor: pointer;/*カーソルを指マークに*/
+    color: #fff;
+}
+
+/*テキスト入力input設定*/
+#search-wrap input[type="text"] {
+    width: 100%;
+    padding: 20px;
+    border: none;
+    border-bottom:2px solid #666;
+    transition: all 0.5s;
+    letter-spacing: 0.05em;
+}
+
+#search-wrap input[type="text"]:focus {
+    background:#444;
+}
+
+/*ボタンinput設定*/
+#search-wrap input[type="submit"] {
+    position: absolute;
+    top:0;
+    right:10px;
+    background:url("/image/icon_search.svg") no-repeat 15px center;/*虫眼鏡アイコンを背景に表示*/
+    background-size: 25px 25px;
+    width:60px;
+    height: 60px;
+}
+
+/*=======　閉じるための×ボタン　========*/
+.close-btn{
+    position: absolute;
+    top:10px;
+    right:10px;
+    z-index: 2;
+    cursor: pointer;
+    width: 60px;
+    height:60px;
+}
+
+.close-btn span{
+    display: inline-block;
+    position: absolute;
+    left: 14px;
+    height: 3px;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+/*×マーク*/
+.close-btn span:nth-of-type(1) {
+    top: 21px;
+    left: 16px;
+    transform: translateY(6px) rotate(-135deg);
+    width: 50%;
+}
+
+.close-btn span:nth-of-type(2){
+    top: 32px;
+    left: 16px;
+    transform: translateY(-6px) rotate(135deg);
+    width: 50%;
+}
+//検索窓終了
+
 
 .maxTabNum{
     display: inline-flex;
     margin: 5px auto;
 }
+
