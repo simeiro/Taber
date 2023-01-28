@@ -10,6 +10,8 @@ chrome.runtime.onInstalled.addListener(() => {
         makeIcon(tabs.length, tabs.length, false);
         //グループ化ボタンの初期値を設定
         chrome.storage.local.set({ group: "notGrouped" });
+        chrome.storage.local.set({ tsm: "0" });
+        chrome.storage.local.set({ stm: "0" });
     });
 });
 

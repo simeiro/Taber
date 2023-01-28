@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="options.css">
+    <script src="jquery-3.6.3.min.js"></script>
+    <script src="options.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1 class = "title">(アイコン)拡張機能名 - 設定変更画面</h1>
+        <hr class ="titleborder">
+    </header>
+    <div class="main">
+        <div class = "tabsearchmethod">
+            タブ検索方法
+            <div class = "b_tabsearchmethod">
+                <label><input type = "radio" value = "0" name ="b_tsm" class ="b_tsm0" id="bTsm0">タイトル</input></label>
+                <label><input type = "radio" value = "1" name ="b_tsm" class ="b_tsm1" id="bTsm1">URL</input></label>
+                <label><input type = "radio" value = "2" name ="b_tsm" class ="b_tsm2" id="bTsm2">タイトルとURL</input></label>
+            </div>
+        </div>
+        <div class = "sametabmethod">
+            重複タブ検知方法
+            <div class = "b_sametabmethod">
+                <label><input type="radio" value = "0" name ="b_stm" class = "b_stm0" id="bStm0">タイトル</input></label>
+                <label><input type="radio" value = "1" name ="b_stm" class = "b_stm1" id="bStm1">URL</input></label>
+                <label><input type="radio" value = "2" name ="b_stm" class = "b_stm2" id="bStm0">タイトルとURL</input></label>
+            </div>
+        </div>
+        <div class = "saveoption" id ="saveOptions">
+            <button class = "b_save" id = "saveB">セーブ</button>
+            <button class = "b_reset" id = "resetB">リセット</button>
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+</body>
+
+</html>
