@@ -1,7 +1,6 @@
 //main
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     //タブの情報 --fuma
-    document.querySelector("#numOfTabs").innerHTML = tabs.length;
     let txt = "";
     tabs.forEach((tab) => {
         txt += `[${tab.title}] (${tab.url})\n\n`;
