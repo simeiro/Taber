@@ -20,6 +20,40 @@ header>* {
     width: fit-content;
 }
 
+.URLList {
+    z-index: 10;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: right;
+    margin: 0;
+}
+
+.URLList>* {
+    margin: 0;
+    padding: 0;
+}
+
+#textarea {
+    width: fit-content;
+    background-color: green;
+}
+
+#textarea>* {
+    width: 200px;
+    height: 100px;
+    margin: 3px;
+}
+
+#copyButton {
+    margin-top: -15px;
+    background-color: green;
+}
+
+#copyButton>* {
+    margin: 3px;
+}
+
 .main {
     /*リョウガだよ*/
     background-size: 300px 150px;
@@ -105,31 +139,25 @@ footer>* {
 
 /*タブリスト --fuma*/
 .tabList {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 10;
-    margin: 0;
-    width: fit-content;
-}
-
-.tabList>* {
-    width: fit-content;
+    margin: auto;
+    padding: 0;
+    width: 90%;
+    height: 100%;
 }
 
 #domains {
-    overflow-y: scroll;
-    position: absolute;
-    right: 0;
-    margin: 0;
-    max-height: 340px;
+    overflow-y: auto;
+    height: 150px;
+    width: fit-content;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 #domains::-webkit-scrollbar {
     width: 3px;
 }
 
-#domains::-webkit-scrollbar-track{
+#domains::-webkit-scrollbar-track {
     background-color: #ccc;
 }
 
@@ -150,20 +178,6 @@ footer>* {
     cursor: pointer;
 }
 
-#domains>ul {
-    padding: 5px;
-    background-color: rgb(240, 240, 240);
-    border: solid gray;
-    overflow-wrap: normal;
-}
-
-#domains>ul:hover {
-    padding: 5px;
-    background-color: rgb(230, 230, 230);
-    border: solid gray;
-    cursor: pointer;
-}
-
 #domains>ul>li {
     margin-left: 15px;
     background-color: rgb(230, 230, 230);
@@ -171,15 +185,12 @@ footer>* {
 
 #domains>ul>li:hover {
     margin-left: 15px;
-    background-color: rgb(210, 210, 210);
-    cursor: pointer;
+    background-color: rgb(220, 220, 220);
 }
 
 /*タブリスト終了 --fuma*/
 
 /*リョウガだよ*/
-
- 
   .container > div {
     margin: 2rem auto;
   }
@@ -193,12 +204,27 @@ footer>* {
     opacity: 0;
   }
   .container > div:last-of-type label {
+#copyButton>button {
+    background: rgb(50, 150, 200);
+    position: relative;
+    justify-content: space-around;
+    align-items: center;
+    padding: 5px;
+    color: #040000;
+    transition: 0.3s ease-in-out;
+    z-index: 0;
+    border-left: solid 5px #0000004f;
+}
+
+#copyButton>button:before {
+    content: "";
     position: absolute;
     background-color: #e9513a;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
+
     -webkit-transition: background-color .2s ease-in-out;
             transition: background-color .2s ease-in-out;
   }
@@ -236,3 +262,16 @@ footer>* {
   .container > div:last-of-type input[type=checkbox]:checked ~ label:after {
     left: 3.6rem;
   }
+}
+
+#copyButton>button:hover {
+    color: rgb(0, 0, 0);
+}
+
+#copyButton:hover>button:before {
+    width: 100%;
+    z-index: -1;
+}
+
+/*りょうが終了*/
+
