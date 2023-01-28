@@ -131,16 +131,7 @@ footer>* {
     padding-right: 5px;
 }
 
-.maxTab {
-    padding: 5px;
-    text-align: center;
-}
 
-.maxTab>* {
-    display: inline;
-    width: fit-content;
-    margin-right: 20px;
-}
 
 #maxTabNum {
     width: 50px;
@@ -200,6 +191,19 @@ footer>* {
 /*タブリスト終了 --fuma*/
 
 /*リョウガだよ*/
+  .container > div {
+    margin: 2rem auto;
+  }
+  /* Squared */
+  .container > div:last-of-type {
+    width: 6rem;
+    height: 2.5rem;
+    position: relative;
+  }
+  .container > div:last-of-type input {
+    opacity: 0;
+  }
+  .container > div:last-of-type label {
 #copyButton>button {
     background: rgb(50, 150, 200);
     position: relative;
@@ -215,13 +219,49 @@ footer>* {
 #copyButton>button:before {
     content: "";
     position: absolute;
+    background-color: #e9513a;
+    width: 100%;
+    height: 100%;
     top: 0;
-    bottom: 0;
-    width: 0;
-    display: block;
-    background: #6bb6ff;
-    transition: .3s;
     left: 0;
+
+    -webkit-transition: background-color .2s ease-in-out;
+            transition: background-color .2s ease-in-out;
+  }
+  .container > div:last-of-type label:before {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    top: .5rem;
+    z-index: 1;
+    left: .5rem;
+    background: #FFF;
+    -webkit-transition: left .2s ease-in-out;
+            transition: left .2s ease-in-out;
+  }
+  .container > div:last-of-type label:after {
+    color: #ccc;
+    content:'|||';
+    letter-spacing: .0625rem;
+    position: absolute;
+    left: 1.1rem;
+    top: .75rem;
+    z-index: 1;
+    -webkit-transition: left .2s ease-in-out;
+            transition: left .2s ease-in-out;
+  }
+  .container > div:last-of-type input[type=checkbox]:checked ~ label {
+    background-color: #4fbe79;
+  }
+  .container > div:last-of-type input[type=checkbox]:checked ~ label:before {
+    left: 3rem;
+  }
+  .container > div:last-of-type input[type=checkbox]:checked ~ label:after {
+    left: 3.6rem;
+  }
 }
 
 #copyButton>button:hover {
@@ -234,3 +274,4 @@ footer>* {
 }
 
 /*りょうが終了*/
+
