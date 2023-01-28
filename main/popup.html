@@ -12,13 +12,13 @@
 <body>
     <header>
         <h1 class="title">TabCounter</h1>
-        <div class="tabList">タブリスト
-            <button id="tabList">&ensp;開く&ensp;</button>
-            <div id="domains"></div>
+        <div class="URLList">URLリスト
+            <button id="URLListButton">&ensp;開く&ensp;</button>
+            <div id="textarea"></div><br>
+            <div id="copyButton"></div>
         </div>
     </header>
     <div class="main">
-        <div class="tabNum">現在のタブ数：<span id="numOfTabs"></span></div>
         <div class="searchWindow">
             <h3 class="searchTitle">
                 <nobr>タブ検索
@@ -40,20 +40,24 @@
                 </nobr>
             </h3>
         </div>
-        <h3 class="h3_title_url">取得したタイトルとURL</h3>
-        <div class="textarea">
-            <textarea id="txt"></textarea>
+        <div class="tabList">
+            <h3 class="tabListTitle">タブリスト</h3>
+            <div id="domains"></div>
         </div>
-        <div class="copyButton">
-            <button id="copyButton">copy</button>
+        <div class="check">
+            <h3 id="maxNum">タブ数制限</h3>
+            <h4 id="off">OFF</h4>
+            <div class="container">
+                <div>
+                    <input type="checkbox" id="check">
+                    <label for="check"></label>
+                </div>
+            </div>
+            <h4 id="on">ON</h4>
         </div>
-        <div class="maxTab">
-            <div class="check">
-                タブ数制限<input type="checkbox" id="check">
-            </div>
-            <div class="maxTabNum">
-                最大タブ数<input type="number" id="maxTabNum">
-            </div>
+        <div class="maxTabNum">
+            <h3>最大タブ数</h3>
+            <input type="number" id="maxTabNum">
         </div>
     </div>
     <footer>
