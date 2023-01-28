@@ -314,7 +314,7 @@ footer>* {
 /*ボタンクリック後、JSで#search-wrapに panelactive クラスが付与された後の見た目*/
 #search-wrap.panelactive{
     opacity: 1;/*不透明に変更*/
-    z-index: 3;/*全面に出現*/
+    z-index: 11;/*全面に出現*/
     background:#333;
         /*中の要素を天地中央揃えにする設定*/
     display: flex;
@@ -352,7 +352,7 @@ footer>* {
 
 /*テキスト入力input設定*/
 #search-wrap input[type="text"] {
-    width: 100%;
+    width: 85%;
     padding: 20px;
     border: none;
     border-bottom:2px solid #666;
