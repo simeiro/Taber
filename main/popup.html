@@ -29,23 +29,24 @@
                 </nobr>
             </h3>
         </div>
-        <div class="tabList">タブリスト
+        <div class="tabList">
+            <h3 class="tabListTitle">タブリスト</h3>
             <div id="domains"></div>
         </div>
-        <div class="maxTab">
-            <div class="check">
-                <div class="container">
-                    <div>
-                        <input type="checkbox" id="check" />
-                        <label for="check"></label>
-                    </div>
+        <div class="check">
+            <h3 id="maxNum">タブ数制限</h3>
+            <h4 id="off">OFF</h4>
+            <div class="container">
+                <div>
+                    <input type="checkbox" id="check">
+                    <label for="check"></label>
                 </div>
-                <label for="check" id="maxNum">タブ数制限</label>
-
             </div>
-            <div class="maxTabNum">
-                最大タブ数<input type="number" id="maxTabNum">
-            </div>
+            <h4 id="on">ON</h4>
+        </div>
+        <div class="maxTabNum">
+            <h3>最大タブ数</h3>
+            <input type="number" id="maxTabNum">
         </div>
     </div>
     <footer>
