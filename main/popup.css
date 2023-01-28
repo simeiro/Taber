@@ -1,4 +1,3 @@
-
 * {
     margin: 0px;
 }
@@ -179,19 +178,20 @@ footer>* {
 }
 
 #off {
+    margin-right: 5px;
     margin-left: 20px;
     margin-top: 15px;
 }
 
 #on {
     margin-top: 15px;
+    margin-left: 5px;
 }
 
 /*リョウガだよ*/
 
 .container>div {
     margin: 0px;
-    border: solid;
 }
 
 /* Squared */
@@ -409,8 +409,7 @@ footer>* {
     transform: translateY(-6px) rotate(135deg);
     width: 50%;
 }
-//検索窓終了
-
+/*検索窓終了*/
 
 .maxTabNum{
     display: inline-flex;
