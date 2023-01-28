@@ -77,7 +77,7 @@ function makeIcon(tabsLength, maxTabNum, check) {
 function displayNum(tabsLength, maxTabNum, check) {
     if (tabsLength == maxTabNum && check == true) {
         chrome.action.setBadgeText({ text: String("MAX") });
-    } else if (check == true) {
+    } else if (check == true && maxTabNum < 100) {
         chrome.action.setBadgeText({ text: String(tabsLength + "/" + maxTabNum) });
     } else { //check == false
         chrome.action.setBadgeText({ text: String(tabsLength + "/∞") });

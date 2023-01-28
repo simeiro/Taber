@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="popup.css">
+    <script src="jquery-3.6.3.min.js"></script>
     <script src="popup.js"></script>
+    <script src="animation.js"></script>
 </head>
 
 <body>
@@ -19,12 +21,21 @@
         <div class="tabNum">現在のタブ数：<span id="numOfTabs"></span></div>
         <div class="searchWindow">
             <h3 class="searchTitle">
-                <nobr>タブ検索欄
-                    <input id="inputSearch" input type="text"></input>
+                <nobr>タブ検索
+                    <div class="open-btn"></div>
+                    <div id="search-wrap">
+                        <div class="close-btn"><span></span><span></span></div>
+                        <div class="search-area">
+                                <input type="text" id="inputSearch" value="" name="" placeholder="検索するタブ名">
+                                <input type="submit" id="searchsubmit" value="">
+                        </div><!--/search-area -->
+                    </div><!-- /search-wrap -->
+                    <!-- <input id="inputSearch" input type="text"></input> -->
                 </nobr>
             </h3>
             <h3>
-                <nobr>結果
+                <nobr>
+                    結果
                     <select class="result_select" id="resultSelect"></select>
                 </nobr>
             </h3>
