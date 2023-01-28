@@ -131,8 +131,6 @@ footer>* {
     padding-right: 5px;
 }
 
-
-
 #maxTabNum {
     width: 50px;
 }
@@ -192,20 +190,23 @@ footer>* {
 
 /*リョウガだよ*/
 
- 
-  .container > div {
+
+.container>div {
     margin: 2rem auto;
-  }
-  /* Squared */
-  .container > div:last-of-type {
+}
+
+/* Squared */
+.container>div:last-of-type {
     width: 6rem;
     height: 2.5rem;
     position: relative;
-  }
-  .container > div:last-of-type input {
+}
+
+.container>div:last-of-type input {
     opacity: 0;
-  }
-  .container > div:last-of-type label {
+}
+
+.container>div:last-of-type label {
     position: absolute;
     background-color: #e9513a;
     width: 100%;
@@ -213,8 +214,9 @@ footer>* {
     top: 0;
     left: 0;
     -webkit-transition: background-color .2s ease-in-out;
-            transition: background-color .2s ease-in-out;
-  }
+    transition: background-color .2s ease-in-out;
+}
+
 #copyButton>button {
     background: rgb(50, 150, 200);
     position: relative;
@@ -251,9 +253,10 @@ footer>* {
     left: 0;
 
     -webkit-transition: background-color .2s ease-in-out;
-            transition: background-color .2s ease-in-out;
-  }
-  .container > div:last-of-type label:before {
+    transition: background-color .2s ease-in-out;
+}
+
+.container>div:last-of-type label:before {
     content: "";
     display: block;
     width: 2.5rem;
@@ -265,28 +268,32 @@ footer>* {
     left: .5rem;
     background: #FFF;
     -webkit-transition: left .2s ease-in-out;
-            transition: left .2s ease-in-out;
+    transition: left .2s ease-in-out;
 }
-  .container > div:last-of-type label:after {
+
+.container>div:last-of-type label:after {
     color: #ccc;
-    content:'|||';
+    content: '|||';
     letter-spacing: .0625rem;
     position: absolute;
     left: 1.1rem;
     top: .75rem;
     z-index: 1;
     -webkit-transition: left .2s ease-in-out;
-            transition: left .2s ease-in-out;
-  }
-  .container > div:last-of-type input[type=checkbox]:checked ~ label {
+    transition: left .2s ease-in-out;
+}
+
+.container>div:last-of-type input[type=checkbox]:checked~label {
     background-color: #4fbe79;
-  }
-  .container > div:last-of-type input[type=checkbox]:checked ~ label:before {
+}
+
+.container>div:last-of-type input[type=checkbox]:checked~label:before {
     left: 3rem;
-  }
-  .container > div:last-of-type input[type=checkbox]:checked ~ label:after {
+}
+
+.container>div:last-of-type input[type=checkbox]:checked~label:after {
     left: 3.6rem;
-  }
+}
 
 #copyButton>button:hover {
     color: rgb(0, 0, 0);
@@ -298,4 +305,3 @@ footer>* {
 }
 
 /*りょうが終了*/
-
