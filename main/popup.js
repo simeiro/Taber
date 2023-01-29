@@ -304,5 +304,13 @@ window.addEventListener("load", () => {
             };
         });
     });
+    $('#config').on('click', (e) => {
+        if (chrome.runtime.openOptionsPage) {
+            chrome.runtime.openOptionsPage();
+        } else {
+            window.open(chrome.runtime.getURL('options.html'));
+        }
+    });
+
 });
 

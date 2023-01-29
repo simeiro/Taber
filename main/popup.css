@@ -24,6 +24,16 @@ header>* {
     font-family: serif;
 }
 
+.openconfig{
+    position: absolute;
+    background: url("/image/icon_config.svg") no-repeat 0px center;
+    background-size: 25px 25px;
+    width: 30px;
+    height: 30px;
+    right: 1;
+    top: 0;
+}
+
 .URLList {
     z-index: 10;
     position: absolute;
