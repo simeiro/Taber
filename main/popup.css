@@ -20,6 +20,10 @@ header>* {
     width: fit-content;
 }
 
+.title{
+    font-family: serif;
+}
+
 .URLList {
     z-index: 10;
     position: absolute;
