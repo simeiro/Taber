@@ -15,5 +15,8 @@
         "clipboardWrite",
         "storage"
     ],
+    "icons": {
+        "128": "taber128.png"
+    },
     "manifest_version": 3
 }

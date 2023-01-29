@@ -18,33 +18,37 @@
     font-size: var(--titlefont);
 }
 
+.iconimage{
+    vertical-align: -50%;
+}
+
 .main{
     margin: var(--padding);
     font-size: var(--mainfont);
 
 }
 
-.tabsearchmethod {
+/* .tabsearchmethod {
     
-}
+} */
 
 .b_tabsearchmethod> label{
     display: block;
     margin: var(--padding);
 }
 
-.sametabmethod{
+/* .sametabmethod{
 
-}
+} */
 
 .b_sametabmethod > label{
     display: block;
     margin: var(--padding);
 }
 
-.b_tabsearchmethod> label, .b_sametabmethod > label{
+/* .b_tabsearchmethod> label, .b_sametabmethod > label{
     
-}
+} */
 /*  */
 
 .saveoption > *{
