@@ -281,6 +281,10 @@ footer>* {
     z-index: -1;
 }
 
+.maxTabNum{
+    display: inline-flex;
+    margin: 5px auto;
+}
 
 /* 検索窓-simeiro */
 .searchTitle nobr{
@@ -411,8 +415,51 @@ footer>* {
 }
 /*検索窓終了*/
 
-.maxTabNum{
-    display: inline-flex;
-    margin: 5px auto;
+/* 削除,グループ化ボタン--simeiro */
+
+#tabGroup {
+    min-width: 60px;
+    height: 25px;
+    color: #fff;
+    padding: 2.5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    background: #3a86ff;
+    box-shadow: 0 5px #4433ff;
 }
 
+.deletetabs_button {
+    visibility: hidden;
+    min-width: 60px;
+    height: 25px;
+    color: #fff;
+    padding: 2.5px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    outline: none;
+    border-radius: 5px;
+    border: none;
+    background: #3a86ff;
+    box-shadow: 0 0px #4433ff;
+}
+
+.deletetabs_button:active {
+    box-shadow: 0 0 #4433ff;
+    top: 2.5px;
+    z-index:1;
+}
+
+#tabGroup:active{
+    box-shadow: 0 0 #4433ff;
+    top: 2.5px;
+    z-index:1;
+}
