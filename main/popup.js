@@ -289,9 +289,17 @@ window.addEventListener("load", () => {
                 deleteTab.disabled = false;
                 deleteTab.addEventListener("click", (event) => {
                     chrome.tabs.remove(onlyTabs.map((tab) => Number(tab.id)));
-                    h_sametab.textContent = "重複タブを削除しました。";
+                    h_sametab.textContent = "重複タブ:0個";
+                });
+                $(function(){
+                  $(".deletetabs_button").text("削除");
+                  $(".deletetabs_button").css({
+                    "box-shadow":"0 5px #4433ff",
+                    "visibility":"visible"
+                  });
                 });
             };
         });
     });
 });
+

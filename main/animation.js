@@ -1,4 +1,6 @@
 $(function(){
+    //タブ検索窓-simeiro
+
     //開くボタンを押した時には
     $(".open-btn").on("click",function () {
         $("#search-wrap").addClass('panelactive');//#search-wrapへpanelactiveクラスを付与
@@ -19,4 +21,7 @@ $(function(){
     $("#searchsubmit").on("click", function(){
         $("#search-wrap").removeClass('panelactive');//#search-wrapからpanelactiveクラスを除去
     });
+
+    // タブ検索窓終了
+
 });
