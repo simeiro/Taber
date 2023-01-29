@@ -179,13 +179,15 @@ footer>* {
 }
 
 #off {
+    font-size: 15px;
     margin-right: 5px;
     margin-left: 20px;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 #on {
-    margin-top: 15px;
+    font-size: 15px;
+    margin-top: 10px;
     margin-left: 5px;
 }
 
@@ -286,6 +288,10 @@ footer>* {
 .maxTabNum{
     display: inline-flex;
     margin: 5px auto;
+}
+
+#maxTabNum{
+  width: 100px;
 }
 
 /* 検索窓-simeiro */
@@ -440,9 +446,9 @@ footer>* {
 
 #tabGroup {
     min-width: 60px;
-    height: 25px;
+    height: 20px;
     color: #fff;
-    padding: 2.5px 10px;
+    padding: auto;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -458,9 +464,9 @@ footer>* {
 .deletetabs_button {
     visibility: hidden;
     min-width: 60px;
-    height: 25px;
+    height: 20px;
     color: #fff;
-    padding: 2.5px 10px;
+    padding: auto;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
