@@ -203,9 +203,9 @@ window.addEventListener("load", () => {
             searchResult.disabled = false;
             searchResult.replaceChildren();
             chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-                chrome.storage.local.get(["tsm"],(value) => {
+                chrome.storage.local.get(["tsm"], (value) => {
                     var input = event.target.value;
-                    switch (value.tsm){
+                    switch (value.tsm) {
                         case "0":
                             tabs.forEach((tab) => {
                                 if (tab.title.toLowerCase().indexOf(input) > -1) {
@@ -261,25 +261,28 @@ window.addEventListener("load", () => {
 
     //同一タブ削除ボタン --shita
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["stm"],(value) => {
-            switch (value.stm){
+        chrome.storage.local.get(["stm"], (value) => {
+            switch (value.stm) {
                 case "0":
                     var onlyTabs = tabs.filter((tab, index, array) => {
                         console.log("0");
-                        return (array.findIndex(nextTab => tab.title === nextTab.title) !== index)});
+                        return (array.findIndex(nextTab => tab.title === nextTab.title) !== index)
+                    });
                     break;
 
                 case "1":
                     var onlyTabs = tabs.filter((tab, index, array) => {
                         console.log("1");
-                        return (array.findIndex(nextTab => tab.url === nextTab.url) !== index)});
+                        return (array.findIndex(nextTab => tab.url === nextTab.url) !== index)
+                    });
                     break;
 
                 case "2":
                     var onlyTabs = tabs.filter((tab, index, array) => {
                         console.log("2");
                         // if(1 ===(array.findIndex(nextTab => tab.title === nextTab.title) !== index));
-                        return (array.findIndex(nextTab => tab.title === nextTab.title || tab.url === nextTab.url) !== index)});
+                        return (array.findIndex(nextTab => tab.title === nextTab.title || tab.url === nextTab.url) !== index)
+                    });
                     break;
             };
             if (onlyTabs.length != 0) {
@@ -291,12 +294,12 @@ window.addEventListener("load", () => {
                     chrome.tabs.remove(onlyTabs.map((tab) => Number(tab.id)));
                     h_sametab.textContent = "重複タブ:0個";
                 });
-                $(function(){
-                  $(".deletetabs_button").text("削除");
-                  $(".deletetabs_button").css({
-                    "box-shadow":"0 5px #4433ff",
-                    "visibility":"visible"
-                  });
+                $(function () {
+                    $(".deletetabs_button").text("削除");
+                    $(".deletetabs_button").css({
+                        "box-shadow": "0 5px #4433ff",
+                        "visibility": "visible"
+                    });
                 });
             };
         });
