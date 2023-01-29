@@ -1,9 +1,15 @@
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     //開けるタブの最大値とcheckboxの状態を表示 --fuma
     chrome.storage.local.get(["maxTabNum", "check"], (items) => {
-        document.querySelector("#maxTabNum").value = items.maxTabNum;
+        if (items.check == false) {
+            chrome.storage.local.set({ maxTabNum: tabs.length });
+            document.querySelector("#maxTabNum").value = tabs.length;
+        }else{
+            document.querySelector("#maxTabNum").value = items.maxTabNum;
+        };
         document.querySelector("#check").checked = items.check;
     });
+    
     //設定できる値の最小値を現在のタブ数に設定 --fuma
     document.querySelector("#maxTabNum").min = tabs.length;
     //ドメインごとにグループ分けした分けた2次元配列を作る --fuma
@@ -17,8 +23,8 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             if (info[0] + info[2] == infoOfgroupI[0] + infoOfgroupI[2]) {
                 tabGroups[i].push(tab.url, tab.title, tab.id);
                 a++;
-            }
-        }
+            };
+        };
         if (a == 0 && info[2] == "") {
             const domain = info[3];
             tabGroups.push([domain, tab.url, tab.title, tab.id]);
@@ -26,7 +32,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         else if (a == 0) {
             const domain = info[2];
             tabGroups.push([domain, tab.url, tab.title, tab.id]);
-        }
+        };
         //ストレージのtabGroupsに格納
         chrome.storage.local.set({ tabGroups: tabGroups });
     });
@@ -42,7 +48,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             img.src = "http://www.google.com/s2/favicons?domain=" + items.tabGroups[i][0];
             ul.prepend(img);
             document.querySelector("#domains").appendChild(ul);
-        }
+        };
     });
     //URLリストボタンの初期値設定 --fuma
     document.querySelector("#URLListButton").value = "close";
@@ -53,7 +59,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         }
         else {
             document.querySelector("#tabGroup").innerHTML = "グループ解除";
-        }
+        };
     });
 });
 
@@ -88,7 +94,7 @@ window.addEventListener("load", () => {
                 event.target.innerHTML = "&ensp;開く&ensp;"
                 document.querySelector("#textarea").replaceChildren();
                 document.querySelector("#copyButton").replaceChildren();
-            }
+            };
         });
     });
 
@@ -97,7 +103,7 @@ window.addEventListener("load", () => {
         if (event.target.value == "copy") {
             document.getSelection().selectAllChildren(document.querySelector("#textarea"));
             document.execCommand('copy');
-        }
+        };
     });
 
     //inputタグの数字が変わったら実行 --fuma
@@ -134,7 +140,7 @@ window.addEventListener("load", () => {
                     if (tab.id == event.target.value) {
                         chrome.tabs.update((tab.id), { active: true });
                         result++;
-                    }
+                    };
                 });
                 //ドメインの場合タイトル要素を表示
                 if (result == 0) {
@@ -165,8 +171,8 @@ window.addEventListener("load", () => {
                             chrome.storage.local.set({ groupStatus: "domains" });
                         }
                         document.querySelector("#domains").appendChild(ul);
-                    }
-                }
+                    };
+                };
             });
         });
     });
@@ -265,21 +271,18 @@ window.addEventListener("load", () => {
             switch (value.stm) {
                 case "0":
                     var onlyTabs = tabs.filter((tab, index, array) => {
-                        console.log("0");
                         return (array.findIndex(nextTab => tab.title === nextTab.title) !== index)
                     });
                     break;
 
                 case "1":
                     var onlyTabs = tabs.filter((tab, index, array) => {
-                        console.log("1");
                         return (array.findIndex(nextTab => tab.url === nextTab.url) !== index)
                     });
                     break;
 
                 case "2":
                     var onlyTabs = tabs.filter((tab, index, array) => {
-                        console.log("2");
                         // if(1 ===(array.findIndex(nextTab => tab.title === nextTab.title) !== index));
                         return (array.findIndex(nextTab => tab.title === nextTab.title || tab.url === nextTab.url) !== index)
                     });

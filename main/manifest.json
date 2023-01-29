@@ -13,7 +13,8 @@
         "activeTab",
         "tabs",
         "clipboardWrite",
-        "storage"
+        "storage",
+        "notifications"
     ],
     "icons": {
         "128": "taber128.png"

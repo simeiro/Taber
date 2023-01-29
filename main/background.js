@@ -16,16 +16,21 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 //タブ更新時実行
-chrome.tabs.onUpdated.addListener((tabId) => {
+chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        console.log("ちぇえええっく");
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+            console.log(items.check);
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
-            if (tabs.length > items.maxTabNum && items.check == true) {
-                chrome.tabs.remove(tabId);
-            }
-            //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
-            if (items.check == false) {
-                chrome.storage.local.set({ maxTabNum: tabs.length });
+            if (items.check == true && tabs.length > items.maxTabNum) {
+                chrome.tabs.remove(Number(tab.id));
+                let noti={
+                    type: "basic",
+                    title: "タブ制限超過",
+                    message: items.maxTabNum+"個以上は開けません。",
+                    iconUrl: "./taber128.png"
+                };
+                chrome.notifications.create(noti);
             }
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
