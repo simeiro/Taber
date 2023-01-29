@@ -18,7 +18,6 @@ chrome.runtime.onInstalled.addListener(() => {
 //タブ更新時実行
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        console.log("ちぇえええっく");
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
             console.log(items.check);
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
