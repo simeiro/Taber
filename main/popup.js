@@ -103,7 +103,7 @@ window.addEventListener("load", () => {
         };
     });
 
-    //inputタグの数字が変わったら実行 --fuma
+    //最大値の数字が変わったら実行 --fuma
     document.querySelector("#maxTabNum").addEventListener("change", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             let maxTabNum = document.querySelector("#maxTabNum").value;

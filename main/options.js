@@ -23,25 +23,28 @@ $(function () {
 //音声認識 --fuma
 window.SpeechRecognition = window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();//音声認識のオブジェクト生成
-//recognition.interimResults = true;//認識途中にも結果を取得
+recognition.interimResults = true;//認識途中にも結果を取得
 recognition.continuous = true;//音声認識を持続
 //話終わったタイミングで実行
 recognition.onresult = (event) => {
     const num = event.results.length;
-    const txt = event.results[num - 1][0].transcript;
-    console.log(txt);
-    if (txt == "グループ化") {
-        chrome.runtime.sendMessage("group");
-        speechSynthesis.speak(
-            new SpeechSynthesisUtterance("タブをグループ化しました．")
-        );
-    }
-    else if( txt == "グループ解除"){
-        chrome.runtime.sendMessage("ungroup");
-        speechSynthesis.speak(
-            new SpeechSynthesisUtterance("グループを解除しました．")
-        );
-    }
+    const word = event.results[num - 1].length;
+    const txt = event.results[num - 1][word - 1].transcript;
+    console.log(event.results[num - 1][word - 1]);
+    chrome.storage.local.get(["group"], (items) => {
+        if (txt == "グループ化" && items.group == "notGrouped") {
+            chrome.runtime.sendMessage("group");
+            speechSynthesis.speak(
+                new SpeechSynthesisUtterance("タブをグループ化しました．")
+            );
+        }
+        else if (txt == "グループ解除" && items.group == "grouped") {
+            chrome.runtime.sendMessage("ungroup");
+            speechSynthesis.speak(
+                new SpeechSynthesisUtterance("グループを解除しました．")
+            );
+        }
+    });
 }
 recognition.onend = () => {
     recognition.start();
