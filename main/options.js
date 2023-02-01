@@ -1,21 +1,49 @@
-$(function(){
+$(function () {
     // chrome.storage.local.clear();
-// 遷移後、保存したローカルストレージの読み込み
-    
-    chrome.storage.local.get(["tsm","stm"],(value) =>{
+    // 遷移後、保存したローカルストレージの読み込み
+
+    chrome.storage.local.get(["tsm", "stm"], (value) => {
         $("input:radio[name='b_tsm']").val([value.tsm]);
         $("input:radio[name='b_stm']").val([value.stm]);
     });
-    $("#saveB").on("click",function(){
+    $("#saveB").on("click", function () {
         var tsmv = $("input:radio[name='b_tsm']:checked").val();
         chrome.storage.local.set({ tsm: tsmv });
         var stmv = $("input:radio[name='b_stm']:checked").val();
         chrome.storage.local.set({ stm: stmv });
     });
-    $("#resetB").on("click",function(){
-        chrome.storage.local.get(["tsm","stm"],(value) =>{
+    $("#resetB").on("click", function () {
+        chrome.storage.local.get(["tsm", "stm"], (value) => {
             $("input:radio[name='b_tsm']").val([value.tsm]);
             $("input:radio[name='b_stm']").val([value.stm]);
         });
     });
 });
+
+//音声認識 --fuma
+window.SpeechRecognition = window.webkitSpeechRecognition;
+const recognition = new SpeechRecognition();//音声認識のオブジェクト生成
+//recognition.interimResults = true;//認識途中にも結果を取得
+recognition.continuous = true;//音声認識を持続
+//話終わったタイミングで実行
+recognition.onresult = (event) => {
+    const num = event.results.length;
+    const txt = event.results[num - 1][0].transcript;
+    console.log(txt);
+    if (txt == "グループ化") {
+        chrome.runtime.sendMessage("group");
+        speechSynthesis.speak(
+            new SpeechSynthesisUtterance("タブをグループ化しました．")
+        );
+    }
+    else if( txt == "グループ解除"){
+        chrome.runtime.sendMessage("unGroup");
+        speechSynthesis.speak(
+            new SpeechSynthesisUtterance("グループを解除しました．")
+        );
+    }
+}
+recognition.onend = () => {
+    recognition.start();
+}
+recognition.start();
