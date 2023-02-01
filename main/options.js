@@ -37,7 +37,7 @@ recognition.onresult = (event) => {
         );
     }
     else if( txt == "グループ解除"){
-        chrome.runtime.sendMessage("unGroup");
+        chrome.runtime.sendMessage("ungroup");
         speechSynthesis.speak(
             new SpeechSynthesisUtterance("グループを解除しました．")
         );

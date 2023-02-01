@@ -31,8 +31,6 @@ chrome.tabs.onCreated.addListener((tab) => {
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
-            //タブの情報をストレージに格納
-            makeGroup();
         });
     });
 });
@@ -48,8 +46,6 @@ chrome.tabs.onRemoved.addListener(() => {
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
-            //タブの情報をストレージに格納
-            makeGroup();
         });
     });
 });
@@ -66,8 +62,8 @@ chrome.runtime.onMessage.addListener((data) => {
             else if (data == "group") {
                 tabGroup();
             }
-            else if (data == "unGroup") {
-                tabUnGroup();
+            else if (data == "ungroup") {
+                tabUngroup();
             }
         });
     });
@@ -115,7 +111,7 @@ function tabGroup() {
     });
 }
 //グループを解除する関数
-function tabUnGroup() {
+function tabUngroup() {
     chrome.storage.local.get(["tabGroups", "group"], (items) => {
         for (let i = 0; i < items.tabGroups.length; i++) {
             //配列にタブのidを格納
@@ -129,7 +125,7 @@ function tabUnGroup() {
         }
     });
 }
-//ストレージにタブの情報を格納する
+//ストレージにタブの情報を格納する関数
 function makeGroup() {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //ドメインごとにグループ分けした分けた2次元配列を作る --fuma
@@ -158,5 +154,3 @@ function makeGroup() {
         });
     });
 }
-
-
