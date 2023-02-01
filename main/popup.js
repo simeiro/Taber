@@ -184,7 +184,7 @@ window.addEventListener("load", () => {
             }
             else {
                 event.target.innerHTML = "&ensp;グループ化&ensp;";
-                chrome.runtime.sendMessage("unGroup");
+                chrome.runtime.sendMessage("ungroup");
             }
         });
     });
@@ -309,7 +309,7 @@ chrome.runtime.onMessage.addListener((data) => {
         if (data == "group" && items.group == "notGrouped") {
             document.querySelector("#tabGroup").innerHTML = "グループ解除";
         }
-        else if (data == "group") {
+        else if (data == "ungroup") {
             document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
         }
     });
