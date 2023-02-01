@@ -31,6 +31,8 @@ chrome.tabs.onCreated.addListener((tab) => {
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
+            //タブの情報をストレージに格納
+            makeGroup();
         });
     });
 });
@@ -46,6 +48,8 @@ chrome.tabs.onRemoved.addListener(() => {
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
+            //タブの情報をストレージに格納
+            makeGroup();
         });
     });
 });
