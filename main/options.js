@@ -25,27 +25,44 @@ window.SpeechRecognition = window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();//音声認識のオブジェクト生成
 recognition.interimResults = true;//認識途中にも結果を取得
 recognition.continuous = true;//音声認識を持続
-//話終わったタイミングで実行
+//結果取得時実行
 recognition.onresult = (event) => {
     const num = event.results.length;
     const word = event.results[num - 1].length;
-    const txt = event.results[num - 1][word - 1].transcript;
-    console.log(event.results[num - 1][word - 1]);
+    let txt = "";
+    if (word > 0 && event.results[num - 1][word - 1] != event.results[num - 1][word - 2]) {
+        txt = event.results[num - 1][word - 1].transcript;
+    }
+    console.log(event.results[num - 1][word - 1].transcript);/*console*/
     chrome.storage.local.get(["group"], (items) => {
         if (txt == "グループ化" && items.group == "notGrouped") {
+            recognition.abort();
             chrome.runtime.sendMessage("group");
-            speechSynthesis.speak(
-                new SpeechSynthesisUtterance("タブをグループ化しました．")
-            );
+            speechSynthesis.speak(new SpeechSynthesisUtterance("タブをグループ化しました．"));
         }
         else if (txt == "グループ解除" && items.group == "grouped") {
+            recognition.abort();
             chrome.runtime.sendMessage("ungroup");
-            speechSynthesis.speak(
-                new SpeechSynthesisUtterance("グループを解除しました．")
-            );
+            speechSynthesis.speak(new SpeechSynthesisUtterance("グループを解除しました．"));
+        }
+        else if (txt == "このタブを削除") {
+            recognition.abort();
+            chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT, active: true }, (tabs) => {
+                chrome.tabs.remove(Number(tabs[0].id));
+            });
+            speechSynthesis.speak(new SpeechSynthesisUtterance("タブを削除しました．"));
+        }
+        else if (txt == "前のページ") {
+            recognition.abort();
+            chrome.tabs.goBack().then(() => { }, () => { });
+        }
+        else if (txt == "次のページ") {
+            recognition.abort();
+            chrome.tabs.goForward().then(() => { }, () => { });
         }
     });
 }
+//話終わった時実行
 recognition.onend = () => {
     recognition.start();
 }
