@@ -4,12 +4,11 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         if (items.check == false) {
             chrome.storage.local.set({ maxTabNum: tabs.length });
             document.querySelector("#maxTabNum").value = tabs.length;
-        }else{
+        } else {
             document.querySelector("#maxTabNum").value = items.maxTabNum;
         };
         document.querySelector("#check").checked = items.check;
     });
-    
     //設定できる値の最小値を現在のタブ数に設定 --fuma
     document.querySelector("#maxTabNum").min = tabs.length;
     //ドメインごとにグループ分けした分けた2次元配列を作る --fuma
@@ -38,18 +37,16 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     });
     //タブリストの初期設定 --fuma
     chrome.storage.local.set({ groupStatus: "domains" });
-    chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
-        for (let i = 0; i < items.tabGroups.length; i++) {
-            let ul = document.createElement("ul");
-            ul.innerHTML = items.tabGroups[i][0];
-            ul.value = i;
-            //ドメイン名の前にアイコンを追加
-            let img = document.createElement("img");
-            img.src = "http://www.google.com/s2/favicons?domain=" + items.tabGroups[i][0];
-            ul.prepend(img);
-            document.querySelector("#domains").appendChild(ul);
-        };
-    });
+    for (let i = 0; i < tabGroups.length; i++) {
+        let ul = document.createElement("ul");
+        ul.innerHTML = tabGroups[i][0];
+        ul.value = i;
+        //ドメイン名の前にアイコンを追加
+        let img = document.createElement("img");
+        img.src = "http://www.google.com/s2/favicons?domain=" + tabGroups[i][0];
+        ul.prepend(img);
+        document.querySelector("#domains").appendChild(ul);
+    };
     //URLリストボタンの初期値設定 --fuma
     document.querySelector("#URLListButton").value = "close";
     //タブグループ化ボタンの初期値設定 --fuma
@@ -106,7 +103,7 @@ window.addEventListener("load", () => {
         };
     });
 
-    //inputタグの数字が変わったら実行 --fuma
+    //最大値の数字が変わったら実行 --fuma
     document.querySelector("#maxTabNum").addEventListener("change", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             let maxTabNum = document.querySelector("#maxTabNum").value;
@@ -118,7 +115,7 @@ window.addEventListener("load", () => {
             //ストレージのmaxTabNumに変数maxTabNumの値を格納
             chrome.storage.local.set({ maxTabNum: maxTabNum });
             //backgroundのアイコンを変える関数を呼び出す
-            chrome.runtime.sendMessage("");
+            chrome.runtime.sendMessage("changeIcon");
         });
     });
 
@@ -126,7 +123,7 @@ window.addEventListener("load", () => {
     document.querySelector("#check").addEventListener("change", () => {
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
         //アイコンを変える関数を呼び出す
-        chrome.runtime.sendMessage("");
+        chrome.runtime.sendMessage("changeIcon");
     });
 
     //タブリストの要素が押された時実行 --fuma
@@ -179,26 +176,15 @@ window.addEventListener("load", () => {
 
     //グループ化ボタンが押された時実行 --fuma
     document.querySelector("#tabGroup").addEventListener("click", (event) => {
-        chrome.storage.local.get(["tabGroups", "group"], (items) => {
-            for (let i = 0; i < items.tabGroups.length; i++) {
-                //配列にタブのidを格納
-                let tabIdList = [];
-                for (let j = 3; j < items.tabGroups[i].length; j += 3) {
-                    tabIdList.push(items.tabGroups[i][j]);
-                }
-                if (items.group == "notGrouped") {
-                    //グループ化
-                    chrome.tabs.ungroup(tabIdList);
-                    chrome.tabs.group({ tabIds: tabIdList });
-                    chrome.storage.local.set({ group: "Grouped" });
-                    event.target.innerHTML = "グループ解除";
-                }
-                else {
-                    //グループ化解除
-                    chrome.tabs.ungroup(tabIdList);
-                    chrome.storage.local.set({ group: "notGrouped" });
-                    event.target.innerHTML = "&ensp;グループ化&ensp;";
-                }
+        //ボタンの文字表示
+        chrome.storage.local.get(["group"], (items) => {
+            if (items.group == "notGrouped") {
+                event.target.innerHTML = "グループ解除";
+                chrome.runtime.sendMessage("group");
+            }
+            else {
+                event.target.innerHTML = "&ensp;グループ化&ensp;";
+                chrome.runtime.sendMessage("ungroup");
             }
         });
     });
@@ -317,3 +303,14 @@ window.addEventListener("load", () => {
 
 });
 
+//メッセージ取得時実行
+chrome.runtime.onMessage.addListener((data) => {
+    chrome.storage.local.get(["group"], (items) => {
+        if (data == "group" && items.group == "notGrouped") {
+            document.querySelector("#tabGroup").innerHTML = "グループ解除";
+        }
+        else if (data == "ungroup") {
+            document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
+        }
+    });
+});
