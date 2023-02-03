@@ -210,7 +210,7 @@ window.addEventListener("load", () => {
             searchResult.replaceChildren();
             chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
                 chrome.storage.local.get(["tsm"], (value) => {
-                    var input = event.target.value;
+                    var input = event.target.value.toLowerCase();
                     switch (value.tsm) {
                         case "0":
                             tabs.forEach((tab) => {
