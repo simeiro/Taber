@@ -218,7 +218,6 @@ window.addEventListener("load", () => {
                             };
                         });
                         break;
-
                     case "2":
                         tabs.forEach((tab) => {
                             if (tab.title.toLowerCase().indexOf(input) > -1 || tab.url.toLowerCase().indexOf(input) > -1) {
@@ -229,7 +228,7 @@ window.addEventListener("load", () => {
                             };
                         });
                         break;
-                };
+                }
                 let countTabs = document.createElement("option");
                 countTabs.setAttribute("selected", true);
                 countTabs.text = "ヒット件数: " + searchResult.childElementCount;
