@@ -24,7 +24,7 @@ header>* {
     font-family: serif;
 }
 
-.openconfig{
+.openconfig {
     position: absolute;
     background: url("/image/icon_config.svg") no-repeat 0px center;
     background-size: 25px 25px;
@@ -90,7 +90,7 @@ footer>* {
 
 /* shita追加分始まり */
 .searchWindow {
-    width: 90%;
+    width: 20%;
     margin: 5px auto;
 }
 
@@ -296,9 +296,9 @@ footer>* {
 }
 
 /* 検索窓-simeiro */
-.searchTitle nobr {
+/*.searchTitle nobr {
     float: left;
-}
+}*/
 
 .open-btn {
     float: right;
@@ -358,8 +358,8 @@ footer>* {
     position: relative;
 }
 
-#search-wrap.result .search-area{
-    display:none;
+#search-wrap.result .search-area {
+    display: none;
 }
 
 /*==検索フォームの設定*/
@@ -441,9 +441,9 @@ footer>* {
 }
 
 /*結果の表示*/
-.result_select{
-    margin-top:60px;
-    position:fixed;
+.result_select {
+    margin-top: 60px;
+    position: fixed;
     /*固定配置にして*/
     top: 0;
     left: 0;
@@ -455,10 +455,10 @@ footer>* {
     /*transitionを使ってスムースに現れる*/
     width: 100%;
     height: 80vh;
-    color:#FFF;
+    color: #FFF;
 }
 
-.result_select.active{
+.result_select.active {
     opacity: 1;
     display: block;
     z-index: 11;
@@ -520,4 +520,5 @@ footer>* {
     top: 2.5px;
     z-index: 1;
 }
+
 /* 削除,グループ化ボタン終了 */
