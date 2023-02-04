@@ -1,5 +1,5 @@
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-    //開けるタブの最大値とcheckboxの状態を表示 --fuma
+    //開けるタブの最大値とcheckboxの状態を表示
     chrome.storage.local.get(["maxTabNum", "check"], (items) => {
         if (items.check == false) {
             chrome.storage.local.set({ maxTabNum: tabs.length });
@@ -9,9 +9,9 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         };
         document.querySelector("#check").checked = items.check;
     });
-    //設定できる値の最小値を現在のタブ数に設定 --fuma
+    //設定できる値の最小値を現在のタブ数に設定
     document.querySelector("#maxTabNum").min = tabs.length;
-    //ドメインごとにグループ分けした分けた2次元配列を作る --fuma
+    //ドメインごとにグループ分けした分けた2次元配列を作る
     let tabGroups = [];
     tabs.forEach((tab) => {
         const info = tab.url.split("/");
@@ -35,7 +35,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //ストレージのtabGroupsに格納
         chrome.storage.local.set({ tabGroups: tabGroups });
     });
-    //タブリストの初期設定 --fuma
+    //タブリストの初期設定
     chrome.storage.local.set({ groupStatus: "domains" });
     for (let i = 0; i < tabGroups.length; i++) {
         let ul = document.createElement("ul");
@@ -47,9 +47,9 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         ul.prepend(img);
         document.querySelector("#domains").appendChild(ul);
     };
-    //URLリストボタンの初期値設定 --fuma
+    //URLリストボタンの初期値設
     document.querySelector("#URLListButton").value = "close";
-    //タブグループ化ボタンの初期値設定 --fuma
+    //タブグループ化ボタンの初期値設定
     chrome.storage.local.get(["group"], (items) => {
         if (items.group == "notGrouped") {
             document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
@@ -65,7 +65,7 @@ window.addEventListener("load", () => {
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
 
-    //URLリストボタンが押された時実行 --fuma
+    //URLリストボタンが押された時実行
     document.querySelector("#URLListButton").addEventListener("click", (event) => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             if (event.target.value == "close") {
@@ -95,7 +95,7 @@ window.addEventListener("load", () => {
         });
     });
 
-    //copyボタンが押されたらtextareaの内容をクリップボードにコピー --fuma
+    //copyボタンが押されたらtextareaの内容をクリップボードにコピー
     document.querySelector("#copyButton").addEventListener("click", (event) => {
         if (event.target.value == "copy") {
             document.getSelection().selectAllChildren(document.querySelector("#textarea"));
@@ -103,7 +103,7 @@ window.addEventListener("load", () => {
         };
     });
 
-    //最大値の数字が変わったら実行 --fuma
+    //最大値の数字が変わったら実行
     document.querySelector("#maxTabNum").addEventListener("change", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             let maxTabNum = document.querySelector("#maxTabNum").value;
@@ -119,14 +119,14 @@ window.addEventListener("load", () => {
         });
     });
 
-    //checkboxが押された時ストレージのcheckにcheckboxの状態を格納 --fuma
+    //checkboxが押された時ストレージのcheckにcheckboxの状態を格納
     document.querySelector("#check").addEventListener("change", () => {
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
         //アイコンを変える関数を呼び出す
         chrome.runtime.sendMessage("changeIcon");
     });
 
-    //タブリストの要素が押された時実行 --fuma
+    //タブリストの要素が押された時実行
     document.querySelector("#domains").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
             chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
@@ -174,7 +174,7 @@ window.addEventListener("load", () => {
         });
     });
 
-    //グループ化ボタンが押された時実行 --fuma
+    //グループ化ボタンが押された時実行
     document.querySelector("#tabGroup").addEventListener("click", (event) => {
         //ボタンの文字表示
         chrome.storage.local.get(["group"], (items) => {
@@ -194,48 +194,46 @@ window.addEventListener("load", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             searchResult.disabled = false;
             searchResult.replaceChildren();
-            chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-                chrome.storage.local.get(["tsm"], (value) => {
-                    var input = event.target.value;
-                    switch (value.tsm) {
-                        case "0":
-                            tabs.forEach((tab) => {
-                                if (tab.title.toLowerCase().indexOf(input) > -1) {
-                                    let option = document.createElement("option");
-                                    option.value = tab.id;
-                                    option.text = tab.title;
-                                    searchResult.appendChild(option);
-                                };
-                            });
-                            break;
+            chrome.storage.local.get(["tsm"], (value) => {
+                var input = event.target.value;
+                switch (value.tsm) {
+                    case "0":
+                        tabs.forEach((tab) => {
+                            if (tab.title.toLowerCase().indexOf(input) > -1) {
+                                let option = document.createElement("option");
+                                option.value = tab.id;
+                                option.text = tab.title;
+                                searchResult.appendChild(option);
+                            };
+                        });
+                        break;
 
-                        case "1":
-                            tabs.forEach((tab) => {
-                                if (tab.url.toLowerCase().indexOf(input) > -1) {
-                                    let option = document.createElement("option");
-                                    option.value = tab.id;
-                                    option.text = tab.title;
-                                    searchResult.appendChild(option);
-                                };
-                            });
-                            break;
+                    case "1":
+                        tabs.forEach((tab) => {
+                            if (tab.url.toLowerCase().indexOf(input) > -1) {
+                                let option = document.createElement("option");
+                                option.value = tab.id;
+                                option.text = tab.title;
+                                searchResult.appendChild(option);
+                            };
+                        });
+                        break;
 
-                        case "2":
-                            tabs.forEach((tab) => {
-                                if (tab.title.toLowerCase().indexOf(input) > -1 || tab.url.toLowerCase().indexOf(input) > -1) {
-                                    let option = document.createElement("option");
-                                    option.value = tab.id;
-                                    option.text = tab.title;
-                                    searchResult.appendChild(option);
-                                };
-                            });
-                            break;
-                    };
-                    let countTabs = document.createElement("option");
-                    countTabs.setAttribute("selected", true);
-                    countTabs.text = "ヒット件数: " + searchResult.childElementCount;
-                    searchResult.prepend(countTabs);
-                });
+                    case "2":
+                        tabs.forEach((tab) => {
+                            if (tab.title.toLowerCase().indexOf(input) > -1 || tab.url.toLowerCase().indexOf(input) > -1) {
+                                let option = document.createElement("option");
+                                option.value = tab.id;
+                                option.text = tab.title;
+                                searchResult.appendChild(option);
+                            };
+                        });
+                        break;
+                };
+                let countTabs = document.createElement("option");
+                countTabs.setAttribute("selected", true);
+                countTabs.text = "ヒット件数: " + searchResult.childElementCount;
+                searchResult.prepend(countTabs);
             });
         });
     });
@@ -305,12 +303,27 @@ window.addEventListener("load", () => {
 
 //メッセージ取得時実行
 chrome.runtime.onMessage.addListener((data) => {
-    chrome.storage.local.get(["group"], (items) => {
-        if (data == "group" && items.group == "notGrouped") {
-            document.querySelector("#tabGroup").innerHTML = "グループ解除";
-        }
-        else if (data == "ungroup") {
-            document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
+    chrome.storage.local.get(["group", "maxTabNum"], (items) => {
+        switch (data) {
+            case "group":
+                document.querySelector("#tabGroup").innerHTML = "グループ解除";
+                break;
+            case "ungroup":
+                document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
+                break;
+            case "changeMaxTabNum":
+                document.querySelector("#maxTabNum").value = items.maxTabNum;
+                break;
+            case "checkON":
+                document.querySelector("#check").checked = true;
+                document.querySelector("#maxTabNum").value = items.maxTabNum;
+                break;
+            case "checkOFF":
+                document.querySelector("#check").checked = false;
+                document.querySelector("#maxTabNum").value = items.maxTabNum;
+                break;
+            default:
+                break;
         }
     });
 });

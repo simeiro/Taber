@@ -58,16 +58,23 @@ chrome.tabs.onRemoved.addListener(() => {
 chrome.runtime.onMessage.addListener((data) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
-            //アイコンの表示
-            if (data == "changeIcon") {
-                displayNum(tabs.length, items.maxTabNum, items.check);
-                makeIcon(tabs.length, items.maxTabNum, items.check);
-            }
-            else if (data == "group") {
-                tabGroup();
-            }
-            else if (data == "ungroup") {
-                tabUngroup();
+            switch (data) {
+                case "changeIcon":
+                    displayNum(tabs.length, items.maxTabNum, items.check);
+                    makeIcon(tabs.length, items.maxTabNum, items.check);
+                    break;
+                case "group":
+                    tabGroup();
+                    break;
+                case "ungroup":
+                    tabUngroup();
+                    break;
+                case "checkON" || "checkOFF":
+                    displayNum(tabs.length, items.maxTabNum, items.check);
+                    makeIcon(tabs.length, items.maxTabNum, items.check);
+                    break;
+                default:
+                    break;
             }
         });
     });
@@ -132,7 +139,7 @@ function tabUngroup() {
 //ストレージにタブの情報を格納する関数
 function makeGroup() {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //ドメインごとにグループ分けした分けた2次元配列を作る --fuma
+        //ドメインごとにグループ分けした分けた2次元配列を作る
         let tabGroups = [];
         tabs.forEach((tab) => {
             const info = tab.url.split("/");
