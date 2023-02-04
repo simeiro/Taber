@@ -112,7 +112,7 @@ footer>* {
 
 /* shita追加分終わり */
 
-/*タブリスト --fuma*/
+/*タブリスト*/
 
 .tabList {
     overflow-y: auto;
@@ -167,7 +167,7 @@ footer>* {
     background-color: rgb(220, 220, 220);
 }
 
-/*タブリスト終了 --fuma*/
+/*タブリスト終了*/
 
 .check {
     width: fit-content;
