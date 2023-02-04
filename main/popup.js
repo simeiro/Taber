@@ -195,7 +195,7 @@ window.addEventListener("load", () => {
             searchResult.disabled = false;
             searchResult.replaceChildren();
             chrome.storage.local.get(["tsm"], (value) => {
-                var input = event.target.value;
+                var input = event.target.value.toLowerCase();
                 switch (value.tsm) {
                     case "0":
                         tabs.forEach((tab) => {
