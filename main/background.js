@@ -69,7 +69,11 @@ chrome.runtime.onMessage.addListener((data) => {
                 case "ungroup":
                     tabUngroup();
                     break;
-                case "checkON" || "checkOFF":
+                case "checkON":
+                    displayNum(tabs.length, items.maxTabNum, items.check);
+                    makeIcon(tabs.length, items.maxTabNum, items.check);
+                    break;
+                case "checkOFF":
                     displayNum(tabs.length, items.maxTabNum, items.check);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
