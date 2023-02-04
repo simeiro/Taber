@@ -194,20 +194,20 @@ window.addEventListener("load", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             searchResult.disabled = false;
             searchResult.replaceChildren();
-            chrome.storage.local.get(["tsm"], (value) => {
-                var input = event.target.value;
-                switch (value.tsm) {
-                    case "0":
-                        tabs.forEach((tab) => {
-                            if (tab.title.toLowerCase().indexOf(input) > -1) {
-                                let option = document.createElement("option");
-                                option.value = tab.id;
-                                option.text = tab.title;
-                                searchResult.appendChild(option);
-                            };
-                        });
-                        break;
-
+            chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+                chrome.storage.local.get(["tsm"], (value) => {
+                    var input = event.target.value.toLowerCase();
+                    switch (value.tsm) {
+                        case "0":
+                            tabs.forEach((tab) => {
+                                if (tab.title.toLowerCase().indexOf(input) > -1) {
+                                    let option = document.createElement("option");
+                                    option.value = tab.id;
+                                    option.text = tab.title;
+                                    searchResult.appendChild(option);
+                                };
+                            });
+                            break;
                     case "1":
                         tabs.forEach((tab) => {
                             if (tab.url.toLowerCase().indexOf(input) > -1) {
