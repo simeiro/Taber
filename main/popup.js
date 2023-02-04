@@ -207,7 +207,6 @@ window.addEventListener("load", () => {
                             };
                         });
                         break;
-
                     case "1":
                         tabs.forEach((tab) => {
                             if (tab.url.toLowerCase().indexOf(input) > -1) {
