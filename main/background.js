@@ -115,14 +115,13 @@ function displayNum(tabsLength, maxTabNum, check) {
 				}
 				break;
 			case "1": //残数表示
-				if(check == true && maxTabNum - tabsLength < 100){
+				if(check == true && maxTabNum - tabsLength < 10000){
 					chrome.action.setBadgeText({ text: String(maxTabNum - tabsLength) });
 				}else{
 					chrome.action.setBadgeText({ text: String("∞") });
 				}
 				break;
 		}
-
 	});
 }
 //タブをグループ化する関数
