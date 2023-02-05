@@ -1,11 +1,6 @@
 //拡張機能インストール時実行
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //ストレージにタブの情報を格納
-        makeGroup(tabs);
-        //アイコンの表示
-        displayNum(tabs.length, tabs.length, false);
-        makeIcon(tabs.length, tabs.length, false);
         //ストレージの初期値を設定
         chrome.storage.local.set({ maxTabNum: tabs.length });
         chrome.storage.local.set({ check: false });
@@ -13,6 +8,11 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ tsm: "0" });
         chrome.storage.local.set({ stm: "1" });
         chrome.storage.local.set({ bm: "0" });
+        //ストレージにタブの情報をグループごとに格納
+        makeGroups(tabs);
+        //アイコンの表示
+        displayNum(tabs.length, tabs.length, false);
+        makeIcon(tabs.length, tabs.length, false);
     });
 });
 
@@ -20,8 +20,8 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check", "group"], (items) => {
-            //ストレージにタブの情報を格納
-            makeGroup(tabs);
+            //ストレージにタブの情報をグループごとに格納
+            makeGroups(tabs);
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
@@ -47,8 +47,8 @@ chrome.tabs.onCreated.addListener((tab) => {
 chrome.tabs.onRemoved.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
-            //タブの情報をストレージに格納
-            makeGroup(tabs);
+            //ストレージにタブの情報をグループごとに格納
+            makeGroups(tabs);
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check);
             makeIcon(tabs.length, items.maxTabNum, items.check);
@@ -160,8 +160,8 @@ function tabUngroup() {
         }
     });
 }
-//ストレージにタブの情報を格納する関数
-function makeGroup(tabs) {
+//ストレージにタブの情報をグループごとに格納する関数
+function makeGroups(tabs) {
     //ドメインごとにグループ分けした分けた2次元配列を作る
     let tabGroups = [];
     tabs.forEach((tab) => {
