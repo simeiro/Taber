@@ -2,20 +2,24 @@ $(function () {
     // chrome.storage.local.clear();
     // 遷移後、保存したローカルストレージの読み込み
 
-    chrome.storage.local.get(["tsm", "stm"], (value) => {
+    chrome.storage.local.get(["tsm", "stm", "bm"], (value) => {
         $("input:radio[name='b_tsm']").val([value.tsm]);
         $("input:radio[name='b_stm']").val([value.stm]);
+        $("input:radio[name='b_bm']").val([value.bm]);
     });
     $("#saveB").on("click", function () {
         var tsmv = $("input:radio[name='b_tsm']:checked").val();
         chrome.storage.local.set({ tsm: tsmv });
         var stmv = $("input:radio[name='b_stm']:checked").val();
         chrome.storage.local.set({ stm: stmv });
+        var bmv = $("input:radio[name='b_bm']:checked").val();
+        chrome.storage.local.set({ bm: bmv});
     });
     $("#resetB").on("click", function () {
-        chrome.storage.local.get(["tsm", "stm"], (value) => {
+        chrome.storage.local.get(["tsm", "stm", "bm"], (value) => {
             $("input:radio[name='b_tsm']").val([value.tsm]);
             $("input:radio[name='b_stm']").val([value.stm]);
+            $("input:radio[name='b_bm']").val([value.bm]);
         });
     });
 });
