@@ -51,6 +51,10 @@
     
 } */
 /*  */
+.b_badgemethod > label{
+    display: block;
+    margin: var(--padding);
+}
 
 .saveoption > *{
     width: 120px;
