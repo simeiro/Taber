@@ -1,6 +1,8 @@
 //拡張機能インストール時実行
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        //ストレージにタブの情報を格納
+        makeGroup(tabs);
         //アイコンの表示
         displayNum(tabs.length, tabs.length, false);
         makeIcon(tabs.length, tabs.length, false);
@@ -10,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ group: "notGrouped" });
         chrome.storage.local.set({ tsm: "0" });
         chrome.storage.local.set({ stm: "1" });
-		chrome.storage.local.set({ bm: "0" });
+        chrome.storage.local.set({ bm: "0" });
     });
 });
 
@@ -92,7 +94,7 @@ chrome.runtime.onMessage.addListener((data) => {
 function makeIcon(tabsLength, maxTabNum, check) {
     const canvas = new OffscreenCanvas(16, 16);
     const context = canvas.getContext('2d');
-	const colorDegree = 255 - Math.pow(1/255, 1.5) * Math.pow(255*(tabsLength / maxTabNum), 2.5) //限界値に近づくほど色合いの変化を上げる
+    const colorDegree = 255 - Math.pow(1 / 255, 1.5) * Math.pow(255 * (tabsLength / maxTabNum), 2.5) //限界値に近づくほど色合いの変化を上げる
     context.clearRect(0, 0, 16, 16);
     if (check == true) {
         context.fillStyle = `rgb(255, ${colorDegree}, ${colorDegree})`; //白→赤のグラデーション
@@ -106,26 +108,26 @@ function makeIcon(tabsLength, maxTabNum, check) {
 }
 //アイコン下に現在のタブ数を表示する関数
 function displayNum(tabsLength, maxTabNum, check) {
-	chrome.storage.local.get(["bm"], (value) =>{
-		switch(value.bm){
-			case "0": //通常表示
-				if (tabsLength == maxTabNum && check == true) {
-					chrome.action.setBadgeText({ text: String("MAX") });
-				} else if (check == true && maxTabNum < 100) {
-					chrome.action.setBadgeText({ text: String(tabsLength + "/" + maxTabNum) });
-				} else { //check == false
-					chrome.action.setBadgeText({ text: String(tabsLength) });
-				}
-				break;
-			case "1": //残数表示
-				if(check == true && maxTabNum - tabsLength < 10000){
-					chrome.action.setBadgeText({ text: String(maxTabNum - tabsLength) });
-				}else{
-					chrome.action.setBadgeText({ text: String("∞") });
-				}
-				break;
-		}
-	});
+    chrome.storage.local.get(["bm"], (value) => {
+        switch (value.bm) {
+            case "0": //通常表示
+                if (tabsLength == maxTabNum && check == true) {
+                    chrome.action.setBadgeText({ text: String("MAX") });
+                } else if (check == true && maxTabNum < 100) {
+                    chrome.action.setBadgeText({ text: String(tabsLength + "/" + maxTabNum) });
+                } else { //check == false
+                    chrome.action.setBadgeText({ text: String(tabsLength) });
+                }
+                break;
+            case "1": //残数表示
+                if (check == true && maxTabNum - tabsLength < 10000) {
+                    chrome.action.setBadgeText({ text: String(maxTabNum - tabsLength) });
+                } else {
+                    chrome.action.setBadgeText({ text: String("∞") });
+                }
+                break;
+        }
+    });
 }
 //タブをグループ化する関数
 function tabGroup() {
