@@ -1,6 +1,6 @@
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-    //開けるタブの最大値とcheckboxの状態を表示
-    chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+    chrome.storage.local.get(["maxTabNum", "check", "tabGroups", "group"], (items) => {
+        //開けるタブの最大値とcheckboxの状態を表示 --fuma
         if (items.check == false) {
             chrome.storage.local.set({ maxTabNum: tabs.length });
             document.querySelector("#maxTabNum").value = tabs.length;
@@ -8,49 +8,24 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             document.querySelector("#maxTabNum").value = items.maxTabNum;
         };
         document.querySelector("#check").checked = items.check;
-    });
-    //設定できる値の最小値を現在のタブ数に設定
-    document.querySelector("#maxTabNum").min = tabs.length;
-    //ドメインごとにグループ分けした分けた2次元配列を作る
-    let tabGroups = [];
-    tabs.forEach((tab) => {
-        const info = tab.url.split("/");
-        let a = 0;
-        //index0にドメイン，1からはURL，タイトル，IDの順で格納
-        for (let i = 0; i < tabGroups.length; i++) {
-            const infoOfgroupI = tabGroups[i][1].split("/");
-            if (info[0] + info[2] == infoOfgroupI[0] + infoOfgroupI[2]) {
-                tabGroups[i].push(tab.url, tab.title, tab.id);
-                a++;
-            };
+        //設定できる値の最小値を現在のタブ数に設定 --fuma
+        document.querySelector("#maxTabNum").min = tabs.length;
+        //タブリストの初期設定 --fuma
+        chrome.storage.local.set({ groupStatus: "domains" });
+        for (let i = 0; i < items.tabGroups.length; i++) {
+            //ドメイン要素を追加
+            let ul = document.createElement("ul");
+            ul.innerHTML = items.tabGroups[i][0];
+            ul.value = i;
+            //ドメイン名の前にアイコンを追加
+            let img = document.createElement("img");
+            img.src = "http://www.google.com/s2/favicons?domain=" + items.tabGroups[i][0];
+            ul.prepend(img);
+            document.querySelector("#domains").appendChild(ul);
         };
-        if (a == 0 && info[2] == "") {
-            const domain = info[3];
-            tabGroups.push([domain, tab.url, tab.title, tab.id]);
-        }
-        else if (a == 0) {
-            const domain = info[2];
-            tabGroups.push([domain, tab.url, tab.title, tab.id]);
-        };
-        //ストレージのtabGroupsに格納
-        chrome.storage.local.set({ tabGroups: tabGroups });
-    });
-    //タブリストの初期設定
-    chrome.storage.local.set({ groupStatus: "domains" });
-    for (let i = 0; i < tabGroups.length; i++) {
-        let ul = document.createElement("ul");
-        ul.innerHTML = tabGroups[i][0];
-        ul.value = i;
-        //ドメイン名の前にアイコンを追加
-        let img = document.createElement("img");
-        img.src = "http://www.google.com/s2/favicons?domain=" + tabGroups[i][0];
-        ul.prepend(img);
-        document.querySelector("#domains").appendChild(ul);
-    };
-    //URLリストボタンの初期値設
-    document.querySelector("#URLListButton").value = "close";
-    //タブグループ化ボタンの初期値設定
-    chrome.storage.local.get(["group"], (items) => {
+        //URLリストボタンの初期値設 --fuma
+        document.querySelector("#URLListButton").value = "close";
+        //タブグループ化ボタンの初期値設定 --fuma
         if (items.group == "notGrouped") {
             document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
         }
@@ -65,10 +40,10 @@ window.addEventListener("load", () => {
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
 
-    //URLリストボタンが押された時実行
+    //URLリストボタンが押された時実行 --fuma
     document.querySelector("#URLListButton").addEventListener("click", (event) => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-            if (event.target.value == "close") {
+            if (event.target.value == "close") {//閉じている場合，開く
                 //ボタンの状態を変更
                 event.target.value = "open";
                 event.target.innerHTML = "閉じる"
@@ -86,7 +61,7 @@ window.addEventListener("load", () => {
                 button.value = "copy";
                 document.querySelector("#copyButton").appendChild(button);
             }
-            else {
+            else {//開いている場合，閉じる
                 event.target.value = "close";
                 event.target.innerHTML = "&ensp;開く&ensp;"
                 document.querySelector("#textarea").replaceChildren();
@@ -95,7 +70,7 @@ window.addEventListener("load", () => {
         });
     });
 
-    //copyボタンが押されたらtextareaの内容をクリップボードにコピー
+    //copyボタンが押されたらtextareaの内容をクリップボードにコピー --fuma
     document.querySelector("#copyButton").addEventListener("click", (event) => {
         if (event.target.value == "copy") {
             document.getSelection().selectAllChildren(document.querySelector("#textarea"));
@@ -103,9 +78,10 @@ window.addEventListener("load", () => {
         };
     });
 
-    //最大値の数字が変わったら実行
+    //最大値の数字が変わったら実行 --fuma
     document.querySelector("#maxTabNum").addEventListener("change", () => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+            //変数maxTabNumをナンバーボックスの値として定義
             let maxTabNum = document.querySelector("#maxTabNum").value;
             //キーボードから想定外の値を入力した場合，現在のタブ数を変数maxTabNumに代入し表示
             if (maxTabNum < tabs.length) {
@@ -119,14 +95,15 @@ window.addEventListener("load", () => {
         });
     });
 
-    //checkboxが押された時ストレージのcheckにcheckboxの状態を格納
+    //checkboxが押された時実行 --fuma
     document.querySelector("#check").addEventListener("change", () => {
+        //ストレージのcheckにcheckboxの状態を格納
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
         //アイコンを変える関数を呼び出す
         chrome.runtime.sendMessage("changeIcon");
     });
 
-    //タブリストの要素が押された時実行
+    //タブリストの要素が押された時実行 --fuma
     document.querySelector("#domains").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
             chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
@@ -151,8 +128,7 @@ window.addEventListener("load", () => {
                         let img = document.createElement("img");
                         img.src = "http://www.google.com/s2/favicons?domain=" + items.tabGroups[i][0];
                         ul.prepend(img);
-                        //タイトル要素がなければ追加
-                        if (i == event.target.value && items.groupStatus != i) {
+                        if (i == event.target.value && items.groupStatus != i) {//タイトル要素がなければ追加
                             for (let j = 2; j < items.tabGroups[i].length; j += 3) {
                                 let li = document.createElement("li");
                                 li.value = items.tabGroups[i][j + 1];//タブのid
@@ -162,9 +138,7 @@ window.addEventListener("load", () => {
                                 chrome.storage.local.set({ groupStatus: i });
                             }
                         }
-                        //タイトル要素があるなら削除
-                        else if (i == event.target.value) {
-                            //groupStatusをdomainsに変更 
+                        else if (i == event.target.value) {//タイトル要素があるなら削除し，groupStatusをdomainsに変更
                             chrome.storage.local.set({ groupStatus: "domains" });
                         }
                         document.querySelector("#domains").appendChild(ul);
@@ -174,15 +148,15 @@ window.addEventListener("load", () => {
         });
     });
 
-    //グループ化ボタンが押された時実行
+    //グループ化ボタンが押された時実行 --fuma
     document.querySelector("#tabGroup").addEventListener("click", (event) => {
-        //ボタンの文字表示
+        //popupの表示のみ(他の処理はbackground.jsに移譲)
         chrome.storage.local.get(["group"], (items) => {
-            if (items.group == "notGrouped") {
+            if (items.group == "notGrouped") {//グループ化されている場合
                 event.target.innerHTML = "グループ解除";
                 chrome.runtime.sendMessage("group");
             }
-            else {
+            else {//グループ化されていない場合
                 event.target.innerHTML = "&ensp;グループ化&ensp;";
                 chrome.runtime.sendMessage("ungroup");
             }
@@ -302,6 +276,7 @@ window.addEventListener("load", () => {
 //メッセージ取得時実行
 chrome.runtime.onMessage.addListener((data) => {
     chrome.storage.local.get(["group", "maxTabNum"], (items) => {
+         //popupの表示のみ(他の処理はbackground.jsに移譲)
         switch (data) {
             case "group":
                 document.querySelector("#tabGroup").innerHTML = "グループ解除";
