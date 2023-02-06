@@ -26,4 +26,12 @@ $(function(){
     });
     // タブ検索窓終了
 
+    //現在Tab数表示range-simeiro
+    $(".tabRange").on("input", function(){
+        let val = $(this).val();
+        // document.getElementById("nowTabNum").innerHTML = val;
+        // $("#nowTabNum").text(val);
+        $("#nowTabNum").html(val);
+    });
+    //現在Tab数表示range終了
 });
