@@ -29,9 +29,19 @@ $(function(){
     //現在Tab数表示range-simeiro
     $(".tabRange").on("input", function(){
         let val = $(this).val();
-        // document.getElementById("nowTabNum").innerHTML = val;
-        // $("#nowTabNum").text(val);
         $("#nowTabNum").html(val);
+    });
+
+    $("#check").on("click", function(){
+        chrome.storage.local.get(["maxTabNum", "check"], (items) =>{
+            if(items.check == true){
+                $("#nowTabNum").html("∞");
+                $(".tabRange").css("pointer-events", "none");
+            }else{
+                $("#nowTabNum").html(items.maxTabNum);
+                $(".tabRange").css("pointer-events", "auto");
+            }
+        }); 
     });
     //現在Tab数表示range終了
 });
