@@ -1,6 +1,6 @@
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     //popupの大きさ
-    if (screen.width > 600) {//スクリーンが600px以下の場合
+    if (screen.width <= 600) {//スクリーンが600px以下の場合
         $("body").css("width", "300px");
         $(".URLList").css("font-size", "10px");
         $("#textarea").css("width", "290px");
