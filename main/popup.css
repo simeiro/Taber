@@ -85,14 +85,6 @@ footer>* {
 }
 
 /* shita追加分始まり */
-.searchWindow {
-    width: 20%;
-    margin: 5px auto;
-}
-
-.searchTitle {
-    padding: 0px;
-}
 
 #inputSearch {
     font-size: default;
@@ -111,6 +103,7 @@ footer>* {
 /*タブリスト*/
 
 .tabList {
+    float:right;
     overflow: auto;
     margin: auto;
     padding: 0;
@@ -118,8 +111,13 @@ footer>* {
     height: 150px;
 }
 
-.tabListTitle {
+.tabListText {
+    float:right;    
     background-color: gray;
+    overflow: auto;
+    margin: auto;
+    padding: 0;
+    width: 250px;
 }
 
 #domains {
@@ -280,7 +278,7 @@ footer>* {
 }
 
 .maxTabNum {
-    display: inline-flex;
+    display: flex;
     margin: 5px auto;
 }
 
@@ -289,12 +287,9 @@ footer>* {
 }
 
 /* 検索窓-simeiro */
-/*.searchTitle nobr {
-    float: left;
-}*/
 
 .open-btn {
-    float: right;
+    float:right;
     background: #fff url("/image/icon_search.svg") no-repeat 5px center;
     /*虫眼鏡アイコンを背景に表示*/
     background-size: 10px 10px;
@@ -460,10 +455,6 @@ footer>* {
 
 /*検索窓終了*/
 
-.maxTabNum {
-    display: inline-flex;
-    margin: 5px auto;
-}
 
 /* 削除,グループ化ボタン--simeiro */
 
@@ -517,4 +508,8 @@ footer>* {
 
 .tabRange {
     pointer-events: auto;
+}
+
+#nowTabNum{
+    float:right;
 }

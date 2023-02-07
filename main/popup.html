@@ -22,10 +22,9 @@
         </div>
     </header>
     <div class="main">
-        <div class="searchWindow">
-            <h3 class="searchTitle">
-                タブ検索
-                    <div class="open-btn"></div>
+        <div class="tabListText">
+            <div class="open-btn"></div>
+                <h3>タブリスト</h3>
                     <div id="search-wrap">
                         <div class="close-btn"><span></span><span></span></div>
                         <div class="search-area">
@@ -33,12 +32,10 @@
                             <input type="submit" id="searchsubmit" value="">
                         </div><!--/search-area -->
                     </div><!-- /search-wrap -->
-                
                 <select class="result_select" id="resultSelect" size="10"></select>
-            </h3>
         </div>
         <div class="tabList">
-            <h3 class="tabListTitle">タブリスト</h3>
+            <h3 class="tabListTitle"></h3>
             <div id="domains"></div>
         </div>
         <div class="check">
@@ -53,8 +50,7 @@
         </div>
         <div class="maxTabNum">
             <h3>最大タブ数</h3>
-            <input type="range" class="tabRange" id="maxTabNum" value=""  name="" min="1" max="50">
-            <p id="nowTabNum"></p>
+            <input type="range" class="tabRange" id="maxTabNum" value=""  name="" min="1" max="50"><spam id="nowTabNum"></span>
         </div>
     </div>
     <footer>
