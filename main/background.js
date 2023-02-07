@@ -8,6 +8,7 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ tsm: "0" });
         chrome.storage.local.set({ stm: "1" });
         chrome.storage.local.set({ bm: "0" });
+        chrome.storage.local.set({ gm: "0" });
         //ストレージにタブの情報をグループごとに格納
         makeGroups(tabs);
         //アイコンの表示
@@ -16,15 +17,28 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
+//タブ更新時実行
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        chrome.storage.local.get(["group","maxTabNum","check"], (items) => {
+            if (changeInfo.status === "complete") {//ページ読み込みが完了した時
+                //ストレージにタブの情報をグループごとに格納
+                makeGroups(tabs);
+                //アイコンの表示
+                displayNum(tabs.length, items.maxTabNum, items.check);
+                makeIcon(tabs.length, items.maxTabNum, items.check);
+                if (items.group == "grouped") {
+                    tabGroup();//新しいタブもグループ化
+                }
+            }
+        });
+    });
+});
+
 //タブ作成時実行
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["maxTabNum", "check", "group"], (items) => {
-            //ストレージにタブの情報をグループごとに格納
-            makeGroups(tabs);
-            //アイコンの表示
-            displayNum(tabs.length, items.maxTabNum, items.check);
-            makeIcon(tabs.length, items.maxTabNum, items.check);
+        chrome.storage.local.get(["maxTabNum", "check"], (items) => {
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
             if (items.check == true && tabs.length > items.maxTabNum) {
                 chrome.tabs.remove(Number(tab.id));
@@ -35,9 +49,6 @@ chrome.tabs.onCreated.addListener((tab) => {
                     iconUrl: "./taber128.png"
                 };
                 chrome.notifications.create(noti);
-            }
-            else if (items.group == "grouped") {
-                tabGroup();//新しいタブもグループ化
             }
         });
     });
@@ -131,7 +142,7 @@ function displayNum(tabsLength, maxTabNum, check) {
 }
 //タブをグループ化する関数
 function tabGroup() {
-    chrome.storage.local.get(["tabGroups", "group"], (items) => {
+    chrome.storage.local.get(["tabGroups", "group", "gm"], (items) => {
         for (let i = 0; i < items.tabGroups.length; i++) {
             //配列にタブのidを格納
             let tabIdList = [];
@@ -142,6 +153,10 @@ function tabGroup() {
             chrome.tabs.ungroup(tabIdList);
             chrome.tabs.group({ tabIds: tabIdList });
             chrome.storage.local.set({ group: "grouped" });
+            if (items.gm == "1") {
+                //グループ化解除
+                chrome.tabs.ungroup(tabIdList);
+            }
         }
     });
 }
