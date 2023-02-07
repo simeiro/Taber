@@ -51,6 +51,16 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
 window.addEventListener("load", () => {
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
+    //rangeの最大タブ数初期表示
+    chrome.storage.local.get(["maxTabNum", "check"], (items) =>{
+        if(items.check == true){
+            document.getElementById("nowTabNum").innerHTML = items.maxTabNum;
+            $(".tabRange").css("pointer-events", "auto");
+        }else{
+            document.getElementById("nowTabNum").innerHTML = "∞";
+            $(".tabRange").css("pointer-events", "none");
+        }
+    }); 
 
     //URLリストボタンが押された時実行 --fuma
     document.querySelector("#URLListButton").addEventListener("click", (event) => {
