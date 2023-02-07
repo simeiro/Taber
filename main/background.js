@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(() => {
     });
 });
 
-//タブ更新時実行
+//タブ作成時実行
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check", "group"], (items) => {

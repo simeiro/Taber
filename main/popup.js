@@ -1,4 +1,16 @@
 chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+    //popupの大きさ
+    if (screen.width > 600) {//スクリーンが600px以下の場合
+        $("body").css("width", "300px");
+        $(".URLList").css("font-size", "10px");
+        $("#textarea").css("width", "290px");
+    }
+    else {//スクリーンが600pxより大きい場合
+        $("body").css("width", "400px");
+        $(".URLList").css("font-size", "16px");
+        $("#textarea").css("width", "390px");
+    }
+    $("#textarea>*").css({ "width": String($("body").css("width")) });
     chrome.storage.local.get(["maxTabNum", "check", "tabGroups", "group"], (items) => {
         //開けるタブの最大値とcheckboxの状態を表示 --fuma
         if (items.check == false) {
@@ -276,7 +288,7 @@ window.addEventListener("load", () => {
 //メッセージ取得時実行
 chrome.runtime.onMessage.addListener((data) => {
     chrome.storage.local.get(["group", "maxTabNum"], (items) => {
-         //popupの表示のみ(他の処理はbackground.jsに移譲)
+        //popupの表示のみ(他の処理はbackground.jsに移譲)
         switch (data) {
             case "group":
                 document.querySelector("#tabGroup").innerHTML = "グループ解除";

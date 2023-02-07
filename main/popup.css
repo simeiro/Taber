@@ -3,15 +3,14 @@
 }
 
 body {
-    width: 400px;
-    background-size: 400px 400px;
+    background-size: 100% 100%;
     background-image: url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg);
 }
 
 header {
     text-align: center;
     width: 100%;
-    height: 30px;
+    height: auto;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
 }
 
@@ -22,6 +21,7 @@ header>* {
 
 .title {
     font-family: serif;
+    font-size: 25px;
 }
 
 .openconfig {
@@ -43,24 +43,21 @@ header>* {
     margin: 0;
 }
 
-.URLList>* {
-    margin: 0;
-    padding: 0;
-}
-
 #textarea {
-    width: fit-content;
     background-color: green;
+    padding: 0;
+    text-align: center;
 }
 
 #textarea>* {
-    width: 200px;
-    height: 260px;
-    margin: 3px;
+    display: inline;
+    width: 90%;
+    height: 250px;
+    margin-top: 5px;
 }
 
 #copyButton {
-    margin-top: -20px;
+    margin-top: -25px;
     background-color: green;
 }
 
@@ -78,14 +75,13 @@ header>* {
 footer {
     text-align: center;
     width: 100%;
-    height: 30px;
+    height: auto;
+    padding: 3px;
     background: linear-gradient(135deg, rgb(240, 180, 50), rgb(100, 200, 50));
 }
 
 footer>* {
     display: inline-flex;
-    margin-top: 2px;
-    margin-left: 30px;
 }
 
 /* shita追加分始まり */
@@ -115,10 +111,10 @@ footer>* {
 /*タブリスト*/
 
 .tabList {
-    overflow-y: auto;
+    overflow: auto;
     margin: auto;
     padding: 0;
-    width: 60%;
+    width: 250px;
     height: 150px;
 }
 
@@ -134,6 +130,7 @@ footer>* {
 
 .tabList::-webkit-scrollbar {
     width: 3px;
+    height: 3px;
 }
 
 .tabList::-webkit-scrollbar-track {
@@ -175,19 +172,15 @@ footer>* {
     margin: 5px auto;
 }
 
-#maxNum {
-    margin-top: 10px;
-}
-
 #off {
-    font-size: 15px;
+    font-size: 13px;
     margin-right: 5px;
     margin-left: 20px;
     margin-top: 10px;
 }
 
 #on {
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 10px;
     margin-left: 5px;
 }
