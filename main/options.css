@@ -5,13 +5,15 @@
 
     --mainfont:calc(var(--titlefont) * 0.5);
 }
-
+body{
+    background-color:#f9f9f9;
+}
 .main > *{
     margin-top: var(--blankpadding);
 }
 .titleborder{
     margin: 0px;
-    border-top: 5px dotted #000;
+    border-top: 5px dotted #202020;
 }
 
 .title{
@@ -43,6 +45,33 @@
 } */
 
 .b_sametabmethod > label{
+    display: block;
+    margin: var(--padding);
+}
+
+.b_background > label{
+    display: block;
+    margin: var(--padding);
+}
+
+.s_bg{
+    display: inline-block;
+}
+
+.t_bg{
+    display: inline-block;
+}
+
+.s_bg0{
+    width: 20%;
+}
+
+.b_duplicatetabnotification > label{
+    display: block;
+    margin: var(--padding);
+}
+
+.b_overtabmethod > label{
     display: block;
     margin: var(--padding);
 }

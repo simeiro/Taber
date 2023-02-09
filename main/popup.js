@@ -64,7 +64,12 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
 window.addEventListener("load", () => {
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
+    chrome.storage.local.get(["bArray"],(value) =>{
+        setbackground(value.bArray[2])
+    });
+    
 
+    
     //URLリストボタンが押された時実行
     document.querySelector("#URLListButton").addEventListener("click", (event) => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
@@ -195,7 +200,7 @@ window.addEventListener("load", () => {
             searchResult.disabled = false;
             searchResult.replaceChildren();
             chrome.storage.local.get(["tsm"], (value) => {
-                var input = event.target.value.toLowerCase();
+                let input = event.target.value.toLowerCase();
                 switch (value.tsm) {
                     case "0":
                         tabs.forEach((tab) => {
@@ -325,3 +330,45 @@ chrome.runtime.onMessage.addListener((data) => {
         }
     });
 });
+
+function setbackground(value){
+    let light = "#f9f9f9";
+    let dark = "#202020";
+    switch(Number(value)){
+        default:
+        case 0://white
+            $("body").css("background-color",light);
+            break;
+
+        case 1://black
+            $("body").css("background-color",dark);
+            $("body").css("color",light);//とりあえず文字見にくいから設定してるだけ
+            break;
+
+        case 2://auto
+            if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+                $("body").css("background-color",dark);
+            }else{
+                $("body").css("background-color",light);
+            }
+            break;
+
+        case 3://rgb
+            chrome.storage.local.get(["oArray"],function(value){
+                $("body").css("background-color",value.oArray[0]);
+            });
+            break;
+
+        case 4://maguro
+            $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
+            $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
+            break;
+
+        case 5://img
+            chrome.storage.local.get(["oArray"],function(value){
+                $("body").css("background-image","url("+value.oArray[1]+")");
+            });
+            
+            break;
+    };
+};

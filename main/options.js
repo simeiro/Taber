@@ -1,27 +1,88 @@
 $(function () {
     // chrome.storage.local.clear();
-    // 遷移後、保存したローカルストレージの読み込み
+    chrome.storage.local.get(["bArray","cArray","rArray"], (function(value){
+        let allname = [];
+        $("input:radio").each(function(){
+            allname.push($(this).prop("name"));
+        });
+        let namelist = $.unique(allname);
+        namelist.forEach(function(item,index){
+            $("input:radio[name='"+item+"']").val([value.bArray[index]]);
+        });
+        $("input:checkbox").each(function(index){
+            $(this).prop("checked",value.cArray[index]);
+        });
+        $("input[type=range]").each(function(index){//range追加するようなら書き換える
+            $(".t_bg").html(value.rArray[index]+"%");
+        });
+        if(value.bArray[2] == "0"){
+            themeset(bcolor = "#f9f9f9",fcolor = "#202020");
+        }else if(value.bArray[2] == "1"){
+            themeset(bcolor = "#202020",fcolor = "#f9f9f9");
+        };
+    }));
 
-    chrome.storage.local.get(["tsm", "stm", "bm"], (value) => {
-        $("input:radio[name='b_tsm']").val([value.tsm]);
-        $("input:radio[name='b_stm']").val([value.stm]);
-        $("input:radio[name='b_bm']").val([value.bm]);
-    });
+
     $("#saveB").on("click", function () {
-        var tsmv = $("input:radio[name='b_tsm']:checked").val();
-        chrome.storage.local.set({ tsm: tsmv });
-        var stmv = $("input:radio[name='b_stm']:checked").val();
-        chrome.storage.local.set({ stm: stmv });
-        var bmv = $("input:radio[name='b_bm']:checked").val();
-        chrome.storage.local.set({ bm: bmv});
+        let bArray = [];//btsm,bstm,bbg,botm,gm
+        let cArray = [];//cdtn0,cdtn1,cotm0
+        let rArray = [];//sBg0
+        let oArray = [];//coBg0,iBg0
+        $("input:radio:checked").each(function(){
+            bArray.push($(this).val());
+        });
+        $("input:checkbox").each(function(){
+            if(this.checked){
+                cArray.push(true);
+            }else{
+                cArray.push(false);
+            };
+        });
+        $("input[type=range]").each(function(){
+            rArray.push($(this).val());
+        });
+        $("input[type=color]").each(function(){
+            oArray.push($(this).val());
+        });
+        
+        if($("#bBg0").prop('checked')){
+            themeset(bcolor = "#f9f9f9",fcolor = "#202020");
+        }
+        if($("#bBg1").prop('checked')){
+            themeset(bcolor = "#202020",fcolor = "#f9f9f9");
+        }
+        
+        if($("#bBg5").prop('checked')){
+            let reader = new FileReader();
+            let file = $("input[type=file]").prop('files')[0];
+            if(file){
+                reader.readAsDataURL(file);
+                reader.addEventListener("load", () => {
+                    oArray.push(reader.result);
+                }, false);
+            };
+        };
+
+        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray:oArray});
     });
+
     $("#resetB").on("click", function () {
-        chrome.storage.local.get(["tsm", "stm", "bm"], (value) => {
-            $("input:radio[name='b_tsm']").val([value.tsm]);
-            $("input:radio[name='b_stm']").val([value.stm]);
-            $("input:radio[name='b_bm']").val([value.bm]);
+        chrome.storage.local.get(["bArray,cArray"], (value) => {
+            $("input:radio").each(function(index){
+                console.log(index);
+                $(this).val([value.bArray[index]])
+            });
+            $("input:checkbox").each(function(index){
+                $(this).val([value.cArray[index]])
+            });
         });
     });
+
+
+    $("#sBg0").on('input',function(){
+        $(".t_bg").html($(this).val()+"%");
+    });
+
 });
 
 //音声認識 --fuma
@@ -102,3 +163,9 @@ recognition.onend = () => {
     recognition.start();
 }
 recognition.start();
+
+function themeset(bcolor = "#f9f9f9",fcolor = "#202020"){
+    $("body").css("background-color",bcolor);
+    $("body").css("color",fcolor);
+    $(".titleborder").css("border-top","5px dotted "+fcolor);
+};
