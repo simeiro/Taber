@@ -350,7 +350,7 @@ function setbackground(value){
                     $("body").css("background-repeat","no-repeat");
                     $("body").css("background-size","cover");
                     // $("body").css("position","relative");
-                    // $("body::before").css("background-color","rgba(0, 0, 0, "+value.rArray[0]/100+")");
+                    $("body::before").css("background-color","rgba(0, 0, 0, "+value.rArray[0]/100+")");
                 }else{
                     $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
                     $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");

@@ -5,10 +5,10 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ maxTabNum: tabs.length });
         chrome.storage.local.set({ check: false });
         chrome.storage.local.set({ group: "notGrouped" });
-        const bArray =["0","1","0","2","0"]
-        const cArray =[false,true,true]
-        const rArray =["50"]
-        const oArray =["#ffcccc"]
+        const bArray =["0","1","0","2","0","0"];
+        const cArray =[false,true,true];
+        const rArray =["50"];
+        const oArray =["#ffcccc"];
         chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray});
         //ストレージにタブの情報をグループごとに格納
         makeGroups(tabs);
@@ -210,6 +210,9 @@ function makeGroups(tabs) {
 
 function duplicateVerify(tabs,target,cArray){
     let tabsArray = [];
+    if(tabs.length == 1){
+        return -1;
+    }
     if(cArray[1] == true || cArray[0] == true){
         let sameIndex = detectDuplicate(tabs,target)
         if(sameIndex != -1){
@@ -228,7 +231,7 @@ function duplicateVerify(tabs,target,cArray){
         };
     };
 
-
+//urlのみでしか検索かけれん。
     function detectDuplicate(tabs,target){
         tabs.forEach(function(value){
             tabsArray.push(value.url);
