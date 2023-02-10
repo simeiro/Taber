@@ -313,7 +313,6 @@ chrome.runtime.onMessage.addListener((data) => {
 function setbackground(value){
     let light = "#f9f9f9";
     let dark = "#202020";
-    console.log("setbgの中で"+value);
     switch(Number(value)){
         default:
         case 0://white
@@ -347,7 +346,6 @@ function setbackground(value){
         case 5://img
             chrome.storage.local.get(["oArray","rArray"],function(value){
                 if(Boolean(value.oArray[1])){
-                    console.log("画像設定するわ");
                     $("body").css("background-image","url("+value.oArray[1]+")");
                     $("body").css("background-repeat","no-repeat");
                     $("body").css("background-size","cover");

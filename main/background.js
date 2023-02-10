@@ -43,15 +43,15 @@ chrome.tabs.onCreated.addListener((tab) => {
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
             if (items.check == true && tabs.length > items.maxTabNum) {
                 chrome.tabs.remove(Number(tab.id));
-                makeNotify("タブ制限超過",items.maxTabNum + "個以上は開けません。")
-            }
+                if(items.cArray[2]){
+                    makeNotify("タブ制限超過",items.maxTabNum + "個以上は開けません。")
+                };
+            };
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
             makeIcon(tabs.length, items.maxTabNum, items.check);
             //タブの情報をストレージに格納
             duplicateVerify(tabs,tab,items.cArray,items.bArray[1]);
-            console.log(tabs);
-            console.log(tab);
         });
     });
 });

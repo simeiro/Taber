@@ -67,7 +67,7 @@ $(function () {
         if($("#bBg5").prop('checked')){
             let reader = new FileReader();
             let file = $("input[type=file]").prop('files')[0];
-            console.log($("input[type=file]").prop('files'));
+            // console.log($("input[type=file]").prop('files'));
             
             if(file){
                 // console.log("ファイル有り");
@@ -75,7 +75,7 @@ $(function () {
                 reader.addEventListener("load", () => {
                     oArray.push(reader.result);
                     chrome.storage.local.set({oArray: oArray});
-                    console.log(oArray);
+                    // console.log(oArray);
                 }, false);
             }else{
                 chrome.storage.local.get(["oArray"], (function(value){
