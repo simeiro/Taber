@@ -139,6 +139,7 @@ function displayNum(tabsLength, maxTabNum,check,value ="0") {
             break;
     };
 };
+
 function displayNum(tabsLength, maxTabNum, check) {
     chrome.storage.local.get(["bm"], (value) => {
         switch (value.bm) {
@@ -158,6 +159,10 @@ function displayNum(tabsLength, maxTabNum, check) {
                     chrome.action.setBadgeText({ text: String("∞") });
                 }
                 break;
+        };
+    });
+};
+
 //タブをグループ化する関数
 function tabGroup() {
     chrome.storage.local.get(["tabGroups", "group", "gm"], (items) => {
@@ -244,29 +249,30 @@ function duplicateVerify(tabs,target,cArray,mode){
     };
 
 
-    function detectDuplicate(tabs,target,mode)
-    switch(Number(mode)){
-        case 0:
-            tabs.forEach(function(value){
-                tabsArray.push(value.title);
-            });
-            return tabsArray.indexOf(target.title);
+    function detectDuplicate(tabs,target,mode){
+        switch(Number(mode)){
+            case 0:
+                tabs.forEach(function(value){
+                    tabsArray.push(value.title);
+                });
+                return tabsArray.indexOf(target.title);
 
-        case 1:
-            tabs.forEach(function(value){
-                tabsArray.push(value.url);
-            });
-            return tabsArray.indexOf(target.url);
+            case 1:
+                tabs.forEach(function(value){
+                    tabsArray.push(value.url);
+                });
+                return tabsArray.indexOf(target.url);
 
-        case 2:
-            tabs.forEach(function(value){
-                tabsArrayTitle.push(value.title);
-                tabsArray.push(value.url);
-            });
-            if(tabsArray.indexOf(target.title)){
-                return true;
-            };
-            return tabsArray.indexOf(target.url);
+            case 2:
+                tabs.forEach(function(value){
+                    tabsArrayTitle.push(value.title);
+                    tabsArray.push(value.url);
+                });
+                if(tabsArray.indexOf(target.title)){
+                    return true;
+                };
+                return tabsArray.indexOf(target.url);
+        };
     };
 };
 

@@ -28,7 +28,7 @@ $(function () {
 
 
     $("#saveB").on("click", function () {
-        let bArray = [];//btsm,bstm,bbg,botm,gm
+        let bArray = [];//btsm,bstm,bbg,botm,gm,bGm0
         let cArray = [];//cdtn0,cdtn1,cotm0
         let rArray = [];//sBg0
         let oArray = [];//coBg0,iBg0
@@ -92,12 +92,12 @@ $(function () {
                 chrome.storage.local.set({oArray: oArray});
             };
         };
+        window.location.reload();
     });
 
     $("#sBg0").on('input',function(){
         $(".t_bg").html($(this).val()+"%");
     });
-
 });
 
 /*//音声認識 --fuma
