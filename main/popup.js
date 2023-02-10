@@ -57,7 +57,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             $(".tabRange").css("pointer-events", "none");
         }
         
-        setbackground(value.bArray[2]);
+        setbackground(items.bArray[2]);
         //検索結果欄  --shita
         //--検索結果欄初期表示  あとで検索結果のこしておく処理作りたい
         const defaultOption = document.createElement("option");
@@ -65,7 +65,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         searchResult.replaceChildren(defaultOption);
         searchResult.disabled = true;
         //同一タブ削除ボタン --shita
-        switch (items.stm) {
+        switch (items.bArray[1]) {
             case "0":
                 var onlyTabs = tabs.filter((tab, index, array) => {
                     return (array.findIndex(nextTab => tab.title === nextTab.title) !== index)
