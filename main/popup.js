@@ -65,11 +65,11 @@ window.addEventListener("load", () => {
     const searchResult = document.getElementById("resultSelect");
     const searchinput = document.getElementById("inputSearch");
     chrome.storage.local.get(["bArray"],(value) =>{
-        setbackground(value.bArray[2])
+        console.log("setbackgroundのてまえ")
+        setbackground(value.bArray[2]);
     });
     
 
-    
     //URLリストボタンが押された時実行
     document.querySelector("#URLListButton").addEventListener("click", (event) => {
         chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
@@ -254,8 +254,8 @@ window.addEventListener("load", () => {
 
     //同一タブ削除ボタン --shita
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["stm"], (value) => {
-            switch (value.stm) {
+        chrome.storage.local.get(["bArray"], (value) => {
+            switch (value.bArray[1]) {
                 case "0":
                     var onlyTabs = tabs.filter((tab, index, array) => {
                         return (array.findIndex(nextTab => tab.title === nextTab.title) !== index)
@@ -275,6 +275,7 @@ window.addEventListener("load", () => {
                     });
                     break;
             };
+            console.log(onlyTabs);
             if (onlyTabs.length != 0) {
                 const h_sametab = document.getElementById("sameTabDelete");
                 h_sametab.innerHTML = "重複タブ:" + Number(onlyTabs.length) + "個" + '<button class = "deletetabs_button" id="deleteTabsButton" disabled>削除</button>';
@@ -334,6 +335,7 @@ chrome.runtime.onMessage.addListener((data) => {
 function setbackground(value){
     let light = "#f9f9f9";
     let dark = "#202020";
+    console.log("setbgの中で"+value);
     switch(Number(value)){
         default:
         case 0://white
@@ -365,10 +367,20 @@ function setbackground(value){
             break;
 
         case 5://img
-            chrome.storage.local.get(["oArray"],function(value){
-                $("body").css("background-image","url("+value.oArray[1]+")");
+            chrome.storage.local.get(["oArray","rArray"],function(value){
+                if(Boolean(value.oArray[1])){
+                    console.log("画像設定するわ");
+                    $("body").css("background-image","url("+value.oArray[1]+")");
+                    $("body").css("background-repeat","no-repeat");
+                    $("body").css("background-size","cover");
+                    // $("body").css("position","relative");
+                    // $("body::before").css("background-color","rgba(0, 0, 0, "+value.rArray[0]/100+")");
+                }else{
+                    $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
+                    $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
+                };
+                
             });
-            
             break;
     };
 };
