@@ -1,33 +1,103 @@
 $(function () {
-    // chrome.storage.local.clear();
-    // 遷移後、保存したローカルストレージの読み込み
+    //chrome.storage.local.clear();
+    chrome.storage.local.get(["bArray","cArray","rArray","oArray"], (function(value){
+        defaultSet(value.bArray,value.cArray,value.rArray,value.oArray);
 
-    chrome.storage.local.get(["tsm", "stm", "bm", "gm"], (value) => {
-        $("input:radio[name='b_tsm']").val([value.tsm]);
-        $("input:radio[name='b_stm']").val([value.stm]);
-        $("input:radio[name='b_bm']").val([value.bm]);
-        $("input:radio[name='b_gm']").val([value.gm]);
-    });
-    $("#saveB").on("click", function () {
-        var tsmv = $("input:radio[name='b_tsm']:checked").val();
-        chrome.storage.local.set({ tsm: tsmv });
-        var stmv = $("input:radio[name='b_stm']:checked").val();
-        chrome.storage.local.set({ stm: stmv });
-        var bmv = $("input:radio[name='b_bm']:checked").val();
-        chrome.storage.local.set({ bm: bmv});
-        var gmv = $("input:radio[name='b_gm']:checked").val();
-        chrome.storage.local.set({ gm: gmv});
-        //変更を反映させるためページをリロード
-        window.location.reload();
-    });
-    $("#resetB").on("click", function () {
-        chrome.storage.local.get(["tsm", "stm", "bm", "gm"], (value) => {
-            $("input:radio[name='b_tsm']").val([value.tsm]);
-            $("input:radio[name='b_stm']").val([value.stm]);
-            $("input:radio[name='b_bm']").val([value.bm]);
-            $("input:radio[name='b_gm']").val([value.gm]);
+        switch(Number(value.bArray[2])){
+            case 0:
+                themeset();
+                break;
+
+            case 1:
+                themeset(bcolor = "#202020",fcolor = "#f9f9f9");
+                break;
+
+            case 2:
+                if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+                    themeset(bcolor = "#202020",fcolor = "#f9f9f9");
+                }else{
+                    themeset();
+                }
+                break;
+
+        };
+        $("#resetB").on("click", function () {
+            defaultSet(value.bArray,value.cArray,value.rArray,value.oArray);
         });
+    }));
+
+
+    $("#saveB").on("click", function () {
+        let bArray = [];//btsm,bstm,bbg,botm,gm
+        let cArray = [];//cdtn0,cdtn1,cotm0
+        let rArray = [];//sBg0
+        let oArray = [];//coBg0,iBg0
+        $("input:radio:checked").each(function(){
+            bArray.push($(this).val());
+        });
+
+        $("input:checkbox").each(function(){
+            if(this.checked){
+                cArray.push(true);
+            }else{
+                cArray.push(false);
+            };
+        });
+
+        $("input[type=range]").each(function(){
+            rArray.push($(this).val());
+        });
+
+        $("input[type=color]").each(function(){
+            oArray.push($(this).val());
+        });
+        
+        if($("#bBg0").prop('checked')){
+            themeset();
+        }
+
+        if($("#bBg1").prop('checked')){
+            themeset(bcolor = "#202020",fcolor = "#f9f9f9");
+        }
+
+        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray});
+        // console.log(bArray, cArray,rArray);
+        // console.log(oArray);
+
+        if($("#bBg5").prop('checked')){
+            let reader = new FileReader();
+            let file = $("input[type=file]").prop('files')[0];
+            console.log($("input[type=file]").prop('files'));
+            
+            if(file){
+                // console.log("ファイル有り");
+                reader.readAsDataURL(file);
+                reader.addEventListener("load", () => {
+                    oArray.push(reader.result);
+                    chrome.storage.local.set({oArray: oArray});
+                    console.log(oArray);
+                }, false);
+            }else{
+                chrome.storage.local.get(["oArray"], (function(value){
+                    if(Boolean[value.oArray[1]]){
+                        $("#warning").hide();
+                        return;
+                    }else{
+                        $("#warning").html("画像ファイルが設定されていません");
+                        $("#warning").show();
+                    }
+                }));
+
+                
+                chrome.storage.local.set({oArray: oArray});
+            };
+        };
     });
+
+    $("#sBg0").on('input',function(){
+        $(".t_bg").html($(this).val()+"%");
+    });
+
 });
 
 /*//音声認識 --fuma
@@ -108,3 +178,31 @@ recognition.onend = () => {
     recognition.start();
 }
 recognition.start();*/
+
+function themeset(bcolor = "#f9f9f9",fcolor = "#202020"){//default white
+    $("body").css("background-color",bcolor);
+    $("body").css("color",fcolor);
+    $(".titleborder").css("border-top","5px dotted "+fcolor);
+};
+
+function defaultSet(bArray,cArray,rArray,oArray){
+    let allname = [];
+    $("input:radio").each(function(){
+        allname.push($(this).prop("name"));
+    });
+
+    let namelist = $.unique(allname);
+    namelist.forEach(function(item,index){
+        $("input:radio[name='"+item+"']").val([bArray[index]]);
+    });
+
+    $("input:checkbox").each(function(index){
+        $(this).prop("checked",cArray[index]);
+    });
+
+    $("input[type=range]").each(function(index){//range追加するようなら書き換える
+        $(".t_bg").html(rArray[index]+"%");
+    });
+
+    $("#coBg0").val(oArray[0]);
+};

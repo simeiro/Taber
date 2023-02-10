@@ -4,7 +4,6 @@
 
 body {
     background-size: 100% 100%;
-    background-image: url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg);
 }
 
 header {
@@ -68,7 +67,7 @@ header>* {
 .main {
     /*リョウガだよ*/
     background-size: 300px 150px;
-    background-image: url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png);
+
     text-align: center;
 }
 

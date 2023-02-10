@@ -15,7 +15,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     const searchinput = document.getElementById("inputSearch");
 
     //初期表示
-    chrome.storage.local.get(["maxTabNum", "check", "tabGroups", "group", "stm"], (items) => {
+    chrome.storage.local.get(["maxTabNum", "check", "tabGroups", "group", "bArray"], (items) => {
         //開けるタブの最大値とcheckboxの状態を表示
         if (items.check == false) {
             chrome.storage.local.set({ maxTabNum: tabs.length });
@@ -56,6 +56,8 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             document.getElementById("nowTabNum").innerHTML = "∞";
             $(".tabRange").css("pointer-events", "none");
         }
+        
+        setbackground(value.bArray[2]);
         //検索結果欄  --shita
         //--検索結果欄初期表示  あとで検索結果のこしておく処理作りたい
         const defaultOption = document.createElement("option");
@@ -224,9 +226,9 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
     searchinput.addEventListener("change", (event) => {
         searchResult.disabled = false;
         searchResult.replaceChildren();
-        chrome.storage.local.get(["tsm"], (value) => {
+        chrome.storage.local.get(["bArray"], (value) => {
             var input = event.target.value.toLowerCase();
-            switch (value.tsm) {
+            switch (value.bArray[0]) {
                 case "0":
                     tabs.forEach((tab) => {
                         if (tab.title.toLowerCase().indexOf(input) > -1) {
@@ -307,3 +309,56 @@ chrome.runtime.onMessage.addListener((data) => {
         }
     });
 });
+
+function setbackground(value){
+    let light = "#f9f9f9";
+    let dark = "#202020";
+    console.log("setbgの中で"+value);
+    switch(Number(value)){
+        default:
+        case 0://white
+            $("body").css("background-color",light);
+            break;
+
+        case 1://black
+            $("body").css("background-color",dark);
+            $("body").css("color",light);//とりあえず文字見にくいから設定してるだけ
+            break;
+
+        case 2://auto
+            if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+                $("body").css("background-color",dark);
+            }else{
+                $("body").css("background-color",light);
+            }
+            break;
+
+        case 3://rgb
+            chrome.storage.local.get(["oArray"],function(value){
+                $("body").css("background-color",value.oArray[0]);
+            });
+            break;
+
+        case 4://maguro
+            $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
+            $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
+            break;
+
+        case 5://img
+            chrome.storage.local.get(["oArray","rArray"],function(value){
+                if(Boolean(value.oArray[1])){
+                    console.log("画像設定するわ");
+                    $("body").css("background-image","url("+value.oArray[1]+")");
+                    $("body").css("background-repeat","no-repeat");
+                    $("body").css("background-size","cover");
+                    // $("body").css("position","relative");
+                    // $("body::before").css("background-color","rgba(0, 0, 0, "+value.rArray[0]/100+")");
+                }else{
+                    $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
+                    $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
+                };
+                
+            });
+            break;
+    };
+};
