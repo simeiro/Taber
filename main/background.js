@@ -21,17 +21,17 @@ chrome.runtime.onInstalled.addListener(() => {
 //タブ更新時実行
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["group","maxTabNum","check"], (items) => {
+        chrome.storage.local.get(["group","maxTabNum","check","bArray","cArray"], (items) => {
             if (changeInfo.status === "complete") {//ページ読み込みが完了した時
                 //ストレージにタブの情報をグループごとに格納
                 makeGroups(tabs);
                 //アイコンの表示
-                displayNum(tabs.length, items.maxTabNum, items.check);
+                displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
                 makeIcon(tabs.length, items.maxTabNum, items.check);
                 if (items.group == "grouped") {
                     tabGroup();//新しいタブもグループ化
-                }
-            }
+                };
+            };
         });
     });
 });
@@ -49,8 +49,9 @@ chrome.tabs.onCreated.addListener((tab) => {
             displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
             makeIcon(tabs.length, items.maxTabNum, items.check);
             //タブの情報をストレージに格納
-            makeGroup();
             duplicateVerify(tabs,tab,items.cArray,items.bArray[1]);
+            console.log(tabs);
+            console.log(tab);
         });
     });
 });
@@ -58,7 +59,7 @@ chrome.tabs.onCreated.addListener((tab) => {
 //タブ削除時実行
 chrome.tabs.onRemoved.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+        chrome.storage.local.get(["maxTabNum", "check", "bArray"], (items) => {
             //ストレージにタブの情報をグループごとに格納
             makeGroups(tabs);
             //アイコンの表示
@@ -75,10 +76,10 @@ chrome.tabs.onRemoved.addListener(() => {
 //メッセージ取得時実行
 chrome.runtime.onMessage.addListener((data) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["maxTabNum", "check"], (items) => {
+        chrome.storage.local.get(["maxTabNum", "check","bArray"], (items) => {
             switch (data) {
                 case "changeIcon":
-                    displayNum(tabs.length, items.maxTabNum, items.check);
+                    displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
                 case "group":
@@ -88,11 +89,11 @@ chrome.runtime.onMessage.addListener((data) => {
                     tabUngroup();
                     break;
                 case "checkON":
-                    displayNum(tabs.length, items.maxTabNum, items.check);
+                    displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
                 case "checkOFF":
-                    displayNum(tabs.length, items.maxTabNum, items.check);
+                    displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
                 default:
@@ -138,29 +139,6 @@ function displayNum(tabsLength, maxTabNum,check,value ="0") {
             };
             break;
     };
-};
-
-function displayNum(tabsLength, maxTabNum, check) {
-    chrome.storage.local.get(["bm"], (value) => {
-        switch (value.bm) {
-            case "0": //通常表示
-                if (tabsLength == maxTabNum && check == true) {
-                    chrome.action.setBadgeText({ text: String("MAX") });
-                } else if (check == true && maxTabNum < 100) {
-                    chrome.action.setBadgeText({ text: String(tabsLength + "/" + maxTabNum) });
-                } else { //check == false
-                    chrome.action.setBadgeText({ text: String(tabsLength) });
-                }
-                break;
-            case "1": //残数表示
-                if (check == true && maxTabNum - tabsLength < 10000) {
-                    chrome.action.setBadgeText({ text: String(maxTabNum - tabsLength) });
-                } else {
-                    chrome.action.setBadgeText({ text: String("∞") });
-                }
-                break;
-        };
-    });
 };
 
 //タブをグループ化する関数
@@ -230,49 +208,32 @@ function makeGroups(tabs) {
     });
 };
 
-function duplicateVerify(tabs,target,cArray,mode){
+function duplicateVerify(tabs,target,cArray){
     let tabsArray = [];
-    let tabsArrayTitle=[];
-
     if(cArray[1] == true || cArray[0] == true){
-        let sameIndex = detectDuplicate(tabs,target,mode)
+        let sameIndex = detectDuplicate(tabs,target)
         if(sameIndex != -1){
             if(cArray[1] == true){
-                chrome.tabs.remove(tabs[sameIndex].id)
                 if(cArray[0] == true){
-                    makeNotify("重複タブ削除",target.title+"を削除しました。")
+                    makeNotify("重複タブ削除",tabs[sameIndex].title+"を削除しました。")
+                };
+                if(tabs[sameIndex].active){
+                    chrome.tabs.remove(target.id);
+                }else{
+                    chrome.tabs.remove(tabs[sameIndex].id);
                 };
             }else if(cArray[0] == true){
-                    makeNotify("重複タブ検知",target.title+"が重複しています。")
+                    makeNotify("重複タブ検知",tabs[sameIndex].title+"が重複しています。")
             };
         };
     };
 
 
-    function detectDuplicate(tabs,target,mode){
-        switch(Number(mode)){
-            case 0:
-                tabs.forEach(function(value){
-                    tabsArray.push(value.title);
-                });
-                return tabsArray.indexOf(target.title);
-
-            case 1:
-                tabs.forEach(function(value){
-                    tabsArray.push(value.url);
-                });
-                return tabsArray.indexOf(target.url);
-
-            case 2:
-                tabs.forEach(function(value){
-                    tabsArrayTitle.push(value.title);
-                    tabsArray.push(value.url);
-                });
-                if(tabsArray.indexOf(target.title)){
-                    return true;
-                };
-                return tabsArray.indexOf(target.url);
-        };
+    function detectDuplicate(tabs,target){
+        tabs.forEach(function(value){
+            tabsArray.push(value.url);
+        });
+        return tabsArray.indexOf(target.pendingUrl);
     };
 };
 
