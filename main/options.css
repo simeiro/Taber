@@ -85,6 +85,11 @@ body{
     display: block;
     margin: var(--padding);
 }
+/*  */
+.b_groupmethod > label{
+    display: block;
+    margin: var(--padding);
+}
 
 .warning{
     color:red !important;

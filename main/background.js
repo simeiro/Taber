@@ -1,9 +1,6 @@
 //拡張機能インストール時実行
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //アイコンの表示
-        displayNum(tabs.length, tabs.length, false);
-        makeIcon(tabs.length, tabs.length, false);
         //ストレージの初期値を設定
         chrome.storage.local.set({ maxTabNum: tabs.length });
         chrome.storage.local.set({ check: false });
@@ -13,10 +10,33 @@ chrome.runtime.onInstalled.addListener(() => {
         const rArray =["50"]
         const oArray =["#ffcccc"]
         chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray});
+        //ストレージにタブの情報をグループごとに格納
+        makeGroups(tabs);
+        //アイコンの表示
+        displayNum(tabs.length, tabs.length, false);
+        makeIcon(tabs.length, tabs.length, false);
     });
 });
 
 //タブ更新時実行
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
+        chrome.storage.local.get(["group","maxTabNum","check"], (items) => {
+            if (changeInfo.status === "complete") {//ページ読み込みが完了した時
+                //ストレージにタブの情報をグループごとに格納
+                makeGroups(tabs);
+                //アイコンの表示
+                displayNum(tabs.length, items.maxTabNum, items.check);
+                makeIcon(tabs.length, items.maxTabNum, items.check);
+                if (items.group == "grouped") {
+                    tabGroup();//新しいタブもグループ化
+                }
+            }
+        });
+    });
+});
+
+//タブ作成時実行
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["maxTabNum", "check","bArray","cArray"], (items) => {
@@ -38,16 +58,16 @@ chrome.tabs.onCreated.addListener((tab) => {
 //タブ削除時実行
 chrome.tabs.onRemoved.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
         chrome.storage.local.get(["maxTabNum", "check"], (items) => {
-            if (items.check == false) {
-                chrome.storage.local.set({ maxTabNum: tabs.length });
-            }
+            //ストレージにタブの情報をグループごとに格納
+            makeGroups(tabs);
             //アイコンの表示
             displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
             makeIcon(tabs.length, items.maxTabNum, items.check);
-            //タブの情報をストレージに格納
-            makeGroup();
+            //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
+            if (items.check == false) {
+                chrome.storage.local.set({ maxTabNum: tabs.length });
+            }
         });
     });
 });
@@ -86,7 +106,7 @@ chrome.runtime.onMessage.addListener((data) => {
 function makeIcon(tabsLength, maxTabNum, check) {
     const canvas = new OffscreenCanvas(16, 16);
     const context = canvas.getContext('2d');
-	const colorDegree = 255 - Math.pow(1/255, 1.5) * Math.pow(255*(tabsLength / maxTabNum), 2.5) //限界値に近づくほど色合いの変化を上げる
+    const colorDegree = 255 - Math.pow(1 / 255, 1.5) * Math.pow(255 * (tabsLength / maxTabNum), 2.5) //限界値に近づくほど色合いの変化を上げる
     context.clearRect(0, 0, 16, 16);
     if (check == true) {
         context.fillStyle = `rgb(255, ${colorDegree}, ${colorDegree})`; //白→赤のグラデーション
@@ -119,9 +139,28 @@ function displayNum(tabsLength, maxTabNum,check,value ="0") {
             break;
     };
 };
+function displayNum(tabsLength, maxTabNum, check) {
+    chrome.storage.local.get(["bm"], (value) => {
+        switch (value.bm) {
+            case "0": //通常表示
+                if (tabsLength == maxTabNum && check == true) {
+                    chrome.action.setBadgeText({ text: String("MAX") });
+                } else if (check == true && maxTabNum < 100) {
+                    chrome.action.setBadgeText({ text: String(tabsLength + "/" + maxTabNum) });
+                } else { //check == false
+                    chrome.action.setBadgeText({ text: String(tabsLength) });
+                }
+                break;
+            case "1": //残数表示
+                if (check == true && maxTabNum - tabsLength < 10000) {
+                    chrome.action.setBadgeText({ text: String(maxTabNum - tabsLength) });
+                } else {
+                    chrome.action.setBadgeText({ text: String("∞") });
+                }
+                break;
 //タブをグループ化する関数
 function tabGroup() {
-    chrome.storage.local.get(["tabGroups", "group"], (items) => {
+    chrome.storage.local.get(["tabGroups", "group", "gm"], (items) => {
         for (let i = 0; i < items.tabGroups.length; i++) {
             //配列にタブのidを格納
             let tabIdList = [];
@@ -132,6 +171,10 @@ function tabGroup() {
             chrome.tabs.ungroup(tabIdList);
             chrome.tabs.group({ tabIds: tabIdList });
             chrome.storage.local.set({ group: "grouped" });
+            if (items.gm == "1") {
+                //グループ化解除
+                chrome.tabs.ungroup(tabIdList);
+            }
         }
     });
 }
@@ -150,33 +193,35 @@ function tabUngroup() {
         }
     });
 }
-//ストレージにタブの情報を格納する関数
-function makeGroup() {
-    chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        //ドメインごとにグループ分けした分けた2次元配列を作る
-        let tabGroups = [];
-        tabs.forEach((tab) => {
-            const info = tab.url.split("/");
-            let a = 0;
-            //index0にドメイン，1からはURL，タイトル，IDの順で格納
-            for (let i = 0; i < tabGroups.length; i++) {
-                const infoOfgroupI = tabGroups[i][1].split("/");
-                if (info[0] + info[2] == infoOfgroupI[0] + infoOfgroupI[2]) {
-                    tabGroups[i].push(tab.url, tab.title, tab.id);
-                    a++;
-                };
+//ストレージにタブの情報をグループごとに格納する関数
+function makeGroups(tabs) {
+    //ドメインごとにグループ分けした分けた2次元配列を作る
+    let tabGroups = [];
+    tabs.forEach((tab) => {
+        //ロード中のタブのURLを取得
+        if (tab.url == "") {
+            tab.url = tab.pendingUrl;
+        }
+        const info = tab.url.split("/");
+        let a = 0;
+        //index0にドメイン，1からはURL，タイトル，IDの順で格納
+        for (let i = 0; i < tabGroups.length; i++) {
+            const infoOfgroupI = tabGroups[i][1].split("/");
+            if (info[0] + info[2] == infoOfgroupI[0] + infoOfgroupI[2]) {
+                tabGroups[i].push(tab.url, tab.title, tab.id);
+                a++;
             };
-            if (a == 0 && info[2] == "") {
-                const domain = info[3];
-                tabGroups.push([domain, tab.url, tab.title, tab.id]);
-            }
-            else if (a == 0) {
-                const domain = info[2];
-                tabGroups.push([domain, tab.url, tab.title, tab.id]);
-            };
-            //ストレージのtabGroupsに格納
-            chrome.storage.local.set({ tabGroups: tabGroups });
-        });
+        };
+        if (a == 0 && info[2] == "") {
+            const domain = info[3];
+            tabGroups.push([domain, tab.url, tab.title, tab.id]);
+        }
+        else if (a == 0) {
+            const domain = info[2];
+            tabGroups.push([domain, tab.url, tab.title, tab.id]);
+        };
+        //ストレージのtabGroupsに格納
+        chrome.storage.local.set({ tabGroups: tabGroups });
     });
 };
 

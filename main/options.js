@@ -100,7 +100,7 @@ $(function () {
 
 });
 
-//音声認識 --fuma
+/*//音声認識 --fuma
 window.SpeechRecognition = window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();//音声認識のオブジェクト生成
 recognition.interimResults = true;//認識途中にも結果を取得
@@ -111,7 +111,7 @@ recognition.onresult = (event) => {
     const word = event.results[num - 1].length;
     let txt = "";
     txt = event.results[num - 1][word - 1].transcript;
-    console.log(event.results[num - 1][word - 1].transcript);/*console*/
+    console.log(event.results[num - 1][word - 1].transcript);
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.storage.local.get(["group", "check"], (items) => {
             if (txt == "グループ化" && items.group == "notGrouped") {
@@ -177,7 +177,7 @@ recognition.onresult = (event) => {
 recognition.onend = () => {
     recognition.start();
 }
-recognition.start();
+recognition.start();*/
 
 function themeset(bcolor = "#f9f9f9",fcolor = "#202020"){//default white
     $("body").css("background-color",bcolor);
