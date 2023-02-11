@@ -54,6 +54,13 @@ header>* {
     margin: 0;
 }
 
+#URLListButton {
+    background: -webkit-linear-gradient(top, rgb(200, 200, 200) 0%, rgb(100, 100, 100) 100%);
+    background: linear-gradient(to bottom, rgb(200, 200, 200) 0%, rgb(100, 100, 100) 100%);
+    color: #fff;
+    border-radius: 20px;
+}
+
 /*テキストエリア*/
 #textarea {
     background-color: green;
@@ -64,7 +71,7 @@ header>* {
 #textarea>* {
     display: inline;
     width: 90%;
-    height: 180px;
+    height: 170px;
     margin-top: 5px;
 }
 
@@ -73,41 +80,23 @@ header>* {
     background-color: green;
 }
 
-#copyButton>* {
-    margin: 3px;
-}
-
 #copyButton>button {
     background: rgb(50, 150, 200);
     position: relative;
     justify-content: space-around;
     align-items: center;
-    padding: 5px;
     color: #040000;
+    padding: 3px;
+    margin: 3px;
     transition: 0.3s ease-in-out;
-    z-index: 0;
+    z-index: 10;
     border-left: solid 5px #0000004f;
-}
-
-#copyButton:hover:before {
-    width: 100%;
-    z-index: -1;
-}
-
-#copyButton>button:hover {
-    color: rgb(0, 0, 0);
-}
-
-#copyButton:hover:before {
-    width: 100%;
-    z-index: -1;
 }
 
 /*=============== メイン ===============*/
 .main {
     /*リョウガだよ*/
     background-size: 300px 150px;
-    text-align: center;
     position: relative;
     display: flex;
 }
@@ -117,19 +106,22 @@ header>* {
     width: 50%;
 }
 
+.option>* {
+    margin-top: 15px;
+    height: 30px;
+}
+
+.option>*>h3 {
+    width: fit-content;
+    padding: 5px;
+    font-size: 11px;
+}
+
 /*========== タブ制限 ==========*/
 
 .check {
-    width: fit-content;
+    width: 100%;
     display: inline-flex;
-    margin: 5px auto;
-}
-
-#TabLimitText {
-    font-size: 13px;
-    margin-right: 5px;
-    margin-left: 20px;
-    margin-top: 10px;
 }
 
 /* === ボタンを表示するエリア ============================== */
@@ -175,8 +167,8 @@ header>* {
 
 /*========== 最大タブ数 ==========*/
 .maxTabNum {
+    width: 100%;
     display: flex;
-    margin: 5px auto;
 }
 
 .tabRange {
@@ -189,12 +181,14 @@ header>* {
     height: 22px;
     width: 100px;
     cursor: pointer;
-    border-radius: 0; /* iOS */
+    border-radius: 0;
+    /* iOS */
 }
+
 .tabRange::-webkit-slider-runnable-track {
     -webkit-appearance: none;
     background: #ddd;
-} 
+}
 
 /*
  * 1. Set to 0 width and remove border for a slider without a thumb
@@ -203,7 +197,8 @@ header>* {
  */
 .tabRange::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px; /* 1 */
+    width: 20px;
+    /* 1 */
     height: 40px;
     background: #fff;
     box-shadow: -200px 0 0 200px rgb(80, 250, 50); /* 2 */
@@ -225,11 +220,11 @@ header>* {
     box-sizing: border-box;
 }
 
-.tabRange::-ms-fill-lower { 
+.tabRange::-ms-fill-lower {
     background: dodgerblue;
 }
 
-.tabRange::-ms-thumb { 
+.tabRange::-ms-thumb {
     background: #fff;
     border: 2px solid #999;
     height: 40px;
@@ -237,32 +232,34 @@ header>* {
     box-sizing: border-box;
 }
 
-.tabRange::-ms-ticks-after { 
-    display: none; 
+.tabRange::-ms-ticks-after {
+    display: none;
 }
 
-.tabRange::-ms-ticks-before { 
-    display: none; 
+.tabRange::-ms-ticks-before {
+    display: none;
 }
 
-.tabRange::-ms-track { 
+.tabRange::-ms-track {
     background: #ddd;
     color: transparent;
     height: 40px;
     border: none;
 }
 
-.tabRange::-ms-tooltip { 
+.tabRange::-ms-tooltip {
     display: none;
-} 
+}
 
 #nowTabNum {
     float: right;
 }
 
 /* 削除,グループ化ボタン--simeiro */
-#groupText{
 
+.group {
+    width: 100%;
+    display: inline-flex;
 }
 
 /* === ボタンを表示するエリア ============================== */
@@ -306,6 +303,10 @@ header>* {
     background     : #bf1d00;             /* 背景色             */
   }
 
+.tabdelete {
+    width: 100%;
+}
+
 .deletetabs_button {
     visibility: hidden;
     min-width: 60px;
@@ -336,15 +337,14 @@ header>* {
     z-index: 1;
 }
 
-
-
 /* 削除,グループ化ボタン終了 */
 
 /*========== タブリスト ==========*/
-#tabList {
+.tabList {
     width: 50%;
     height: fit-content;
     position: relative;
+    text-align: center;
 }
 
 #tabListTitle {
@@ -358,7 +358,7 @@ header>* {
 
 #domains {
     width: 100%;
-    height: 200px;
+    height: 185px;
     overflow-y: auto;
     overflow-wrap: break-word;
     background-color: rgb(50, 50, 0);
@@ -374,7 +374,6 @@ header>* {
 
 #domains::-webkit-scrollbar-thumb {
     background-color: dimgray;
-    ;
 }
 
 #domains>ul {
