@@ -2,14 +2,14 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //ストレージの初期値を設定
-        const bArray =["0","1","0","2","0","0"];
-        const cArray =[false,true,true];
-        const rArray =["50"];
-        const oArray =["#ffcccc"];
-        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray});
+        const bArray = ["0", "1", "0", "2", "0", "0"];
+        const cArray = [false, true, true];
+        const rArray = ["50"];
+        const oArray = ["#ffcccc"];
+        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray });
         chrome.storage.local.set({ maxTabNum: tabs.length });
         chrome.storage.local.set({ check: false });
-        chrome.storage.local.set({ group: "notGrouped" });
+        chrome.storage.local.set({ group: false });
         //ストレージにタブの情報をグループごとに格納
         makeGroups(tabs);
         //アイコンの表示
@@ -21,14 +21,14 @@ chrome.runtime.onInstalled.addListener(() => {
 //タブ更新時実行
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["group","maxTabNum","check","bArray","cArray"], (items) => {
+        chrome.storage.local.get(["group", "maxTabNum", "check", "bArray", "cArray"], (items) => {
             if (changeInfo.status === "complete") {//ページ読み込みが完了した時
                 //ストレージにタブの情報をグループごとに格納
                 makeGroups(tabs);
                 //アイコンの表示
-                displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
+                displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
                 makeIcon(tabs.length, items.maxTabNum, items.check);
-                if (items.group == "grouped") {
+                if (items.group == true) {
                     tabGroup();//新しいタブもグループ化
                 };
             };
@@ -39,19 +39,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 //タブ作成時実行
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["maxTabNum", "check","bArray","cArray"], (items) => {
+        chrome.storage.local.get(["maxTabNum", "check", "bArray", "cArray"], (items) => {
             //ストレージに格納されているmaxTabNumよりタブ数が多くchecboxがtrueならば新しいタブを閉じる
             if (items.check == true && tabs.length > items.maxTabNum) {
                 chrome.tabs.remove(Number(tab.id));
-                if(items.cArray[2]){
-                    makeNotify("タブ制限超過",items.maxTabNum + "個以上は開けません。")
+                if (items.cArray[2]) {
+                    makeNotify("タブ制限超過", items.maxTabNum + "個以上は開けません。")
                 };
             };
             //アイコンの表示
-            displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
+            displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
             makeIcon(tabs.length, items.maxTabNum, items.check);
             //タブの情報をストレージに格納
-            duplicateVerify(tabs,tab,items.cArray,items.bArray[1]);
+            duplicateVerify(tabs, tab, items.cArray, items.bArray[1]);
         });
     });
 });
@@ -63,7 +63,7 @@ chrome.tabs.onRemoved.addListener(() => {
             //ストレージにタブの情報をグループごとに格納
             makeGroups(tabs);
             //アイコンの表示
-            displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
+            displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
             makeIcon(tabs.length, items.maxTabNum, items.check);
             //checkboxがfalseなら現在のタブ数をストレージのmaxTabNumに格納
             if (items.check == false) {
@@ -76,10 +76,10 @@ chrome.tabs.onRemoved.addListener(() => {
 //メッセージ取得時実行
 chrome.runtime.onMessage.addListener((data) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["maxTabNum", "check","bArray"], (items) => {
+        chrome.storage.local.get(["maxTabNum", "check", "bArray"], (items) => {
             switch (data) {
                 case "changeIcon":
-                    displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
+                    displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
                 case "group":
@@ -89,11 +89,11 @@ chrome.runtime.onMessage.addListener((data) => {
                     tabUngroup();
                     break;
                 case "checkON":
-                    displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
+                    displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
                 case "checkOFF":
-                    displayNum(tabs.length, items.maxTabNum, items.check,items.bArray[4]);
+                    displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
                     makeIcon(tabs.length, items.maxTabNum, items.check);
                     break;
                 default:
@@ -120,8 +120,8 @@ function makeIcon(tabsLength, maxTabNum, check) {
     });
 }
 //アイコン下に現在のタブ数を表示する関数
-function displayNum(tabsLength, maxTabNum,check,value ="0") {
-    switch(value){
+function displayNum(tabsLength, maxTabNum, check, value = "0") {
+    switch (value) {
         case "0": //通常表示
             if (tabsLength == maxTabNum && check == true) {
                 chrome.action.setBadgeText({ text: String("MAX") });
@@ -132,9 +132,9 @@ function displayNum(tabsLength, maxTabNum,check,value ="0") {
             };
             break;
         case "1": //残数表示
-            if(check == true && maxTabNum - tabsLength < 10000){
+            if (check == true && maxTabNum - tabsLength < 10000) {
                 chrome.action.setBadgeText({ text: String(maxTabNum - tabsLength) });
-            }else{
+            } else {
                 chrome.action.setBadgeText({ text: String("∞") });
             };
             break;
@@ -143,7 +143,7 @@ function displayNum(tabsLength, maxTabNum,check,value ="0") {
 
 //タブをグループ化する関数
 function tabGroup() {
-    chrome.storage.local.get(["tabGroups", "group", "gm"], (items) => {
+    chrome.storage.local.get(["tabGroups", "group", "bArray"], (items) => {
         for (let i = 0; i < items.tabGroups.length; i++) {
             //配列にタブのidを格納
             let tabIdList = [];
@@ -153,8 +153,8 @@ function tabGroup() {
             //グループ化
             chrome.tabs.ungroup(tabIdList);
             chrome.tabs.group({ tabIds: tabIdList });
-            chrome.storage.local.set({ group: "grouped" });
-            if (items.gm == "1") {
+            chrome.storage.local.set({ group: true });
+            if (items.bArray[5] == "1") {
                 //グループ化解除
                 chrome.tabs.ungroup(tabIdList);
             }
@@ -172,7 +172,7 @@ function tabUngroup() {
             }
             //グループ化解除
             chrome.tabs.ungroup(tabIdList);
-            chrome.storage.local.set({ group: "notGrouped" });
+            chrome.storage.local.set({ group: false });
         }
     });
 }
@@ -208,39 +208,39 @@ function makeGroups(tabs) {
     });
 };
 
-function duplicateVerify(tabs,target,cArray){
+function duplicateVerify(tabs, target, cArray) {
     let tabsArray = [];
-    if(tabs.length == 1){
+    if (tabs.length == 1) {
         return -1;
     }
-    if(cArray[1] == true || cArray[0] == true){
-        let sameIndex = detectDuplicate(tabs,target)
-        if(sameIndex != -1){
-            if(cArray[1] == true){
-                if(cArray[0] == true){
-                    makeNotify("重複タブ削除",tabs[sameIndex].title+"を削除しました。")
+    if (cArray[1] == true || cArray[0] == true) {
+        let sameIndex = detectDuplicate(tabs, target)
+        if (sameIndex != -1) {
+            if (cArray[1] == true) {
+                if (cArray[0] == true) {
+                    makeNotify("重複タブ削除", tabs[sameIndex].title + "を削除しました。")
                 };
-                if(tabs[sameIndex].active){
+                if (tabs[sameIndex].active) {
                     chrome.tabs.remove(target.id);
-                }else{
+                } else {
                     chrome.tabs.remove(tabs[sameIndex].id);
                 };
-            }else if(cArray[0] == true){
-                    makeNotify("重複タブ検知",tabs[sameIndex].title+"が重複しています。")
+            } else if (cArray[0] == true) {
+                makeNotify("重複タブ検知", tabs[sameIndex].title + "が重複しています。")
             };
         };
     };
 
-//urlのみでしか検索かけれん。
-    function detectDuplicate(tabs,target){
-        tabs.forEach(function(value){
+    //urlのみでしか検索かけれん。
+    function detectDuplicate(tabs, target) {
+        tabs.forEach(function (value) {
             tabsArray.push(value.url);
         });
         return tabsArray.indexOf(target.pendingUrl);
     };
 };
 
-function makeNotify(title="title未設定",message="message未設定"){
+function makeNotify(title = "title未設定", message = "message未設定") {
     const notify = {
         type: "basic",
         title: title,
