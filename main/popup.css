@@ -1,8 +1,11 @@
+
 * {
     margin: 0px;
 }
 
 body {
+     /*文字のデザインM PLUS Rounded 1c*/
+     font-family: "Noto Sans JP" "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
     background-size: 100% 100%;
 }
 
@@ -16,6 +19,7 @@ body {
 } */
 /*=============== ヘッダー ===============*/
 header {
+ 
     text-align: center;
     width: 100%;
     height: auto;
@@ -23,16 +27,19 @@ header {
 }
 
 header>* {
+
     display: inline;
     width: fit-content;
 }
 
 .title {
+
     font-family: serif;
     font-size: 25px;
 }
 
 .openconfig {
+  
     position: absolute;
     background: url("/image/icon_config.svg") no-repeat 0px center;
     background-size: 25px 25px;
