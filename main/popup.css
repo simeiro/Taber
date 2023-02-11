@@ -129,21 +129,15 @@ header>* {
     margin: 5px auto;
 }
 
-#off {
+#TabLimitText {
     font-size: 13px;
     margin-right: 5px;
     margin-left: 20px;
     margin-top: 10px;
 }
 
-#on {
-    font-size: 13px;
-    margin-top: 10px;
-    margin-left: 5px;
-}
-
 /*チェックボックス*/
-.container>div {
+/* .container>div {
     margin: 0px;
 }
 
@@ -205,7 +199,47 @@ header>* {
 
 .container>div:last-of-type input[type=checkbox]:checked~label:after {
     left: 3.6rem;
-}
+} */
+
+
+/* === ボタンを表示するエリア ============================== */
+.sample2Area {
+    margin         : auto;                /* 中央寄せ           */
+    width          : 100px;               /* ボタンの横幅       */
+    position: relative;
+  }
+   
+   /* === チェックボックス ==================================== */
+  .sample2Area input[type="checkbox"] {
+    display        : none;            /* チェックボックス非表示 */
+  }
+   
+   /* === チェックボックスのラベル（標準） ==================== */
+  .sample2Area label {
+    display        : block;               /* ボックス要素に変更 */
+    box-sizing     : border-box;          /* 枠線を含んだサイズ */
+    text-align     : left;                /* 文字位置は中央     */
+    border         : 2px solid rgb(80,250,30);   /* 枠線               */
+    border-radius  : 3px;                 /* 角丸               */
+    line-height    : 1;                   /* 1行の高さ          */
+    height         : 25px;                /* ボタンの高さ       */
+    width: 35px;
+  }
+   
+   /* === 移動BOX（標準） ===================================== */
+  .sample2Area #sample2box {
+    display        :inline-block;
+    height         : 22px;                /* ボタンの高さ       */
+    width          : 50%;                 /* ボタンの高さ       */
+    background     : rgb(80,250,30);                /* 背景色             */
+    transition     : .4s;                 /* ゆっくり変化       */
+  }
+   
+   /* === ON側のチェックボックスの移動BOX（ONのとき） ========= */
+  .sample2Area #check:checked + label #sample2box {
+    transform      : translateX(100%);    /* BOXを右に移動      */
+    background     : #bf1d00;             /* 背景色             */
+  }
 
 /*========== 最大タブ数 ==========*/
 .maxTabNum {
@@ -218,8 +252,80 @@ header>* {
 }
 
 .tabRange {
+    -webkit-appearance: none;
     pointer-events: auto;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+    height: 22px;
+    width: 50%;
+    cursor: pointer;
+    border-radius: 0; /* iOS */
 }
+.tabRange::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    background: #ddd;
+} 
+
+/*
+ * 1. Set to 0 width and remove border for a slider without a thumb
+ * 2. Shadow is negative the full width of the input and has a spread 
+ *    of the width of the input.
+ */
+.tabRange::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -200px 0 0 200px rgb(80, 250, 30); /* 2 */
+    border: 2px solid #999; /* 1 */
+}
+
+.tabRange::-moz-range-track {
+    height: 40px;
+    background: #ddd;
+}
+
+.tabRange::-moz-range-thumb {
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -200px 0 0 200px dodgerblue;
+    box-sizing: border-box;
+}
+
+.tabRange::-ms-fill-lower { 
+    background: dodgerblue;
+}
+
+.tabRange::-ms-thumb { 
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
+}
+
+.tabRange::-ms-ticks-after { 
+    display: none; 
+}
+
+.tabRange::-ms-ticks-before { 
+    display: none; 
+}
+
+.tabRange::-ms-track { 
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
+}
+
+.tabRange::-ms-tooltip { 
+    display: none;
+} 
 
 #nowTabNum {
     float: right;
@@ -272,6 +378,8 @@ header>* {
     top: 2.5px;
     z-index: 1;
 }
+
+
 
 /* 削除,グループ化ボタン終了 */
 
