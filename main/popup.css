@@ -1,11 +1,10 @@
-
 * {
     margin: 0px;
 }
 
 body {
-     /*文字のデザインM PLUS Rounded 1c*/
-     font-family: "Noto Sans JP" "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+    /*文字のデザインM PLUS Rounded 1c*/
+    font-family: "Noto Sans JP" "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
     background-size: 100% 100%;
 }
 
@@ -19,7 +18,6 @@ body {
 } */
 /*=============== ヘッダー ===============*/
 header {
- 
     text-align: center;
     width: 100%;
     height: auto;
@@ -27,19 +25,17 @@ header {
 }
 
 header>* {
-
     display: inline;
     width: fit-content;
 }
 
 .title {
-
     font-family: serif;
     font-size: 25px;
+    text-shadow: 3px 3px 3px grey;
 }
 
 .openconfig {
-  
     position: absolute;
     background: url("/image/icon_config.svg") no-repeat 0px center;
     background-size: 25px 25px;
@@ -247,10 +243,6 @@ header>* {
     margin: 5px auto;
 }
 
-#maxTabNum {
-    width: 100px;
-}
-
 .tabRange {
     -webkit-appearance: none;
     pointer-events: auto;
@@ -332,6 +324,10 @@ header>* {
 }
 
 /* 削除,グループ化ボタン--simeiro */
+#groupText{
+
+}
+
 #tabGroup {
     min-width: 60px;
     height: 20px;
@@ -393,17 +389,18 @@ header>* {
 #tabListTitle {
     width: 100%;
     height: 26px;
-    position: sticky; 
+    position: sticky;
     padding-top: 2px;
     font-size: 16px;
-    background-color: gray;
+    background-color: rgb(100, 100, 0);
 }
 
 #domains {
     width: 100%;
-    height:200px;
+    height: 200px;
     overflow-y: auto;
     overflow-wrap: break-word;
+    background-color: rgb(50, 50, 0);
 }
 
 #domains::-webkit-scrollbar {
@@ -411,32 +408,39 @@ header>* {
 }
 
 #domains::-webkit-scrollbar-track {
-    background-color: #ccc;
+    background-color: lightgray;
 }
 
 #domains::-webkit-scrollbar-thumb {
-    background-color: #17585d;
+    background-color: dimgray;
+    ;
 }
 
 #domains>ul {
     padding: 5px;
-    background-color: rgb(240, 240, 240);
-    border: solid gray;
+    background: -webkit-linear-gradient(top, rgb(170, 255, 45) 0%, rgb(35, 140, 35) 100%);
+    background: linear-gradient(to bottom, rgb(170, 255, 45) 0%, rgb(35, 140, 35) 100%);
+    color: #fff;
+    margin: 3px;
+    border-radius: 10px;
 }
 
 #domains>ul:hover {
-    padding: 5px;
-    background-color: rgb(230, 230, 230);
-    border: solid gray;
+    background: -webkit-linear-gradient(top, rgb(140, 225, 15) 0%, rgb(5, 110, 5) 100%);
+    background: linear-gradient(to bottom, rgb(140, 225, 15) 0%, rgb(5, 110, 5) 100%);
     cursor: pointer;
 }
 
 #domains>ul>li {
-    background-color: rgb(230, 230, 230);
+    list-style: none;
+    background-color: rgb(240, 240, 240);
+    color: black;
+    margin: 3px;
+    border-radius: 3px;
 }
 
 #domains>ul>li:hover {
-    background-color: rgb(220, 220, 220);
+    background-color: rgb(210, 210, 210);
 }
 
 /* 検索窓-simeiro */
