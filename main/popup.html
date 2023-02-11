@@ -28,19 +28,24 @@
     <div class="main">
         <div class=option>
             <div class="check">
-                <h4 id="off">タブ制限なし</h4>
-                <div class="container">
+                <h4 id="TabLimitText">タブ制限</h4>
+                <!-- <div class="container">
                     <div>
                         <input type="checkbox" id="check">
                         <label for="check"></label>
                     </div>
-                </div>
-                <h4 id="on">タブ制限あり</h4>
+                </div> -->
+                <div class="sample2Area" id="makeImg">
+                    <input type="checkbox" id="check">
+                      <label for="check">
+                        <div id="sample2box"></div>
+                      </label>
+                  </div>
             </div>
             <div class="maxTabNum">
                 <h3>最大タブ数</h3>
                 <input type="range" class="tabRange" id="maxTabNum" value="" name="" min="1" max="50">
-                <spam id="nowTabNum"></span>
+                <span id="nowTabNum"></span>
             </div>
             <div class="tabdelete">
                 <h3 id="sameTabDelete">重複タブ:0個
