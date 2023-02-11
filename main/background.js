@@ -2,14 +2,14 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //ストレージの初期値を設定
-        chrome.storage.local.set({ maxTabNum: tabs.length });
-        chrome.storage.local.set({ check: false });
-        chrome.storage.local.set({ group: "notGrouped" });
         const bArray =["0","1","0","2","0","0"];
         const cArray =[false,true,true];
         const rArray =["50"];
         const oArray =["#ffcccc"];
         chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray});
+        chrome.storage.local.set({ maxTabNum: tabs.length });
+        chrome.storage.local.set({ check: false });
+        chrome.storage.local.set({ group: "notGrouped" });
         //ストレージにタブの情報をグループごとに格納
         makeGroups(tabs);
         //アイコンの表示
