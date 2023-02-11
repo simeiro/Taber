@@ -11,55 +11,54 @@
 
 <body>
     <header>
-        <div >
-            <div class = "openconfig" id = "config"></div>
+        <div>
+            <div class="openconfig" id="config"></div>
         </div>
         <h1 class="title">Taber</h1>
         <div class="URLList">URLリスト
             <button id="URLListButton">&ensp;開く&ensp;</button>
-            <div id="textarea"></div><br>
+            <div id="textarea"></div>
             <div id="copyButton"></div>
         </div>
     </header>
     <div class="main">
-        <div class="tabListText">
-            <div class="open-btn"></div>
-                <h3>タブリスト</h3>
-                    <div id="search-wrap">
-                        <div class="close-btn"><span></span><span></span></div>
-                        <div class="search-area">
-                            <input type="text" id="inputSearch" value="" name="" placeholder="検索するタブ名">
-                            <input type="submit" id="searchsubmit" value="">
-                        </div><!--/search-area -->
-                    </div><!-- /search-wrap -->
-                <select class="result_select" id="resultSelect" size="10"></select>
+        <div class=option>
+            <div class="check">
+                <h4 id="off">タブ制限なし</h4>
+                <div class="container">
+                    <div>
+                        <input type="checkbox" id="check">
+                        <label for="check"></label>
+                    </div>
+                </div>
+                <h4 id="on">タブ制限あり</h4>
+            </div>
+            <div class="maxTabNum">
+                <h3>最大タブ数</h3>
+                <input type="range" class="tabRange" id="maxTabNum" value="" name="" min="1" max="50">
+                <spam id="nowTabNum"></span>
+            </div>
+            <div class="tabdelete">
+                <h3 id="sameTabDelete">重複タブ:0個
+                    <button class="deletetabs_button" id="deleteTabsButton" disabled>削除済</button>
+                </h3>
+            </div>
+            <button id="tabGroup">グループ化</button>
         </div>
-        <div class="tabList">
-            <h3 class="tabListTitle"></h3>
+        <div id="tabList">
+            <h3 id="tabListTitle">タブリスト</h3>
             <div id="domains"></div>
         </div>
-        <div class="check">
-            <h4 id="off">タブ制限なし</h4>
-            <div class="container">
-                <div>
-                    <input type="checkbox" id="check">
-                    <label for="check"></label>
-                </div>
-            </div>
-            <h4 id="on">タブ制限あり</h4>
-        </div>
-        <div class="maxTabNum">
-            <h3>最大タブ数</h3>
-            <input type="range" class="tabRange" id="maxTabNum" value=""  name="" min="1" max="50"><spam id="nowTabNum"></span>
-        </div>
+        <div class="open-btn"></div>
+        <div id="search-wrap">
+            <div class="close-btn"><span></span><span></span></div>
+            <div class="search-area">
+                <input type="text" id="inputSearch" value="" name="" placeholder="検索するタブ名">
+                <input type="submit" id="searchsubmit" value="">
+            </div><!--/search-area -->
+            <select class="result_select" id="resultSelect" size="10"></select>
+        </div><!-- /search-wrap -->
     </div>
-    <footer>
-        <div class="tabdelete">
-            <h3 id="sameTabDelete">重複タブ:0個<button class="deletetabs_button" id="deleteTabsButton" disabled>削除済</button>
-            </h3>
-        </div>
-        <button id="tabGroup">グループ化</button>
-    </footer>
 </body>
 
 </html>
