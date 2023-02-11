@@ -7,6 +7,10 @@
     <script src="jquery-3.6.3.min.js"></script>
     <script src="popup.js"></script>
     <script src="animation.js"></script>
+    <!--- ブラウザの差異をなくす-->
+    <link rel="stylesheet" href="sanitaize.css">
+    <!--文字のデザイン-->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
 </head>
 
 <body>
@@ -48,9 +52,10 @@
             </div>
             <h4 id="on">タブ制限あり</h4>
         </div>
+        
         <div class="maxTabNum">
             <h3>最大タブ数</h3>
-            <input type="range" class="tabRange" id="maxTabNum" value=""  name="" min="1" max="50"><spam id="nowTabNum"></span>
+            <input type="range" class="tabRange" id="maxTabNum" value=""  name="" min="1" max="50"><span id="nowTabNum"></span>
         </div>
     </div>
     <footer>
@@ -60,6 +65,8 @@
         </div>
         <button id="tabGroup">グループ化</button>
     </footer>
+    
+
 </body>
 
 </html>
