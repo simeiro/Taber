@@ -28,22 +28,16 @@
     <div class="main">
         <div class=option>
             <div class="check">
-                <h4 id="TabLimitText">タブ制限</h4>
-                <!-- <div class="container">
-                    <div>
-                        <input type="checkbox" id="check">
-                        <label for="check"></label>
-                    </div>
-                </div> -->
+                <h3 id="TabLimitText">タブ制限</h3>
                 <div class="sample2Area" id="makeImg">
                     <input type="checkbox" id="check">
-                      <label for="check">
+                    <label for="check">
                         <div id="sample2box"></div>
-                      </label>
-                  </div>
+                    </label>
+                </div>
             </div>
             <div class="maxTabNum">
-                <h3>最大タブ数</h3>
+                <h3 >最大タブ数</h3>
                 <input type="range" class="tabRange" id="maxTabNum" value="" name="" min="1" max="50">
                 <span id="nowTabNum"></span>
             </div>
@@ -52,10 +46,12 @@
                     <button class="deletetabs_button" id="deleteTabsButton" disabled>削除済</button>
                 </h3>
             </div>
-            <h3 id="groupText">グループ化</h3>
-            <input type="checkbox" id="tabGroup"></input>
+            <div class="group">
+                <h3 id="groupText">グループ化</h3>
+                <input type="checkbox" id="tabGroup"></input>
+            </div>
         </div>
-        <div id="tabList">
+        <div class="tabList">
             <h3 id="tabListTitle">タブリスト</h3>
             <div id="domains"></div>
         </div>
