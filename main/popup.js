@@ -42,12 +42,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //URLリストボタンの初期表示
         document.querySelector("#URLListButton").value = "close";
         //タブグループ化ボタンの初期表示
-        if (items.group == "notGrouped") {
-            document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
-        }
-        else {
-            document.querySelector("#tabGroup").innerHTML = "グループ解除";
-        };
+        document.querySelector("#tabGroup").checked = items.group;
         //rangeの最大タブ数初期表示
         if (items.check == true) {
             document.getElementById("nowTabNum").innerHTML = items.maxTabNum;
@@ -56,7 +51,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             document.getElementById("nowTabNum").innerHTML = "∞";
             $(".tabRange").css("pointer-events", "none");
         }
-        
+
         setbackground(items.bArray[2]);
         //検索結果欄  --shita
         //--検索結果欄初期表示  あとで検索結果のこしておく処理作りたい
@@ -133,7 +128,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         };
     });
 
-    //copyボタンが押されたらtextareaの内容をクリップボードにコピー --fuma
+    //copyボタン --fuma
     document.querySelector("#copyButton").addEventListener("click", (event) => {
         if (event.target.value == "copy") {
             document.getSelection().selectAllChildren(document.querySelector("#textarea"));
@@ -143,28 +138,22 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
 
     //最大値の数字が変わったら実行 --fuma
     document.querySelector("#maxTabNum").addEventListener("change", () => {
-        //変数maxTabNumをナンバーボックスの値として宣言
         let maxTabNum = document.querySelector("#maxTabNum").value;
-        //キーボードから想定外の値を入力した場合，現在のタブ数を変数maxTabNumに代入し表示
         if (maxTabNum < tabs.length) {
             maxTabNum = tabs.length;
             document.querySelector("#maxTabNum").value = tabs.length;
         }
-        //ストレージのmaxTabNumに変数maxTabNumの値を格納
         chrome.storage.local.set({ maxTabNum: maxTabNum });
-        //backgroundのアイコンを変える関数を呼び出す
         chrome.runtime.sendMessage("changeIcon");
     });
 
-    //checkboxが押された時実行 --fuma
+    //タブ制限checkbox --fuma
     document.querySelector("#check").addEventListener("change", () => {
-        //ストレージのcheckにcheckboxの状態を格納
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
-        //アイコンを変える関数を呼び出す
         chrome.runtime.sendMessage("changeIcon");
     });
 
-    //タブリストの要素が押された時実行 --fuma
+    //タブリスト --fuma
     document.querySelector("#domains").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
             //クリックされた場所を判定
@@ -194,11 +183,10 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
                             li.value = items.tabGroups[i][j + 1];//タブのid
                             li.innerHTML = items.tabGroups[i][j];//タブのタイトル
                             ul.appendChild(li);
-                            //groupStatusをiに変更 
                             chrome.storage.local.set({ groupStatus: i });
                         }
                     }
-                    else if (i == event.target.value) {//タイトル要素があるなら削除し，groupStatusをdomainsに変更
+                    else if (i == event.target.value) {//タイトル要素があれば削除しgroupStatusをdomainsに変更
                         chrome.storage.local.set({ groupStatus: "domains" });
                     }
                     document.querySelector("#domains").appendChild(ul);
@@ -207,16 +195,13 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         });
     });
 
-    //グループ化ボタンが押された時実行 --fuma
-    document.querySelector("#tabGroup").addEventListener("click", (event) => {
-        //popupの表示のみ(他の処理はbackground.jsに移譲)
+    //グループ化checkbox --fuma
+    document.querySelector("#tabGroup").addEventListener("change", (event) => {
         chrome.storage.local.get(["group"], (items) => {
-            if (items.group == "notGrouped") {//グループ化されている場合
-                event.target.innerHTML = "グループ解除";
+            if (items.group == false) {
                 chrome.runtime.sendMessage("group");
             }
-            else {//グループ化されていない場合
-                event.target.innerHTML = "&ensp;グループ化&ensp;";
+            else {
                 chrome.runtime.sendMessage("ungroup");
             }
         });
@@ -287,12 +272,6 @@ chrome.runtime.onMessage.addListener((data) => {
     chrome.storage.local.get(["group", "maxTabNum"], (items) => {
         //popupの表示のみ(他の処理はbackground.jsに移譲)
         switch (data) {
-            case "group":
-                document.querySelector("#tabGroup").innerHTML = "グループ解除";
-                break;
-            case "ungroup":
-                document.querySelector("#tabGroup").innerHTML = "&ensp;グループ化&ensp;";
-                break;
             case "changeMaxTabNum":
                 document.querySelector("#maxTabNum").value = items.maxTabNum;
                 break;
@@ -310,52 +289,52 @@ chrome.runtime.onMessage.addListener((data) => {
     });
 });
 
-function setbackground(value){
+function setbackground(value) {
     let light = "#f9f9f9";
     let dark = "#202020";
-    switch(Number(value)){
+    switch (Number(value)) {
         default:
         case 0://white
-            $("body").css("background-color",light);
+            $("body").css("background-color", light);
             break;
 
         case 1://black
-            $("body").css("background-color",dark);
-            $("body").css("color",light);//とりあえず文字見にくいから設定してるだけ
+            $("body").css("background-color", dark);
+            $("body").css("color", light);//とりあえず文字見にくいから設定してるだけ
             break;
 
         case 2://auto
-            if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-                $("body").css("background-color",dark);
-            }else{
-                $("body").css("background-color",light);
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                $("body").css("background-color", dark);
+            } else {
+                $("body").css("background-color", light);
             }
             break;
 
         case 3://rgb
-            chrome.storage.local.get(["oArray"],function(value){
-                $("body").css("background-color",value.oArray[0]);
+            chrome.storage.local.get(["oArray"], function (value) {
+                $("body").css("background-color", value.oArray[0]);
             });
             break;
 
         case 4://maguro
-            $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
-            $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
+            $("body").css("background-image", "url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
+            $(".main").css("background-image", "url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
             break;
 
         case 5://img
-            chrome.storage.local.get(["oArray","rArray"],function(value){
-                if(Boolean(value.oArray[1])){
-                    $("body").css("background-image","url("+value.oArray[1]+")");
-                    $("body").css("background-repeat","no-repeat");
-                    $("body").css("background-size","cover");
+            chrome.storage.local.get(["oArray", "rArray"], function (value) {
+                if (Boolean(value.oArray[1])) {
+                    $("body").css("background-image", "url(" + value.oArray[1] + ")");
+                    $("body").css("background-repeat", "no-repeat");
+                    $("body").css("background-size", "cover");
                     // $("body").css("position","relative");
-                    $("body::before").css("background-color","rgba(0, 0, 0, "+value.rArray[0]/100+")");
-                }else{
-                    $("body").css("background-image","url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
-                    $(".main").css("background-image","url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
+                    $("body::before").css("background-color", "rgba(0, 0, 0, " + value.rArray[0] / 100 + ")");
+                } else {
+                    $("body").css("background-image", "url(https://1.bp.blogspot.com/-gq_tAX03Btk/VpjBpezB-kI/AAAAAAAA25Y/s__gB-bb2lc/s1600/bg_natural_ocean.jpg)");
+                    $(".main").css("background-image", "url(https://4.bp.blogspot.com/-L-oUiflcmD8/VvXe7bOhc3I/AAAAAAAA5KE/YlzixMhJl-UdBETW5PstRAAfqqNyH84QQ/w1200-h630-p-k-no-nu/fish_maguro2.png)");
                 };
-                
+
             });
             break;
     };
