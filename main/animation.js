@@ -28,6 +28,9 @@ $(function(){
 
     //現在Tab数表示range-simeiro
     $(".tabRange").on("input", function(){
+        chrome.storage.local.get("nArray", (items) =>{
+            $(".tabRange").prop("max", `${items.nArray[0]}`);//コード追加しそうなら訂正してください
+        });
         let val = $(this).val();
         $("#nowTabNum").html(val);
     });

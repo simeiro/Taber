@@ -6,7 +6,8 @@ chrome.runtime.onInstalled.addListener(() => {
         const cArray = [false, true, true];
         const rArray = ["50"];
         const oArray = ["#ffcccc"];
-        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray });
+        const nArray = [50];
+        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, oArray: oArray ,nArray: nArray});
         chrome.storage.local.set({ maxTabNum: tabs.length });
         chrome.storage.local.set({ check: false });
         chrome.storage.local.set({ group: false });
