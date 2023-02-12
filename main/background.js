@@ -3,7 +3,7 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //ストレージの初期値を設定
         const bArray = ["0", "1", "0", "2", "0", "0"];
-        const cArray = [false, true, true];
+        const cArray = [false, false, true];
         const rArray = ["50"];
         const oArray = ["#ffcccc"];
         const nArray = [50];
