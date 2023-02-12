@@ -1,7 +1,7 @@
 $(function () {
     //chrome.storage.local.clear();
-    chrome.storage.local.get(["bArray","cArray","rArray","oArray"], (function(value){
-        defaultSet(value.bArray,value.cArray,value.rArray,value.oArray);
+    chrome.storage.local.get(["bArray","cArray","rArray","oArray","nArray"], (function(value){
+        defaultSet(value.bArray,value.cArray,value.rArray,value.oArray,value.nArray);
 
         switch(Number(value.bArray[2])){
             case 0:
@@ -22,7 +22,7 @@ $(function () {
 
         };
         $("#resetB").on("click", function () {
-            defaultSet(value.bArray,value.cArray,value.rArray,value.oArray);
+            defaultSet(value.bArray,value.cArray,value.rArray,value.oArray,value.nArray);
         });
     }));
 
@@ -32,6 +32,7 @@ $(function () {
         let cArray = [];//cdtn0,cdtn1,cotm0
         let rArray = [];//sBg0
         let oArray = [];//coBg0,iBg0
+        let nArray = [];//nbr
         $("input:radio:checked").each(function(){
             bArray.push($(this).val());
         });
@@ -51,6 +52,10 @@ $(function () {
         $("input[type=color]").each(function(){
             oArray.push($(this).val());
         });
+
+        $("input[type=number]").each(function(index){
+            nArray.push($(this).val());
+        });
         
         if($("#bBg0").prop('checked')){
             themeset();
@@ -60,9 +65,10 @@ $(function () {
             themeset(bcolor = "#202020",fcolor = "#f9f9f9");
         }
 
-        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray});
+        chrome.storage.local.set({ bArray: bArray, cArray: cArray, rArray: rArray, nArray: nArray});
         // console.log(bArray, cArray,rArray);
         // console.log(oArray);
+        // console.log(nArray);
 
         if($("#bBg5").prop('checked')){
             let reader = new FileReader();
@@ -185,7 +191,7 @@ function themeset(bcolor = "#f9f9f9",fcolor = "#202020"){//default white
     $(".titleborder").css("border-top","5px dotted "+fcolor);
 };
 
-function defaultSet(bArray,cArray,rArray,oArray){
+function defaultSet(bArray,cArray,rArray,oArray,nArray){
     let allname = [];
     $("input:radio").each(function(){
         allname.push($(this).prop("name"));
@@ -202,6 +208,10 @@ function defaultSet(bArray,cArray,rArray,oArray){
 
     $("input[type=range]").each(function(index){//range追加するようなら書き換える
         $(".t_bg").html(rArray[index]+"%");
+    });
+
+    $("input[type=number]").each(function(index){
+        $(this).val(nArray[index]);
     });
 
     $("#coBg0").val(oArray[0]);
