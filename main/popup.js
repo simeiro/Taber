@@ -16,7 +16,8 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
 
     //初期表示
     chrome.storage.local.get(["maxTabNum", "check", "tabGroups", "group", "bArray"], (items) => {
-        //開けるタブの最大値とcheckboxの状態を表示
+        document.querySelector("#URLListButton").value = "close";
+        document.querySelector("#tabGroup").checked = items.group;
         if (items.check == false) {
             chrome.storage.local.set({ maxTabNum: tabs.length });
             document.querySelector("#maxTabNum").value = tabs.length;
@@ -24,25 +25,17 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             document.querySelector("#maxTabNum").value = items.maxTabNum;
         };
         document.querySelector("#check").checked = items.check;
-        //設定できる値の最小値を現在のタブ数に設定
         document.querySelector("#maxTabNum").min = tabs.length;
-        //タブリストの初期設定
         chrome.storage.local.set({ groupStatus: "domains" });
         for (let i = 0; i < items.tabGroups.length; i++) {
-            //ドメイン要素を追加
             let ul = document.createElement("ul");
             ul.innerHTML = items.tabGroups[i][0];
             ul.value = i;
-            //ドメイン名の前にアイコンを追加
             let img = document.createElement("img");
             img.src = "http://www.google.com/s2/favicons?domain=" + items.tabGroups[i][0];
             ul.prepend(img);
             document.querySelector("#domains").appendChild(ul);
         };
-        //URLリストボタンの初期表示
-        document.querySelector("#URLListButton").value = "close";
-        //タブグループ化ボタンの初期表示
-        document.querySelector("#tabGroup").checked = items.group;
         //rangeの最大タブ数初期表示
         if (items.check == true) {
             document.getElementById("nowTabNum").innerHTML = items.maxTabNum;
@@ -99,14 +92,12 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         };
     });
 
-    //events
-    //URLリストボタンが押された時実行 --fuma
+    //URLリスト
     document.querySelector("#URLListButton").addEventListener("click", (event) => {
-        if (event.target.value == "close") {//閉じている場合，開く
-            //ボタンの状態を変更
+        if (event.target.value == "close") {
             event.target.value = "open";
             event.target.innerHTML = "閉じる"
-            //URLリストを追加
+            //textarea
             let textarea = document.createElement("textarea");
             let txt = "";
             tabs.forEach((tab) => {
@@ -114,13 +105,13 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             });
             textarea.value = txt;
             document.querySelector("#textarea").appendChild(textarea);
-            //コピーボタンを追加
+            //copyButton
             let button = document.createElement("button");
             button.innerHTML = "コピー";
             button.value = "copy";
             document.querySelector("#copyButton").appendChild(button);
         }
-        else {//開いている場合，閉じる
+        else {
             event.target.value = "close";
             event.target.innerHTML = "&ensp;開く&ensp;"
             document.querySelector("#textarea").replaceChildren();
@@ -128,7 +119,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         };
     });
 
-    //copyボタン --fuma
+    //コピーボタン
     document.querySelector("#copyButton").addEventListener("click", (event) => {
         if (event.target.value == "copy") {
             document.getSelection().selectAllChildren(document.querySelector("#textarea"));
@@ -136,7 +127,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         };
     });
 
-    //最大値の数字が変わったら実行 --fuma
+    //最大タブ数
     document.querySelector("#maxTabNum").addEventListener("change", () => {
         let maxTabNum = document.querySelector("#maxTabNum").value;
         if (maxTabNum < tabs.length) {
@@ -147,46 +138,43 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         chrome.runtime.sendMessage("changeIcon");
     });
 
-    //タブ制限checkbox --fuma
+    //最大タブ数checkbox
     document.querySelector("#check").addEventListener("change", () => {
         chrome.storage.local.set({ check: document.querySelector("#check").checked });
         chrome.runtime.sendMessage("changeIcon");
     });
 
-    //タブリスト --fuma
+    //タブリスト
     document.querySelector("#domains").addEventListener("click", (event) => {
         chrome.storage.local.get(["groupStatus", "tabGroups"], (items) => {
-            //クリックされた場所を判定
             let result = 0;
-            //タイトルの場合タブを移動
             tabs.forEach((tab) => {
                 if (tab.id == event.target.value) {
                     chrome.tabs.update((tab.id), { active: true });
                     result++;
                 };
             });
-            //ドメインの場合タイトル要素を表示
             if (result == 0) {
                 document.querySelector("#domains").replaceChildren();
                 for (let i = 0; i < items.tabGroups.length; i++) {
-                    //ドメイン要素を表示
+                    //domain
                     let ul = document.createElement("ul");
                     ul.innerHTML = items.tabGroups[i][0];
                     ul.value = i;
-                    //ドメイン名の前にアイコンを追加
                     let img = document.createElement("img");
                     img.src = "http://www.google.com/s2/favicons?domain=" + items.tabGroups[i][0];
                     ul.prepend(img);
-                    if (i == event.target.value && items.groupStatus != i) {//タイトル要素がなければ追加
+                    //title
+                    if (i == event.target.value && items.groupStatus != i) {
                         for (let j = 2; j < items.tabGroups[i].length; j += 3) {
                             let li = document.createElement("li");
-                            li.value = items.tabGroups[i][j + 1];//タブのid
-                            li.innerHTML = items.tabGroups[i][j];//タブのタイトル
+                            li.value = items.tabGroups[i][j + 1];//id
+                            li.innerHTML = items.tabGroups[i][j];//title
                             ul.appendChild(li);
                             chrome.storage.local.set({ groupStatus: i });
                         }
                     }
-                    else if (i == event.target.value) {//タイトル要素があれば削除しgroupStatusをdomainsに変更
+                    else if (i == event.target.value) {
                         chrome.storage.local.set({ groupStatus: "domains" });
                     }
                     document.querySelector("#domains").appendChild(ul);
@@ -195,7 +183,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         });
     });
 
-    //グループ化checkbox --fuma
+    //グループ化checkbox
     document.querySelector("#tabGroup").addEventListener("change", (event) => {
         chrome.storage.local.get(["group"], (items) => {
             if (items.group == false) {
@@ -270,7 +258,6 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
 //メッセージ取得時実行
 chrome.runtime.onMessage.addListener((data) => {
     chrome.storage.local.get(["group", "maxTabNum"], (items) => {
-        //popupの表示のみ(他の処理はbackground.jsに移譲)
         switch (data) {
             case "changeMaxTabNum":
                 document.querySelector("#maxTabNum").value = items.maxTabNum;
