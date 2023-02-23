@@ -85,7 +85,7 @@ chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
             $(function () {
                 $(".deletetabs_button").text("削除");
                 $(".deletetabs_button").css({
-                    "box-shadow": "0 5px #4433ff",
+                    "box-shadow": "0 5px rgb(35, 100, 35)",
                     "visibility": "visible"
                 });
             });
