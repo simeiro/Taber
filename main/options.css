@@ -94,6 +94,12 @@ body{
     margin: var(--padding);
 }
 
+/*  */
+.b_newtabplace > label{
+    display: block;
+    margin: var(--padding);
+}
+
 .warning{
     color:red !important;
     padding-top: 5px;

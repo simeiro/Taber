@@ -2,7 +2,7 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
         //ストレージの初期値を設定
-        const bArray = ["0", "1", "0", "2", "0", "0"];
+        const bArray = ["0", "1", "0", "2", "0", "0", "0"];
         const cArray = [false, false, true];
         const rArray = ["50"];
         const oArray = ["#ffcccc"];
@@ -11,6 +11,7 @@ chrome.runtime.onInstalled.addListener(() => {
         chrome.storage.local.set({ maxTabNum: tabs.length });
         chrome.storage.local.set({ check: false });
         chrome.storage.local.set({ group: false });
+        chrome.storage.local.set({ currentTab: null });
         //ストレージにタブの情報をグループごとに格納
         makeGroups(tabs);
         //アイコンの表示
@@ -35,16 +36,47 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     });
 });
 
+// タブが切り替わる時実行
+chrome.tabs.onActivated.addListener(function (activeInfo) {
+    chrome.storage.local.get(["currentTab"], (items) => {
+        chrome.storage.local.set({ currentTab: activeInfo });
+    });
+});
+
 //タブ作成時実行
 chrome.tabs.onCreated.addListener((tab) => {
     chrome.tabs.query({ windowId: chrome.windows.WINDOW_ID_CURRENT }, (tabs) => {
-        chrome.storage.local.get(["maxTabNum", "check", "bArray", "cArray"], (items) => {
+        chrome.storage.local.get(["maxTabNum", "check", "currentTab", "bArray", "cArray"], (items) => {
+            // 新しいタブを現在のタブの右に移動
+            if (items.bArray[6] != "0") {
+                var currentTabIndex = 0;
+                for (let element of tabs) {
+                    if (element.id == items.currentTab.tabId) {
+                        currentTabIndex = element.index;
+                        break;
+                    }
+                }
+                switch(items.bArray[6]){
+                    case "1":
+                        chrome.tabs.move(tab.id, { index: tabs.length });
+                        break;
+                    case "2":
+                        chrome.tabs.move(tab.id, { index: 0 });
+                        break;
+                    case "3":
+                        chrome.tabs.move(tab.id, { index: currentTabIndex + 1 });
+                        break;
+                    case "4":
+                        chrome.tabs.move(tab.id, { index: currentTabIndex });
+                        break;
+                }
+            }
             if (items.check == true && tabs.length > items.maxTabNum) {
                 chrome.tabs.remove(Number(tab.id));
                 if (items.cArray[2]) {
                     makeNotify("タブ制限超過", items.maxTabNum + "個以上は開けません。")
                 };
-            };
+            }
             displayNum(tabs.length, items.maxTabNum, items.check, items.bArray[4]);
             makeIcon(tabs.length, items.maxTabNum, items.check);
             duplicateVerify(tabs, tab, items.cArray, items.bArray[1]);
@@ -227,7 +259,7 @@ function duplicateVerify(tabs, target, cArray) {
         });
         return tabsArray.indexOf(target.pendingUrl);
     };
-};
+}
 
 function makeNotify(title = "title未設定", message = "message未設定") {
     const notify = {
@@ -237,4 +269,4 @@ function makeNotify(title = "title未設定", message = "message未設定") {
         iconUrl: "./taber128.png"
     };
     chrome.notifications.create(notify);
-};
+}

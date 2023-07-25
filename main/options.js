@@ -28,7 +28,7 @@ $(function () {
 
 
     $("#saveB").on("click", function () {
-        let bArray = [];//(button)btsm,bstm,bbg,botm,gm,bGm0
+        let bArray = [];//(button)btsm,bstm,bbg,botm,gm,bGm0,ntp
         let cArray = [];//(checkbox)cdtn0,cdtn1,cotm0
         let rArray = [];//(range)sBg0
         let oArray = [];//(color,image,その他的な立ち位置)coBg0,iBg0
